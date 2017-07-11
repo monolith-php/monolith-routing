@@ -1,0 +1,30 @@
+{
+  "name": "monolith/routing",
+  "description": "Monolith: Routing",
+  "license": "MIT",
+  "keywords": [
+    "monolith",
+    "routing"
+  ],
+  "homepage": "https://www.monolith-php.com",
+  "authors": [
+    {
+      "name": "Mitchell van Wijngaarden",
+      "email": "mitchell@kooding.nl"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "monolith/http": "dev-master",
+    "monolith/collections": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Monolith\\Routing\\": "src/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev"
+}
