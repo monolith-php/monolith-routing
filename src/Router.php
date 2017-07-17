@@ -1,6 +1,5 @@
 <?php namespace Monolith\Routing;
 
-use App\Web\Routes;
 use Monolith\Collections\{Collection, Map};
 use Monolith\HTTP\{Request, Response};
 use Monolith\Routing\Methods\RoutingMethod;
@@ -30,8 +29,8 @@ class Router {
         $this->routingMethods = $this->routingMethods->add($method);
     }
 
-    public function addRoutes(Routes $routes) {
-        $this->routes = $this->routes->merge($routes->toCollection());
+    public function addRoutes(RouteCollection $routes) {
+        $this->routes = $this->routes->merge($routes);
     }
 
     public function handleRequest(Request $request): Response {
