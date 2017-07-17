@@ -29,8 +29,8 @@ class Router {
         $this->routingMethods = $this->routingMethods->add($method);
     }
 
-    public function addRoutes(RouteCollection $routes) {
-        $this->routes = $this->routes->merge($routes);
+    public function addRoutes(RouteDeclaration $routes) {
+        $this->routes = $this->routes->merge($routes->define());
     }
 
     public function handleRequest(Request $request): Response {
