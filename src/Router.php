@@ -60,7 +60,7 @@ class Router {
         $matchedRoute = $this->matcher->match($request, $compiled);
 
         // dispatch controller and return response
-        return $this->controllerDispatcher->dispatch($matchedRoute);
+        return $this->controllerDispatcher->dispatch($matchedRoute, $request);
     }
 
     private function findRoutingMethod(Route $route, Request $request): RoutingMethod {
