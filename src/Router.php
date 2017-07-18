@@ -13,15 +13,15 @@ class Router {
     private $controllerClasses;
     /** @var RouteMatcher */
     private $matcher;
-    /** @var ControllerResolver */
-    private $controllerResolver;
+    /** @var ControllerDispatcher */
+    private $controllerDispatcher;
 
-    public function __construct(ControllerResolver $controllerResolver) {
+    public function __construct(ControllerDispatcher $controllerDispatcher) {
         $this->routes = new RouteCollection;
         $this->routingMethods = new Collection;
         $this->controllerClasses = new Map;
         $this->matcher = new RouteMatcher;
-        $this->controllerResolver = $controllerResolver;
+        $this->controllerDispatcher = $controllerDispatcher;
     }
 
     public function registerMethod(RoutingMethod $method) {
@@ -59,16 +59,8 @@ class Router {
         // match the route
         $matchedRoute = $this->matcher->match($request, $compiled);
 
-        // resolve the controller class and determine the correct method
-        $controller = $this->controllerResolver->resolve($matchedRoute->controllerClass());
-        $method = $matchedRoute->controllerMethod();
-
-        // return the controller's response
-        $response = $controller->$method($request);
-        if ( ! $response instanceof Response) {
-            throw new \Exception("Controller [{$matchedRoute->controllerClass()}@{$method}] needs to return an implementation of Monolith\HTTP\Response.");
-        }
-        return $response;
+        // dispatch controller and return response
+        return $this->controllerDispatcher->dispatch($matchedRoute);
     }
 
     private function findRoutingMethod(Route $route, Request $request): RoutingMethod {
