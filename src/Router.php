@@ -2,6 +2,8 @@
 
 use Monolith\Collections\{Collection, Map};
 use Monolith\HTTP\{Request, Response};
+use Monolith\Routing\Methods\Get;
+use Monolith\Routing\Methods\Post;
 use Monolith\Routing\Methods\RoutingMethod;
 
 class Router {
