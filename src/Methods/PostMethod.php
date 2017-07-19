@@ -11,9 +11,4 @@ class PostMethod implements RoutingMethod {
     public function compile(Route $r): CompiledRoute {
         return new CompiledRoute('POST', $r->uri(), $r->controller(), 'post', $r->options());
     }
-
-    // might need this
-    //    public function isControllerCompliant($controller) {
-    //
-    //    }
 }

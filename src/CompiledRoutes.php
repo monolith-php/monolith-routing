@@ -1,9 +1,9 @@
 <?php namespace Monolith\Routing;
 
-use Monolith\Collections\TypedCollection;
+use Monolith\Collections\Collection;
 
-class CompiledRoutes extends TypedCollection {
-    protected function collectionType(): string {
-        return CompiledRoute::class;
+class CompiledRoutes extends Collection {
+    public function add(CompiledRoute $value): Collection {
+        return parent::add($value);
     }
 }
