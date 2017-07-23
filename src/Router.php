@@ -7,14 +7,14 @@ class Router {
 
     /** @var RouteCollection */
     private $routes;
+    /** @var RouteCompiler */
+    private $compiler;
     /** @var RouteMatcher */
     private $matcher;
     /** @var RouteDispatcher */
     private $dispatcher;
-    /** @var RouteCompiler */
-    private $compiler;
 
-    public function __construct(RouteDispatcher $dispatcher, RouteMatcher $matcher, RouteCompiler $compiler) {
+    public function __construct(RouteCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher) {
         $this->compiler   = $compiler;
         $this->matcher    = $matcher;
         $this->dispatcher = $dispatcher;
