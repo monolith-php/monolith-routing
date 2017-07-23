@@ -2,7 +2,7 @@
 
 use Monolith\HTTP\Request;
 
-final class NoMatchingRouteForRequest extends \Exception {
+final class NoMatchingWebRouteForRequest extends WebRoutingException {
     public function __construct(Request $request) {
         parent::__construct("No matching route for request uri: \"{$request->uri()}\".");
     }

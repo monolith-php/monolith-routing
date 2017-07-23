@@ -2,6 +2,6 @@
 
 use Monolith\HTTP\{Request, Response};
 
-interface ControllerDispatcher {
+interface RouteDispatcher {
     public function dispatch(MatchedRoute $route, Request $request): Response;
 }
