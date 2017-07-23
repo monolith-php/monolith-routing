@@ -8,7 +8,7 @@ class MatchedRoute {
         $this->compiledRoute = $compiledRoute;
     }
 
-    public function httpMethod(): string {
+    public function method(): string {
         return $this->compiledRoute->httpMethod();
     }
 
@@ -22,9 +22,5 @@ class MatchedRoute {
 
     public function controllerMethod(): string {
         return $this->compiledRoute->controllerMethod();
-    }
-
-    public function options(): RouteOptions {
-        return $this->compiledRoute->options();
     }
 }

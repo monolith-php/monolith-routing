@@ -7,13 +7,11 @@ final class Route {
     private $method;
     private $uri;
     private $controller;
-    private $options;
 
-    public function __construct($method, string $uri, $controller, ?RouteOptions $options = null) {
+    public function __construct($method, string $uri, $controller) {
         $this->method = $method;
         $this->uri = $uri;
         $this->controller = $controller;
-        $this->options = $options ?: new RouteOptions;
     }
 
     public function method(): string {
@@ -26,14 +24,5 @@ final class Route {
 
     public function controller() {
         return $this->controller;
-    }
-
-    public function options(): RouteOptions {
-        return $this->options;
-    }
-
-    // not sure
-    public function withOptions(RouteOptions $options): Route {
-        return new Route($this->method, $this->uri, $this->handler, $options);
     }
 }
