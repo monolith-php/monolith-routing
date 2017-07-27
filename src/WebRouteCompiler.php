@@ -8,6 +8,10 @@ class WebRouteCompiler implements RouteCompiler {
     /** @var Collection */
     private $methods;
 
+    public function __construct() {
+        $this->methods = new Collection;
+    }
+
     public function addMethod(RoutingMethod $method): void {
         $this->methods = $this->methods->add($method);
     }
