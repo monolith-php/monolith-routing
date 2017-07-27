@@ -12,7 +12,7 @@ class WebRouteCompiler implements RouteCompiler {
         $this->methods = new Collection;
     }
 
-    public function addMethod(RoutingMethod $method): void {
+    public function registerMethod(RoutingMethod $method): void {
         $this->methods = $this->methods->add($method);
     }
 
