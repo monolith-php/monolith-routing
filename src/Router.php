@@ -21,7 +21,7 @@ class Router {
         $this->routes     = new Collection;
     }
 
-    public function addRoutes(Collection $routes) {
+    public function registerRoutes(Collection $routes) {
         $this->routes = $this->routes->merge($routes);
     }
 
