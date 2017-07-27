@@ -1,8 +1,9 @@
 <?php namespace Monolith\Routing;
 
 use Monolith\Collections\Collection;
+use Monolith\Routing\Methods\RoutingMethod;
 
 interface RouteCompiler {
-    function addMethod(RoutingMethod $method): void;
-    function compile(Collection $routes): CompiledRoutes;
+    public function addMethod(RoutingMethod $method): void;
+    public function compile(Collection $routes): CompiledRoutes;
 }

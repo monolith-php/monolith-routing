@@ -1,6 +1,7 @@
 <?php namespace Monolith\Routing;
 
 use Monolith\Collections\Collection;
+use Monolith\Routing\Methods\RoutingMethod;
 
 class WebRouteCompiler implements RouteCompiler {
 
@@ -12,7 +13,7 @@ class WebRouteCompiler implements RouteCompiler {
     }
 
     public function compile(Collection $routes): CompiledRoutes {
-        $compiled = new CompiledRoutes();
+        $compiled = new CompiledRoutes;
         foreach ($this->routes as $route) {
             $compiled = $compiled->add($this->findMethod($route)->compile($route));
         }
