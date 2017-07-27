@@ -14,7 +14,7 @@ class WebRouteCompiler implements RouteCompiler {
 
     public function compile(Collection $routes): CompiledRoutes {
         $compiled = new CompiledRoutes;
-        foreach ($this->routes as $route) {
+        foreach ($routes as $route) {
             $compiled = $compiled->add($this->findMethod($route)->compile($route));
         }
         return $compiled;
