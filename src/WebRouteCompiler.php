@@ -24,13 +24,13 @@ class WebRouteCompiler implements RouteCompiler {
         return $compiled;
     }
 
-    private function findMethod(Route $route): RouteMethod {
-        /** @var RouteMethod $method */
-        foreach ($this->handlers as $method) {
-            if ($method->handles($route->name())) {
-                return $method;
+    private function findMethod(Route $route): RouteHandler {
+        /** @var RouteMethod $handler */
+        foreach ($this->handlers as $handler) {
+            if ($handler->handles($route->identifier())) {
+                return $handler;
             }
         }
-        throw new \Exception("No method defined named {$route->name()}.");
+        throw new \Exception("No method defined named {$route->identifier()}.");
     }
 }
