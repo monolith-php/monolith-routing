@@ -1,19 +1,19 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
 use Monolith\Collections\Collection;
-use Monolith\Routing\Methods\RoutingMethod;
+use Monolith\WebRouting\RouteHandling\RouteHandler;
 
 class WebRouteCompiler implements RouteCompiler {
 
     /** @var Collection */
-    private $methods;
+    private $handlers;
 
     public function __construct() {
-        $this->methods = new Collection;
+        $this->handlers = new Collection;
     }
 
-    public function registerMethod(RoutingMethod $method): void {
-        $this->methods = $this->methods->add($method);
+    public function registerHandler(RouteHandler $handler): void {
+        $this->handlers = $this->handlers->add($handler);
     }
 
     public function compile(Collection $routes): CompiledRoutes {
@@ -26,11 +26,11 @@ class WebRouteCompiler implements RouteCompiler {
 
     private function findMethod(Route $route): RouteMethod {
         /** @var RouteMethod $method */
-        foreach ($this->methods as $method) {
-            if ($method->handles($route->method())) {
+        foreach ($this->handlers as $method) {
+            if ($method->handles($route->name())) {
                 return $method;
             }
         }
-        throw new \Exception("No method defined named {$route->method()}.");
+        throw new \Exception("No method defined named {$route->name()}.");
     }
 }

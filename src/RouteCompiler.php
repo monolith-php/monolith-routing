@@ -1,9 +1,9 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
 use Monolith\Collections\Collection;
-use Monolith\Routing\Methods\RoutingMethod;
+use Monolith\WebRouting\RouteHandling\RouteHandler;
 
 interface RouteCompiler {
-    public function registerMethod(RoutingMethod $method): void;
+    public function registerHandler(RouteHandler $handler): void;
     public function compile(Collection $routes): CompiledRoutes;
 }

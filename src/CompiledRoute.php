@@ -1,4 +1,4 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
 class CompiledRoute {
     /** @var string */
@@ -9,15 +9,16 @@ class CompiledRoute {
     private $controllerClass;
     /** @var string */
     private $controllerMethod;
-    /** @var RouteOptions */
-    private $options;
 
-    public function __construct(string $httpMethod, string $pattern, string $controllerClass, string $controllerMethod, RouteOptions $options = null) {
+    protected function __construct(string $httpMethod, string $pattern, string $controllerClass, string $controllerMethod) {
         $this->httpMethod = strtoupper($httpMethod);
         $this->pattern = $pattern;
         $this->controllerClass = $controllerClass;
         $this->controllerMethod = $controllerMethod;
-        $this->options = $options;
+    }
+
+    public static function GET(string $pattern, string $controllerClass, string $controllerMethod): CompiledRoute {
+        return new CompiledRoute('GET', $pattern, $controllerClass, $controllerMethod);
     }
 
     public function httpMethod(): string {
@@ -34,9 +35,5 @@ class CompiledRoute {
 
     public function controllerMethod(): string {
         return $this->controllerMethod;
-    }
-
-    public function options(): RouteOptions {
-        return $this->options;
     }
 }

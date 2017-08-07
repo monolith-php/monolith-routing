@@ -1,9 +1,10 @@
 {
-  "name": "monolith/routing",
+  "name": "monolith/web-routing",
   "description": "Monolith: Routing",
   "license": "MIT",
   "keywords": [
     "monolith",
+    "web",
     "routing"
   ],
   "homepage": "https://www.getmonolith.com",
@@ -20,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Monolith\\Routing\\": "src/"
+      "Monolith\\WebRouting\\": "src/"
     }
   },
   "config": {

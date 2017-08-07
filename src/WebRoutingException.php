@@ -1,3 +1,3 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
-class WebRoutingException extends RoutingException {}
+class WebRoutingException extends \Exception {}

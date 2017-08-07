@@ -1,7 +1,8 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
 use Monolith\Collections\Collection;
 use Monolith\HTTP\{Request, Response};
+use Monolith\WebRouting\RouteHandling\RouteHandler;
 
 class Router {
 
@@ -19,6 +20,10 @@ class Router {
         $this->matcher    = $matcher;
         $this->dispatcher = $dispatcher;
         $this->routes     = new Collection;
+    }
+
+    public function registerHandler(RouteHandler $handler) {
+        $this->compiler->registerHandler($handler);
     }
 
     public function registerRoutes(Collection $routes) {

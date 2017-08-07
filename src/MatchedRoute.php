@@ -1,4 +1,4 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
 class MatchedRoute {
     /** @var CompiledRoute */

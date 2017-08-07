@@ -1,21 +1,18 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
-use Monolith\Routing\Methods\MethodIdentifier;
-
-final class Route {
-
-    private $method;
+abstract class Route {
+    private $name;
     private $uri;
     private $controller;
 
-    public function __construct($method, string $uri, $controller) {
-        $this->method = $method;
-        $this->uri = $uri;
+    public function __construct(string $name, string $uri, $controller) {
+        $this->name       = $name;
+        $this->uri        = $uri;
         $this->controller = $controller;
     }
 
-    public function method(): string {
-        return $this->method;
+    public function name(): string {
+        return $this->name;
     }
 
     public function uri(): string {

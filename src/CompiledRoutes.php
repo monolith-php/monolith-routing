@@ -1,4 +1,4 @@
-<?php namespace Monolith\Routing;
+<?php namespace Monolith\WebRouting;
 
 use Monolith\Collections\Collection;
 
