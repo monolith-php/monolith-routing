@@ -1,4 +1,4 @@
-<?php namespace Monolith\WebRouting\RouteHandling;
+<?php namespace Monolith\WebRouting\Controllers;
 
 use Monolith\HTTP\{Request, Response};
 
