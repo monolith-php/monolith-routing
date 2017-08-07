@@ -7,7 +7,7 @@ class WebRouteMatcher implements RouteMatcher {
     public function match(Request $request, CompiledRoutes $routes): MatchedRoute {
         /** @var CompiledRoute $route */
         foreach ($routes as $route) {
-            if (rawurldecode($request->uri()) === $route->pattern() && $request->method() === $route->httpMethod()) {
+            if (rawurldecode($request->uri()) === $route->regexPattern() && $request->method() === $route->httpMethod()) {
                 return new MatchedRoute($route);
             }
         }

@@ -25,7 +25,7 @@ class CompiledRoute {
         return $this->httpMethod;
     }
 
-    public function pattern(): string {
+    public function regexPattern(): string {
         return $this->pattern;
     }
 
