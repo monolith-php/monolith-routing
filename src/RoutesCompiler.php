@@ -4,7 +4,19 @@ use Monolith\Collections\Collection;
 use Monolith\WebRouting\RouteHandling\RouteHandler;
 
 class RoutesCompiler {
-    public function compile(Collection $handlers, Collection $routes): CompiledRoutes {
+
+    /** @var Collection */
+    private $handlers;
+
+    public function __construct(RouteHandler ...$handlers) {
+        $this->handlers = new Collection($handlers);
+    }
+
+    public function registerHandler(RouteHandler $handler): void {
+        $this->handlers = $this->handlers->add($handler);
+    }
+
+    public function compile(Collection $routes): CompiledRoutes {
         $compiled = new CompiledRoutes;
         foreach ($routes as $route) {
             $compiled = $compiled->add($this->compileThroughHandler($route));

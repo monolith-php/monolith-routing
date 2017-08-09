@@ -8,8 +8,6 @@ class Router {
 
     /** @var Collection */
     private $routes;
-    /** @var Collection */
-    private $handlers;
     /** @var RoutesCompiler */
     private $compiler;
     /** @var RouteMatcher */
@@ -20,14 +18,13 @@ class Router {
 
     public function __construct(RoutesCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher) {
         $this->routes     = new Collection;
-        $this->handlers   = new Collection;
         $this->compiler   = $compiler;
         $this->matcher    = $matcher;
         $this->dispatcher = $dispatcher;
     }
 
     public function registerHandler(RouteHandler $handler): void {
-        $this->handlers = $this->handlers->add($handler);
+        $this->compiler->registerHandler($handler);
     }
 
     public function registerRoutes(Collection $routes): void {
