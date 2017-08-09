@@ -1,7 +1,5 @@
-<?php namespace Monolith\WebRouting\RouteHandling;
+<?php namespace Monolith\WebRouting;
 
-use Monolith\WebRouting\CompiledRoute;
-use Monolith\WebRouting\Route;
 use function strtolower;
 
 class GetHandler implements RouteHandler {

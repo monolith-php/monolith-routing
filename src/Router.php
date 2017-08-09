@@ -2,7 +2,6 @@
 
 use Monolith\Collections\Collection;
 use Monolith\HTTP\{Request, Response};
-use Monolith\WebRouting\RouteHandling\RouteHandler;
 
 class Router {
 
@@ -31,7 +30,7 @@ class Router {
         $this->routes = $this->routes->merge($routes);
     }
 
-    public function dispatch(Request $request): void {
+    public function dispatch(Request $request): Response {
         // compile routes
         $compiled = $this->compiler->compile($this->routes);
 
@@ -39,7 +38,6 @@ class Router {
         $matchedRoute = $this->matcher->match($request, $compiled);
 
         // dispatch request and send response
-        $response = $this->dispatcher->dispatch($matchedRoute, $request);
-        $response->send();
+        return $this->dispatcher->dispatch($matchedRoute, $request);
     }
 }

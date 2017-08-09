@@ -1,7 +1,4 @@
-<?php namespace Monolith\WebRouting\RouteHandling;
-
-use Monolith\WebRouting\CompiledRoute;
-use Monolith\WebRouting\Route;
+<?php namespace Monolith\WebRouting;
 
 interface RouteHandler {
     public function handles(string $identifier): bool;

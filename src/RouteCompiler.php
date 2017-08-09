@@ -1,7 +1,6 @@
 <?php namespace Monolith\WebRouting;
 
 use Monolith\Collections\Collection;
-use Monolith\WebRouting\RouteHandling\RouteHandler;
 
 class RouteCompiler {
 

@@ -1,6 +1,4 @@
-<?php namespace Monolith\WebRouting\RouteHandling;
-
-use Monolith\WebRouting\Route;
+<?php namespace Monolith\WebRouting;
 
 class GetRoute implements Route {
     /** @var string */
