@@ -45,6 +45,6 @@ final class CompiledRoute {
         foreach ($matches as list($_, $var, $name)) {
             $regex = str_replace($var, "(?P<{$name}>\w+)", $regex);
         }
-        return htmlspecialchars("/^{$regex}$/");
+        return "/^{$regex}$/";
     }
 }

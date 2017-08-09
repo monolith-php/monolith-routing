@@ -8,8 +8,8 @@ class RoutesCompiler {
     /** @var Collection */
     private $handlers;
 
-    public function __construct(RouteHandler ...$handlers) {
-        $this->handlers = new Collection($handlers);
+    public function __construct() {
+        $this->handlers = new Collection;
     }
 
     public function registerHandler(RouteHandler $handler): void {

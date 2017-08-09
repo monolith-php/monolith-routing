@@ -12,10 +12,6 @@ class MatchedRoute {
         return $this->compiledRoute->httpMethod();
     }
 
-    public function pattern(): string {
-        return $this->compiledRoute->regex();
-    }
-
     public function controllerClass(): string {
         return $this->compiledRoute->controllerClass();
     }

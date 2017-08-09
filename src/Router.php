@@ -32,6 +32,7 @@ class Router {
     }
 
     public function dispatch(Request $request): Response {
+        dd($this->routes);
         // compile routes
         $compiled = $this->compiler->compile($this->routes);
 
