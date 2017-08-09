@@ -1,4 +1,4 @@
-# Monolith: Routing
+# Monolith: Web Routing
 
 ### Installation
 
@@ -6,7 +6,7 @@ In composer.json
 ```json
 {
   "require": {
-    "monolith/routing": "dev-master",
+    "monolith/web-routing": "dev-master",
     "monolith/collections": "dev-master",
     "monolith/http": "dev-master"
   },
