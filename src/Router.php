@@ -33,7 +33,7 @@ class Router {
 
     public function dispatch(Request $request): Response {
         // compile routes
-        $compiled = $this->compiler->compile($this->handlers, $this->routes);
+        $compiled = $this->compiler->compile($this->routes);
 
         // match the route
         $matchedRoute = $this->matcher->match($request, $compiled);
