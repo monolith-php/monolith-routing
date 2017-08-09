@@ -1,32 +1,33 @@
 <?php namespace Monolith\WebRouting;
 
-class CompiledRoute {
+final class CompiledRoute {
+
     /** @var string */
     private $httpMethod;
     /** @var string */
-    private $pattern;
+    private $regex;
     /** @var string */
     private $controllerClass;
     /** @var string */
     private $controllerMethod;
 
-    protected function __construct(string $httpMethod, string $pattern, string $controllerClass, string $controllerMethod) {
-        $this->httpMethod = strtoupper($httpMethod);
-        $this->pattern = $pattern;
-        $this->controllerClass = $controllerClass;
+    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod) {
+        $this->httpMethod       = strtoupper($httpMethod);
+        $this->regex            = $this->parseUriToRegex($uri);
+        $this->controllerClass  = $controllerClass;
         $this->controllerMethod = $controllerMethod;
     }
 
-    public static function GET(string $pattern, string $controllerClass, string $controllerMethod): CompiledRoute {
-        return new CompiledRoute('GET', $pattern, $controllerClass, $controllerMethod);
+    public static function GET(string $uri, string $controllerClass, string $controllerMethod): CompiledRoute {
+        return new CompiledRoute('GET', $uri, $controllerClass, $controllerMethod);
     }
 
     public function httpMethod(): string {
         return $this->httpMethod;
     }
 
-    public function regexPattern(): string {
-        return $this->pattern;
+    public function regex(): string {
+        return $this->regex;
     }
 
     public function controllerClass(): string {
@@ -35,5 +36,15 @@ class CompiledRoute {
 
     public function controllerMethod(): string {
         return $this->controllerMethod;
+    }
+
+    private function parseUriToRegex(string $uri): string {
+        $regex = str_replace('/', '\/', $uri);
+        $matches = [];
+        preg_match_all('#(\{(\w+)\})#', $regex, $matches, PREG_SET_ORDER);
+        foreach ($matches as list($_, $var, $name)) {
+            $regex = str_replace($var, "(?P<{$name}>\w+)", $regex);
+        }
+        return htmlspecialchars("/^{$regex}$/");
     }
 }

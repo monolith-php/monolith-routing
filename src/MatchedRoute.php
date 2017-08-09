@@ -13,7 +13,7 @@ class MatchedRoute {
     }
 
     public function pattern(): string {
-        return $this->compiledRoute->regexPattern();
+        return $this->compiledRoute->regex();
     }
 
     public function controllerClass(): string {
