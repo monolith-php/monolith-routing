@@ -3,7 +3,7 @@
 use Monolith\Collections\Collection;
 use Monolith\WebRouting\RouteHandling\RouteHandler;
 
-class RoutesCompiler {
+class RouteCompiler {
 
     /** @var Collection */
     private $handlers;

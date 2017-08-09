@@ -8,7 +8,7 @@ class Router {
 
     /** @var Collection */
     private $routes;
-    /** @var RoutesCompiler */
+    /** @var RouteCompiler */
     private $compiler;
     /** @var RouteMatcher */
     private $matcher;
@@ -16,7 +16,7 @@ class Router {
     private $dispatcher;
 
 
-    public function __construct(RoutesCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher) {
+    public function __construct(RouteCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher) {
         $this->routes     = new Collection;
         $this->compiler   = $compiler;
         $this->matcher    = $matcher;
@@ -31,14 +31,15 @@ class Router {
         $this->routes = $this->routes->merge($routes);
     }
 
-    public function dispatch(Request $request): Response {
+    public function dispatch(Request $request): void {
         // compile routes
         $compiled = $this->compiler->compile($this->routes);
 
         // match the route
         $matchedRoute = $this->matcher->match($request, $compiled);
 
-        // dispatch request and return response
-        return $this->dispatcher->dispatch($matchedRoute, $request);
+        // dispatch request and send response
+        $response = $this->dispatcher->dispatch($matchedRoute, $request);
+        $response->send();
     }
 }
