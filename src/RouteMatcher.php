@@ -9,8 +9,8 @@ class RouteMatcher {
             // HEAD is equivalent to GET
             $requestMethod = $request->method() === 'HEAD' ? 'GET' : $request->method();
             $matches = [];
-            dd($matches);
             if ($requestMethod === $route->httpMethod() && preg_match($route->regex(), $request->rawDecodedUri(), $matches)) {
+                dd($matches);
                 return new MatchedRoute($route);
             }
         }
