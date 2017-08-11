@@ -12,7 +12,7 @@ abstract class RouteDispatcher {
         } catch (\Exception $e) {
             throw new CouldNotResolveRouteController($route->controllerName());
         }
-        $response = $controller->{$route->controllerMethod()}($request);
+        $response = $controller->{$route->controllerMethod()}($request, $route->parameters());
         if ( ! $response instanceof Response) {
             throw new \UnexpectedValueException("Controller [{$route->controllerName()}@{$route->controllerMethod()}] needs to return an implementation of Monolith\HTTP\Response.");
         }

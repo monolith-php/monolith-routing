@@ -22,4 +22,8 @@ final class MatchedRoute {
     public function controllerMethod(): string {
         return $this->route->controllerMethod();
     }
+
+    public function parameters(): RouteParameters {
+        return $this->parameters;
+    }
 }
