@@ -1,22 +1,25 @@
 <?php namespace Monolith\WebRouting;
 
-class MatchedRoute {
+final class MatchedRoute {
     /** @var CompiledRoute */
-    private $compiledRoute;
+    private $route;
+    /** @var RouteParameters */
+    private $parameters;
 
-    public function __construct(CompiledRoute $compiledRoute) {
-        $this->compiledRoute = $compiledRoute;
+    public function __construct(CompiledRoute $route, RouteParameters $parameters) {
+        $this->route      = $route;
+        $this->parameters = $parameters;
     }
 
-    public function method(): string {
-        return $this->compiledRoute->httpMethod();
+    public function httpMethod(): string {
+        return $this->route->httpMethod();
     }
 
-    public function controllerClass(): string {
-        return $this->compiledRoute->controllerClass();
+    public function controllerName(): string {
+        return $this->route->controllerName();
     }
 
     public function controllerMethod(): string {
-        return $this->compiledRoute->controllerMethod();
+        return $this->route->controllerMethod();
     }
 }

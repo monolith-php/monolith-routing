@@ -8,13 +8,13 @@ abstract class RouteDispatcher {
 
     final public function dispatch(MatchedRoute $route, Request $request): Response {
         try {
-            $controller = $this->makeController($route->controllerClass());
+            $controller = $this->makeController($route->controllerName());
         } catch (\Exception $e) {
-            throw new CouldNotResolveRouteController($route->controllerClass());
+            throw new CouldNotResolveRouteController($route->controllerName());
         }
         $response = $controller->{$route->controllerMethod()}($request);
         if ( ! $response instanceof Response) {
-            throw new \UnexpectedValueException("Controller [{$route->controllerClass()}@{$route->controllerMethod()}] needs to return an implementation of Monolith\HTTP\Response.");
+            throw new \UnexpectedValueException("Controller [{$route->controllerName()}@{$route->controllerMethod()}] needs to return an implementation of Monolith\HTTP\Response.");
         }
         return $response;
     }

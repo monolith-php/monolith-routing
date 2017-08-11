@@ -3,7 +3,7 @@
 use ArrayAccess;
 use Monolith\Collections\Map;
 
-final class Parameters extends Map implements ArrayAccess {
+final class RouteParameters extends Map implements ArrayAccess {
 
     public function offsetExists($offset): bool {
         return $this->has($offset);

@@ -1,9 +1,9 @@
 <?php namespace Monolith\WebRouting;
 
+use Monolith\HTTP\Request;
 use function array_filter;
 use const ARRAY_FILTER_USE_KEY;
 use function is_string;
-use Monolith\HTTP\Request;
 
 class RouteMatcher {
     public function match(Request $request, CompiledRoutes $routes): MatchedRoute {
@@ -16,8 +16,7 @@ class RouteMatcher {
                 $parameters = array_filter($matches, function($key) {
                     return is_string($key);
                 }, ARRAY_FILTER_USE_KEY);
-                dd(new Parameters($parameters));
-                return new MatchedRoute($route);
+                return new MatchedRoute($route, new RouteParameters($parameters));
             }
         }
         throw new NoMatchingWebRouteForRequest($request);

@@ -30,7 +30,7 @@ final class CompiledRoute {
         return $this->regex;
     }
 
-    public function controllerClass(): string {
+    public function controllerName(): string {
         return $this->controllerClass;
     }
 
