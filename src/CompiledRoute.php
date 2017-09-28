@@ -22,6 +22,10 @@ final class CompiledRoute {
         return new CompiledRoute('GET', $uri, $controllerClass, $controllerMethod);
     }
 
+    public static function POST(string $uri, string $controllerClass, string $controllerMethod): CompiledRoute {
+        return new CompiledRoute('POST', $uri, $controllerClass, $controllerMethod);
+    }
+
     public function httpMethod(): string {
         return $this->httpMethod;
     }
