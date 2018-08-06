@@ -13,7 +13,7 @@ In composer.json
   "repositories": [
     {
       "type": "vcs",
-      "url":  "git@github.com:mitchellvanw/monolith-routing.git"
+      "url":  "git@github.com:monolith-php/monolith-routing.git"
     }
   ]
 }
