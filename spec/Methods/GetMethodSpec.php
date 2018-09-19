@@ -11,6 +11,13 @@ class GetMethodSpec extends ObjectBehavior {
         $this->shouldHaveType(GetMethod::class);
     }
 
+    function it_can_define_a_get_route() {
+        $route = $this::defineRoute('uri', 'controllerclass');
+        $route->method()->shouldBe('get');
+        $route->uri()->shouldBe('uri');
+        $route->controllerClass()->shouldBe('controllerclass');
+    }
+
     function it_can_compile_a_get_route() {
         $route = new Route('get', 'uri', 'controller');
 

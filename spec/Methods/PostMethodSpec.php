@@ -11,6 +11,13 @@ class PostMethodSpec extends ObjectBehavior {
         $this->shouldHaveType(PostMethod::class);
     }
 
+    function it_can_define_a_get_route() {
+        $route = $this::defineRoute('uri', 'controllerclass');
+        $route->method()->shouldBe('post');
+        $route->uri()->shouldBe('uri');
+        $route->controllerClass()->shouldBe('controllerclass');
+    }
+
     function it_can_compile_a_post_route() {
         $route = new Route('post', 'uri', 'controller');
 
