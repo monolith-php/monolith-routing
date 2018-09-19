@@ -1,21 +1,19 @@
 {
   "name": "monolith/web-routing",
   "description": "Monolith: Web Routing",
-  "license": "MIT",
   "keywords": [
     "monolith",
     "web routing",
     "routing"
   ],
-  "homepage": "https://www.getmonolith.com",
   "authors": [
-    {
-      "name": "Mitchell van Wijngaarden",
-      "email": "mitchell@kooding.nl"
-    },
     {
       "name": "Shawn McCool",
       "email": "shawn@heybigname.com"
+    },
+    {
+      "name": "Mitchell van Wijngaarden",
+      "email": "mitchell@kooding.nl"
     }
   ],
   "require": {
@@ -23,13 +21,26 @@
     "monolith/http": "dev-master",
     "monolith/collections": "dev-master"
   },
+  "require-dev": {
+    "phpspec/phpspec": "^5.0"
+  },
   "autoload": {
     "psr-4": {
       "Monolith\\WebRouting\\": "src/"
     }
   },
-  "config": {
-    "sort-packages": true
+  "autoload-dev": {
+    "psr-4": {
+      "spec\\Monolith\\DependencyInjection\\": "spec/"
+    },
+    "files": [
+      "spec/functions.php"
+    ]
   },
-  "minimum-stability": "dev"
+  "config": {
+    "sort-packages": true,
+    "bin-dir": "bin"
+  },
+  "minimum-stability": "dev",
+  "license": "MIT"
 }

@@ -1,0 +1,6 @@
+suites:
+  main:
+    namespace: "Monolith\\WebRouting"
+    psr4_prefix: "Monolith\\WebRouting"
+    src_path: src
+formatter.name: pretty
