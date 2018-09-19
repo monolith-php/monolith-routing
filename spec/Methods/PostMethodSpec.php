@@ -1,6 +1,7 @@
 <?php namespace spec\Monolith\WebRouting\Methods;
 
 use Monolith\WebRouting\CompiledRoute;
+use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Methods\PostMethod;
 use Monolith\WebRouting\Route;
 use PhpSpec\ObjectBehavior;
@@ -11,7 +12,7 @@ class PostMethodSpec extends ObjectBehavior {
         $this->shouldHaveType(PostMethod::class);
     }
 
-    function it_can_define_a_get_route() {
+    function it_can_define_a_post_route() {
         $route = $this::defineRoute('uri', 'controllerclass');
         $route->method()->shouldBe('post');
         $route->uri()->shouldBe('uri');
@@ -22,11 +23,12 @@ class PostMethodSpec extends ObjectBehavior {
         $route = new Route('post', 'uri', 'controller');
 
         $compiled = $this->compile($route);
-        $compiled->shouldHaveType(CompiledRoute::class);
+        $compiled->shouldHaveType(CompiledRoutes::class);
 
-        $compiled->httpMethod()->shouldBe('post');
-        $compiled->controllerName()->shouldBe('controller');
-        $compiled->controllerMethod()->shouldBe('post');
+        $compiled->first()->shouldHaveType(CompiledRoute::class);
+        $compiled->first()->httpMethod()->shouldBe('post');
+        $compiled->first()->controllerName()->shouldBe('controller');
+        $compiled->first()->controllerMethod()->shouldBe('post');
     }
 
 }

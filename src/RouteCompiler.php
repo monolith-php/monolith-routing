@@ -16,14 +16,13 @@ class RouteCompiler {
     }
 
     public function compile(Collection $routes): CompiledRoutes {
-        $compiled = new CompiledRoutes;
-        foreach ($routes as $route) {
-            $compiled = $compiled->add($this->compileThroughHandler($route));
-        }
-        return $compiled;
+        return new CompiledRoutes(
+            $routes->map(function(Route $route) {
+                return $this->compileRoutes($route);
+            }, $routes));
     }
 
-    private function compileThroughHandler(Route $route): CompiledRoute {
+    private function compileRoutes(Route $route): CompiledRoute {
         /** @var MethodCompiler $handler */
         foreach ($this->handlers as $handler) {
             if ($handler->handles($route->method())) {

@@ -13,7 +13,7 @@ final class CompiledRoute {
 
     public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod) {
         $this->httpMethod       = strtolower($httpMethod);
-        $this->regex            = $this->parseUriToRegex($uri);
+        $this->regex            = $this->transformUriStringToRegex($uri);
         $this->controllerClass  = $controllerClass;
         $this->controllerMethod = $controllerMethod;
     }
@@ -34,13 +34,17 @@ final class CompiledRoute {
         return $this->controllerMethod;
     }
 
-    private function parseUriToRegex(string $uri): string {
+    private function transformUriStringToRegex(string $uri): string {
+
         $regex = str_replace('/', '\/', $uri);
+
         $matches = [];
         preg_match_all('#(\{(\w+)\})#', $regex, $matches, PREG_SET_ORDER);
+
         foreach ($matches as list($_, $var, $name)) {
             $regex = str_replace($var, "(?P<{$name}>\w+)", $regex);
         }
+
         return "/^{$regex}$/";
     }
 }

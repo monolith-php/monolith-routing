@@ -1,6 +1,7 @@
 <?php namespace spec\Monolith\WebRouting\Methods;
 
 use Monolith\WebRouting\CompiledRoute;
+use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Methods\GetMethod;
 use Monolith\WebRouting\Route;
 use PhpSpec\ObjectBehavior;
@@ -22,10 +23,11 @@ class GetMethodSpec extends ObjectBehavior {
         $route = new Route('get', 'uri', 'controller');
 
         $compiled = $this->compile($route);
-        $compiled->shouldHaveType(CompiledRoute::class);
+        $compiled->shouldHaveType(CompiledRoutes::class);
 
-        $compiled->httpMethod()->shouldBe('get');
-        $compiled->controllerName()->shouldBe('controller');
-        $compiled->controllerMethod()->shouldBe('get');
+        $compiled->first()->shouldHaveType(CompiledRoute::class);
+        $compiled->first()->httpMethod()->shouldBe('get');
+        $compiled->first()->controllerName()->shouldBe('controller');
+        $compiled->first()->controllerMethod()->shouldBe('get');
     }
 }

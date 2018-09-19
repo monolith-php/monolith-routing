@@ -1,6 +1,7 @@
 <?php namespace Monolith\WebRouting;
 
 final class MatchedRoute {
+
     /** @var CompiledRoute */
     private $route;
     /** @var RouteParameters */
