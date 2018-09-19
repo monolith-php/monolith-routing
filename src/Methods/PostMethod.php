@@ -7,6 +7,10 @@ use function strtolower;
 
 class PostMethod implements MethodCompiler {
 
+    public static function defineRoute(string $uri, string $controllerClass){
+        return new Route('post', $uri, $controllerClass);
+    }
+
     public function handles(string $method): bool {
         return strtolower($method) === 'post';
     }

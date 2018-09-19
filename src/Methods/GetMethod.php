@@ -7,6 +7,10 @@ use function strtolower;
 
 class GetMethod implements MethodCompiler {
 
+    public static function defineRoute(string $uri, string $controllerClass){
+        return new Route('get', $uri, $controllerClass);
+    }
+
     public function handles(string $method): bool {
         return strtolower($method) === 'get';
     }
