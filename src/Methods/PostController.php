@@ -3,6 +3,6 @@
 use Monolith\HTTP\{Request, Response};
 use Monolith\WebRouting\RouteParameters;
 
-interface Post {
+interface PostController {
     public function post(Request $request, RouteParameters $parameters): Response;
 }

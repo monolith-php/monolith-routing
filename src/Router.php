@@ -22,7 +22,7 @@ class Router {
         $this->dispatcher = $dispatcher;
     }
 
-    public function registerHandler(RouteHandler $handler): void {
+    public function registerHandler(MethodCompiler $handler): void {
         $this->compiler->registerHandler($handler);
     }
 

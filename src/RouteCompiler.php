@@ -11,7 +11,7 @@ class RouteCompiler {
         $this->handlers = new Collection;
     }
 
-    public function registerHandler(RouteHandler $handler): void {
+    public function registerHandler(MethodCompiler $handler): void {
         $this->handlers = $this->handlers->add($handler);
     }
 
@@ -24,12 +24,12 @@ class RouteCompiler {
     }
 
     private function compileThroughHandler(Route $route): CompiledRoute {
-        /** @var RouteHandler $handler */
+        /** @var MethodCompiler $handler */
         foreach ($this->handlers as $handler) {
-            if ($handler->handles($route->identifier())) {
+            if ($handler->handles($route->method())) {
                 return $handler->compile($route);
             }
         }
-        throw new \Exception("No method defined named {$route->identifier()}.");
+        throw new \Exception("No method defined named {$route->method()}.");
     }
 }

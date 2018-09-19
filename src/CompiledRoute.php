@@ -12,18 +12,10 @@ final class CompiledRoute {
     private $controllerMethod;
 
     public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod) {
-        $this->httpMethod       = strtoupper($httpMethod);
+        $this->httpMethod       = strtolower($httpMethod);
         $this->regex            = $this->parseUriToRegex($uri);
         $this->controllerClass  = $controllerClass;
         $this->controllerMethod = $controllerMethod;
-    }
-
-    public static function GET(string $uri, string $controllerClass, string $controllerMethod): CompiledRoute {
-        return new CompiledRoute('GET', $uri, $controllerClass, $controllerMethod);
-    }
-
-    public static function POST(string $uri, string $controllerClass, string $controllerMethod): CompiledRoute {
-        return new CompiledRoute('POST', $uri, $controllerClass, $controllerMethod);
     }
 
     public function httpMethod(): string {

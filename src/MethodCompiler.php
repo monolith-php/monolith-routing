@@ -1,6 +1,6 @@
 <?php namespace Monolith\WebRouting;
 
-interface RouteHandler {
-    public function handles(string $identifier): bool;
+interface MethodCompiler {
+    public function handles(string $method): bool;
     public function compile(Route $route): CompiledRoute;
 }
