@@ -25,9 +25,9 @@ class GetMethodSpec extends ObjectBehavior {
         $compiled = $this->compile($route);
         $compiled->shouldHaveType(CompiledRoutes::class);
 
-        $compiled->first()->shouldHaveType(CompiledRoute::class);
-        $compiled->first()->httpMethod()->shouldBe('get');
-        $compiled->first()->controllerName()->shouldBe('controller');
-        $compiled->first()->controllerMethod()->shouldBe('get');
+        $compiled->head()->shouldHaveType(CompiledRoute::class);
+        $compiled->head()->httpMethod()->shouldBe('get');
+        $compiled->head()->controllerName()->shouldBe('controller');
+        $compiled->head()->controllerMethod()->shouldBe('get');
     }
 }

@@ -25,10 +25,10 @@ class PostMethodSpec extends ObjectBehavior {
         $compiled = $this->compile($route);
         $compiled->shouldHaveType(CompiledRoutes::class);
 
-        $compiled->first()->shouldHaveType(CompiledRoute::class);
-        $compiled->first()->httpMethod()->shouldBe('post');
-        $compiled->first()->controllerName()->shouldBe('controller');
-        $compiled->first()->controllerMethod()->shouldBe('post');
+        $compiled->head()->shouldHaveType(CompiledRoute::class);
+        $compiled->head()->httpMethod()->shouldBe('post');
+        $compiled->head()->controllerName()->shouldBe('controller');
+        $compiled->head()->controllerMethod()->shouldBe('post');
     }
 
 }
