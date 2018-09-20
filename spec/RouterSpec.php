@@ -49,9 +49,9 @@ class RouterSpec extends ObjectBehavior {
         $this->compiler->registerMethodCompiler(new StubMethod);
 
         // compile routes
-        $route = new Route('stub', '/article/{id}', ControllerStub::class);
-
-        $this->registerRoutes(Routes::list($route));
+        $this->registerRoutes(Routes::list(
+            new Route('stub', '/article/{id}', ControllerStub::class)
+        ));
 
         $response = $this->dispatch($request);
 
