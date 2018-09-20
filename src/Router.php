@@ -2,6 +2,7 @@
 
 use Monolith\Collections\Collection;
 use Monolith\Http\{Request, Response};
+use function spec\Monolith\WebRouting\d;
 
 class Router {
 
@@ -16,21 +17,20 @@ class Router {
 
 
     public function __construct(RouteCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher) {
-        $this->routes     = new Collection;
-        $this->compiler   = $compiler;
-        $this->matcher    = $matcher;
+
+        $this->routes = new Routes();
+        $this->compiler = $compiler;
+        $this->matcher = $matcher;
         $this->dispatcher = $dispatcher;
     }
 
-    public function registerHandler(MethodCompiler $handler): void {
-        $this->compiler->registerMethodCompiler($handler);
-    }
+    public function registerRoutes(Routes $routes): void {
 
-    public function registerRoutes(Collection $routes): void {
         $this->routes = $this->routes->merge($routes);
     }
 
     public function dispatch(Request $request): Response {
+
         // compile routes
         $compiled = $this->compiler->compile($this->routes);
 

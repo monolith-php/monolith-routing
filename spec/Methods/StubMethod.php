@@ -13,7 +13,7 @@ final class StubMethod implements MethodCompiler {
 
     public function compile(Route $route): CompiledRoutes {
         return CompiledRoutes::list(
-            new CompiledRoute('stub', $route->uri(), $route->controllerClass(), 'stubMethod')
+            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'index')
         );
     }
 }

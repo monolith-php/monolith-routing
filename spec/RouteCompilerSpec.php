@@ -26,9 +26,9 @@ class RouteCompilerSpec extends ObjectBehavior {
             $route
         ));
 
-        $compiledRoutes->head()->httpMethod()->shouldBe('stub');
+        $compiledRoutes->head()->httpMethod()->shouldBe('get');
         $compiledRoutes->head()->uri()->shouldBe('uri');
         $compiledRoutes->head()->controllerClass()->shouldBe('controllerclass');
-        $compiledRoutes->head()->controllerMethod()->shouldBe('stubMethod');
+        $compiledRoutes->head()->controllerMethod()->shouldBe('index');
     }
 }

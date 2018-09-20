@@ -1,6 +1,7 @@
 <?php namespace Monolith\WebRouting;
 
 use Monolith\Http\Request;
+use function spec\Monolith\WebRouting\d;
 
 class RouteMatcher {
 
@@ -22,13 +23,13 @@ class RouteMatcher {
      * @param $route
      * @return false|int
      */
-    private function routeMatches(Request $request, CompiledRoute $route) {
+    private function routeMatches(Request $request, CompiledRoute $route): bool {
 
         if ( ! $this->requestAndRouteMethodsMatch($request, $route)) {
             return false;
         }
 
-        return preg_match($route->regex(), $request->rawDecodedUri());
+        return (bool) preg_match($route->regex(), $request->rawDecodedUri());
     }
 
     /**
