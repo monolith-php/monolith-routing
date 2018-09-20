@@ -46,7 +46,6 @@ class CompiledRouteSpec extends ObjectBehavior {
         $parameters = [];
         preg_match($this->regex()->getWrappedObject(), '/article/123-abc-def', $parameters);
 
-        
         expect($parameters['id'])->shouldBe('123-abc-def');
     }
 
@@ -57,5 +56,16 @@ class CompiledRouteSpec extends ObjectBehavior {
         preg_match($this->regex()->getWrappedObject(), '/article/a23b1/', $parameters);
 
         expect($parameters['alpha'])->shouldBe('a23b1');
+    }
+
+    function it_can_match_multiple_parameters() {
+        $this->beConstructedWith('get', '/article/{alpha}/{hyphenated}/{numeric}', ControllerStub::class, 'index');
+
+        $parameters = [];
+        preg_match($this->regex()->getWrappedObject(), '/article/a23b1/555-aaa-ccc-666/123', $parameters);
+
+        expect($parameters['alpha'])->shouldBe('a23b1');
+        expect($parameters['numeric'])->shouldBe('123');
+        expect($parameters['hyphenated'])->shouldBe('555-aaa-ccc-666');
     }
 }

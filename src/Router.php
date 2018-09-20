@@ -1,7 +1,7 @@
 <?php namespace Monolith\WebRouting;
 
 use Monolith\Collections\Collection;
-use Monolith\HTTP\{Request, Response};
+use Monolith\Http\{Request, Response};
 
 class Router {
 
@@ -23,7 +23,7 @@ class Router {
     }
 
     public function registerHandler(MethodCompiler $handler): void {
-        $this->compiler->registerHandler($handler);
+        $this->compiler->registerMethodCompiler($handler);
     }
 
     public function registerRoutes(Collection $routes): void {

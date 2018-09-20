@@ -1,25 +1,43 @@
 <?php namespace Monolith\WebRouting;
 
-use Monolith\HTTP\Request;
-use function array_filter;
-use function is_string;
-use const ARRAY_FILTER_USE_KEY;
+use Monolith\Http\Request;
 
 class RouteMatcher {
 
     public function match(Request $request, CompiledRoutes $routes): MatchedRoute {
+
         /** @var CompiledRoute $route */
         foreach ($routes as $route) {
-            // HEAD is equivalent to GET
-            $requestMethod = $request->method() === 'HEAD' ? 'get' : $request->method();
-            $matches       = [];
-            if ($requestMethod === $route->httpMethod() && preg_match($route->regex(), $request->rawDecodedUri(), $matches)) {
-                $parameters = array_filter($matches, function ($key) {
-                    return is_string($key);
-                }, ARRAY_FILTER_USE_KEY);
-                return new MatchedRoute($route, new RouteParameters($parameters));
+
+            if ($this->routeMatches($request, $route)) {
+                return new MatchedRoute($route);
             }
         }
-        throw new NoMatchingWebRouteForRequest($request);
+
+        throw new CanNotMatchARouteForThisRequest($request);
+    }
+
+    /**
+     * @param Request $request
+     * @param $route
+     * @return false|int
+     */
+    private function routeMatches(Request $request, CompiledRoute $route) {
+
+        if ( ! $this->requestAndRouteMethodsMatch($request, $route)) {
+            return false;
+        }
+
+        return preg_match($route->regex(), $request->rawDecodedUri());
+    }
+
+    /**
+     * @param Request $request
+     * @param $route
+     * @return bool
+     */
+    private function requestAndRouteMethodsMatch(Request $request, $route): bool {
+
+        return $request->method() === $route->httpMethod();
     }
 }

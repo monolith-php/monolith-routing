@@ -4,27 +4,24 @@ final class MatchedRoute {
 
     /** @var CompiledRoute */
     private $route;
-    /** @var RouteParameters */
-    private $parameters;
 
-    public function __construct(CompiledRoute $route, RouteParameters $parameters) {
-        $this->route      = $route;
-        $this->parameters = $parameters;
+    public function __construct(CompiledRoute $route) {
+        $this->route = $route;
     }
 
     public function httpMethod(): string {
         return $this->route->httpMethod();
     }
 
-    public function controllerName(): string {
+    public function uri(): string {
+        return $this->route->uri();
+    }
+
+    public function controllerClass(): string {
         return $this->route->controllerClass();
     }
 
     public function controllerMethod(): string {
         return $this->route->controllerMethod();
-    }
-
-    public function parameters(): RouteParameters {
-        return $this->parameters;
     }
 }

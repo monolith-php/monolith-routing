@@ -1,8 +1,7 @@
 <?php namespace Monolith\WebRouting\Controllers;
 
-use Monolith\HTTP\{Request, Response};
-use Monolith\WebRouting\RouteParameters;
+use Monolith\Http\{Request, Response};
 
 interface PostController extends Controller {
-    public function post(Request $request, RouteParameters $parameters): Response;
+    public function post(Request $request): Response;
 }

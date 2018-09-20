@@ -18,8 +18,9 @@
   ],
   "require": {
     "php": "^7.1",
-    "monolith/http": "^1.0",
-    "monolith/collections": "^1.0"
+    "monolith/http": "^2",
+    "monolith/collections": "^1",
+    "monolith/dependency-injection": "^1"
   },
   "require-dev": {
     "phpspec/phpspec": "^5.0"

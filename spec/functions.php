@@ -95,3 +95,9 @@ function d(...$vars) {
     }
     die();
 }
+
+function dw(...$vars) {
+    d(...array_map(function($var) {
+        return $var->getWrappedObject();
+    }, $vars));
+}

@@ -1,6 +1,7 @@
 <?php namespace Monolith\WebRouting;
 
-use Monolith\HTTP\{Request, Response};
+use Monolith\DependencyInjection\Container;
+use Monolith\Http\{Request, Response};
 
 final class RouteDispatcher {
 
@@ -8,23 +9,23 @@ final class RouteDispatcher {
     private $container;
 
     public function __construct(Container $container) {
+
         $this->container = $container;
     }
 
     public function dispatch(MatchedRoute $route, Request $request): Response {
-        try {
-            $controller = $this->makeController($route->controllerName());
-        } catch (\Exception $e) {
-            throw new CouldNotResolveRouteController($route->controllerName());
-        }
-        $response = $controller->{$route->controllerMethod()}($request, $route->parameters());
-        if ( ! $response instanceof Response) {
-            throw new \UnexpectedValueException("Controller [{$route->controllerName()}@{$route->controllerMethod()}] needs to return an implementation of Monolith\HTTP\Response.");
-        }
-        return $response;
+
+        $controller = $this->makeController($route->controllerClass());
+
+        return $controller->{$route->controllerMethod()}($request);
     }
 
-    protected function makeController(string $controller) {
-        return $this->container->make($controller);
+    private function makeController(string $controller) {
+
+        try {
+            return $this->container->make($controller);
+        } catch (\Exception $e) {
+            throw new CanNotResolveControllerForRouting($controller);
+        }
     }
 }

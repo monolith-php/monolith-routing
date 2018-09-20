@@ -12,29 +12,40 @@ final class CompiledRoute {
     private $controllerMethod;
 
     public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod) {
-        $this->httpMethod       = strtolower($httpMethod);
-        $this->regex            = $this->transformUriStringToRegex($uri);
-        $this->controllerClass  = $controllerClass;
+
+        $this->httpMethod = strtolower($httpMethod);
+        $this->uri = $uri;
+        $this->regex = $this->routeRegexFromUriString($uri);
+        $this->controllerClass = $controllerClass;
         $this->controllerMethod = $controllerMethod;
     }
 
     public function httpMethod(): string {
+
         return $this->httpMethod;
     }
 
+    public function uri(): string {
+
+        return $this->uri;
+    }
+
     public function regex(): string {
+
         return $this->regex;
     }
 
     public function controllerClass(): string {
+
         return $this->controllerClass;
     }
 
     public function controllerMethod(): string {
+
         return $this->controllerMethod;
     }
 
-    private function transformUriStringToRegex(string $uri): string {
+    private function routeRegexFromUriString(string $uri): string {
 
         $regex = str_replace('/', '\/', $uri);
 

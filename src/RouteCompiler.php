@@ -5,30 +5,40 @@ use Monolith\Collections\Collection;
 class RouteCompiler {
 
     /** @var Collection */
-    private $handlers;
+    private $methodCompilers;
 
     public function __construct() {
-        $this->handlers = new Collection;
+
+        $this->methodCompilers = new Collection;
     }
 
-    public function registerHandler(MethodCompiler $handler): void {
-        $this->handlers = $this->handlers->add($handler);
+    public function registerMethodCompiler(MethodCompiler $methodCompiler): void {
+
+        $this->methodCompilers = $this->methodCompilers->add($methodCompiler);
     }
 
-    public function compile(Collection $routes): CompiledRoutes {
-        return new CompiledRoutes(
-            $routes->map(function(Route $route) {
-                return $this->compileRoutes($route);
-            }, $routes));
+    public function compile(Routes $routes): CompiledRoutes {
+
+        $compiledRoutes = $routes->map(function (Route $route) {
+
+            return $this->compileRoutes($route);
+        }, $routes);
+
+        return $compiledRoutes->reduce(function (CompiledRoutes $routes, CompiledRoutes $allRoutes) {
+
+            return $allRoutes->merge($routes);
+        }, new CompiledRoutes);
     }
 
-    private function compileRoutes(Route $route): CompiledRoute {
+    private function compileRoutes(Route $route): CompiledRoutes {
+
         /** @var MethodCompiler $handler */
-        foreach ($this->handlers as $handler) {
+        foreach ($this->methodCompilers as $handler) {
             if ($handler->handles($route->method())) {
                 return $handler->compile($route);
             }
         }
-        throw new \Exception("No method defined named {$route->method()}.");
+
+        throw new CanNotCompileARouteWithMethod($route->method());
     }
 }
