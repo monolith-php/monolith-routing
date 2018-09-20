@@ -17,7 +17,7 @@ final class MatchedRoute {
     }
 
     public function controllerName(): string {
-        return $this->route->controllerName();
+        return $this->route->controllerClass();
     }
 
     public function controllerMethod(): string {

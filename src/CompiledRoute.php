@@ -26,7 +26,7 @@ final class CompiledRoute {
         return $this->regex;
     }
 
-    public function controllerName(): string {
+    public function controllerClass(): string {
         return $this->controllerClass;
     }
 
@@ -42,9 +42,9 @@ final class CompiledRoute {
         preg_match_all('#(\{(\w+)\})#', $regex, $matches, PREG_SET_ORDER);
 
         foreach ($matches as list($_, $var, $name)) {
-            $regex = str_replace($var, "(?P<{$name}>\w+)", $regex);
+            $regex = str_replace($var, "(?P<{$name}>[\w-]+)", $regex);
         }
 
-        return "/^{$regex}$/";
+        return "/^{$regex}\/?$/";
     }
 }

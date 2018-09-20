@@ -28,12 +28,12 @@ class FormMethodSpec extends ObjectBehavior {
 
         $compiled->toArray()[0]->shouldHaveType(CompiledRoute::class);
         $compiled->toArray()[0]->httpMethod()->shouldBe('get');
-        $compiled->toArray()[0]->controllerName()->shouldBe('controller');
+        $compiled->toArray()[0]->controllerClass()->shouldBe('controller');
         $compiled->toArray()[0]->controllerMethod()->shouldBe('get');
 
         $compiled->toArray()[1]->shouldHaveType(CompiledRoute::class);
         $compiled->toArray()[1]->httpMethod()->shouldBe('post');
-        $compiled->toArray()[1]->controllerName()->shouldBe('controller');
+        $compiled->toArray()[1]->controllerClass()->shouldBe('controller');
         $compiled->toArray()[1]->controllerMethod()->shouldBe('post');
     }
 
