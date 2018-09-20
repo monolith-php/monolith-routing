@@ -13,6 +13,8 @@ class WebRoutingBootstrap implements ComponentBootstrap {
             return new RouteDispatcher($c);
         });
 
+        $container->singleton(RouteCompiler::class);
+
         $container->singleton(Router::class, function (Container $c) {
 
             return new Router($c[RouteCompiler::class], $c[RouteMatcher::class], $c[RouteDispatcher::class]);
@@ -21,10 +23,11 @@ class WebRoutingBootstrap implements ComponentBootstrap {
 
     public function init(Container $container): void {
 
-        /** @var Router $router */
-        $router = $container[Router::class];
-        $router->registerHandler(new Methods\GetMethod);
-        $router->registerHandler(new Methods\PostMethod);
-        $router->registerHandler(new Methods\FormMethod);
+        /** @var RouteCompiler $compiler */
+        $compiler = $container[RouteCompiler::class];
+
+        $compiler->registerMethodCompiler(new Methods\GetMethod);
+        $compiler->registerMethodCompiler(new Methods\PostMethod);
+        $compiler->registerMethodCompiler(new Methods\FormMethod);
     }
 }
