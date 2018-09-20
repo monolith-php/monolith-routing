@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": "^7.1",
-    "monolith/http": "dev-master",
+    "monolith/http": "^1.0",
     "monolith/collections": "^1.0"
   },
   "require-dev": {
