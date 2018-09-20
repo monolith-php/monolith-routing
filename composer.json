@@ -1,6 +1,6 @@
 {
   "name": "monolith/web-routing",
-  "description": "Monolith: Web Routing",
+  "description": "A router designed for web requests for the Monolith framework",
   "keywords": [
     "monolith",
     "web routing",
@@ -19,7 +19,7 @@
   "require": {
     "php": "^7.1",
     "monolith/http": "dev-master",
-    "monolith/collections": "dev-master"
+    "monolith/collections": "^1.0"
   },
   "require-dev": {
     "phpspec/phpspec": "^5.0"
@@ -41,6 +41,5 @@
     "sort-packages": true,
     "bin-dir": "bin"
   },
-  "minimum-stability": "dev",
-  "license": "MIT"
+  "minimum-stability": "dev"
 }
