@@ -1,7 +1,6 @@
 <?php namespace Monolith\WebRouting;
 
 use Monolith\Http\Request;
-use function spec\Monolith\WebRouting\d;
 
 class RouteMatcher {
 
