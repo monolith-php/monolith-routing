@@ -4,7 +4,7 @@ use Monolith\ComponentLoading\ComponentBootstrap;
 use Monolith\DependencyInjection\Container;
 use Monolith\WebRouting\Methods;
 
-class WebRoutingBootstrap implements ComponentBootstrap {
+final class WebRoutingBootstrap implements ComponentBootstrap {
 
     public function bind(Container $container): void {
 

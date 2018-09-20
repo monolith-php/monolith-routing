@@ -2,9 +2,8 @@
 
 use Monolith\Collections\Collection;
 use Monolith\Http\{Request, Response};
-use function spec\Monolith\WebRouting\d;
 
-class Router {
+final class Router {
 
     /** @var Collection */
     private $routes;

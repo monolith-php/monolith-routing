@@ -1,3 +1,3 @@
 <?php namespace Monolith\WebRouting;
 
-class CanNotResolveControllerForRouting extends WebRoutingException {}
+final class CanNotResolveControllerForRouting extends WebRoutingException {}

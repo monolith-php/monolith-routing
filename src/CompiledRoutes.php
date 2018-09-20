@@ -2,4 +2,4 @@
 
 use Monolith\Collections\Collection;
 
-class CompiledRoutes extends Collection {}
+final class CompiledRoutes extends Collection {}

@@ -6,7 +6,7 @@ use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use function strtolower;
 
-class PostMethod implements MethodCompiler {
+final class PostMethod implements MethodCompiler {
 
     public static function defineRoute(string $uri, string $controllerClass): Route {
         return new Route('post', $uri, $controllerClass);

@@ -2,7 +2,7 @@
 
 use Monolith\Collections\Collection;
 
-class RouteCompiler {
+final class RouteCompiler {
 
     /** @var Collection */
     private $methodCompilers;

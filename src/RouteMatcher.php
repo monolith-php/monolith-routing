@@ -2,7 +2,7 @@
 
 use Monolith\Http\Request;
 
-class RouteMatcher {
+final class RouteMatcher {
 
     public function match(Request $request, CompiledRoutes $routes): MatchedRoute {
 
