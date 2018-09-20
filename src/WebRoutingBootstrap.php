@@ -8,11 +8,6 @@ class WebRoutingBootstrap implements ComponentBootstrap {
 
     public function bind(Container $container): void {
 
-        $container->singleton(RouteDispatcher::class, function (Container $c) {
-
-            return new MonolithRouteDispatcher($c);
-        });
-
         $container->singleton(Router::class, function (Container $c) {
 
             return new Router($c[RouteCompiler::class], $c[RouteMatcher::class], $c[RouteDispatcher::class]);
