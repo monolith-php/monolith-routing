@@ -17,13 +17,13 @@ final class Router {
 
     public function __construct(RouteCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher) {
 
-        $this->routes = new RouteList();
+        $this->routes = new RouteDefinitions();
         $this->compiler = $compiler;
         $this->matcher = $matcher;
         $this->dispatcher = $dispatcher;
     }
 
-    public function registerRoutes(RouteList $routes): void {
+    public function registerRoutes(RouteDefinitions $routes): void {
 
         $this->routes = $this->routes->merge($routes);
     }

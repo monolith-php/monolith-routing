@@ -3,10 +3,10 @@
 use Monolith\WebRouting\Methods\GetMethod;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
-use Monolith\WebRouting\RouteList;
+use Monolith\WebRouting\RouteDefinitions;
 use PhpSpec\ObjectBehavior;
 
-class RouteListSpec extends ObjectBehavior {
+class RouteDefinitionsSpec extends ObjectBehavior {
 
     public function middlewareOne($r) {
         if ($r instanceof Route) {
@@ -71,22 +71,22 @@ class RouteListSpec extends ObjectBehavior {
         $this->beConstructedThrough('list', [
             GetMethod::defineRoute('/1', GetControllerStub::class),
             GetMethod::defineRoute('/2', GetControllerStub::class),
-            RouteList::withTransformFunction([$this, 'middlewareOne'],
+            RouteDefinitions::withTransformFunction([$this, 'middlewareOne'],
                 GetMethod::defineRoute('/3', GetControllerStub::class),
                 GetMethod::defineRoute('/4', GetControllerStub::class),
-                RouteList::withTransformFunction($addPrefix,
+                RouteDefinitions::withTransformFunction($addPrefix,
                     GetMethod::defineRoute('/5', GetControllerStub::class),
                     GetMethod::defineRoute('/6', GetControllerStub::class),
                     GetMethod::defineRoute('/7', GetControllerStub::class),
                     GetMethod::defineRoute('/8', GetControllerStub::class),
-                    RouteList::withTransformFunction($middlewareTwo,
+                    RouteDefinitions::withTransformFunction($middlewareTwo,
                         GetMethod::defineRoute('/9', GetControllerStub::class),
                         GetMethod::defineRoute('/10', GetControllerStub::class),
-                        RouteList::list(
+                        RouteDefinitions::list(
                             GetMethod::defineRoute('/11', GetControllerStub::class),
                             GetMethod::defineRoute('/12', GetControllerStub::class)
                         ),
-                        RouteList::withTransformFunction($addPrefix,
+                        RouteDefinitions::withTransformFunction($addPrefix,
                             GetMethod::defineRoute('/13', GetControllerStub::class)
                         )
                     )
@@ -98,7 +98,7 @@ class RouteListSpec extends ObjectBehavior {
 
     function it_can_flatten_nested_route_groups() {
 
-        $this->shouldHaveType(RouteList::class);
+        $this->shouldHaveType(RouteDefinitions::class);
 
         $this->flatten()->count()->shouldBe(13);
 
@@ -125,7 +125,7 @@ class RouteListSpec extends ObjectBehavior {
         $this->compareRange(range(13, 13), $routes, '/prefix/prefix', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
     }
 
-    private function compareRange(array $range, RouteList $routes, $prefix = '', Middlewares $middlewares): void {
+    private function compareRange(array $range, RouteDefinitions $routes, $prefix = '', Middlewares $middlewares): void {
 
         foreach ($range as $i) {
             $routes[$i - 1]->uri()->shouldBe("{$prefix}/{$i}");

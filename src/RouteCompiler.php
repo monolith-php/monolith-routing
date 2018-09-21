@@ -18,7 +18,7 @@ final class RouteCompiler {
     }
 
     // give me a flat list of routes baby
-    public function compile(RouteList $routes): CompiledRoutes {
+    public function compile(RouteDefinitions $routes): CompiledRoutes {
 
         $compiledRoutes = $routes->flatten()->map(function (Route $route) {
 

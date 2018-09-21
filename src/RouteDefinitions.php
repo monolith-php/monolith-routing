@@ -2,7 +2,7 @@
 
 use Monolith\Collections\Collection;
 
-final class RouteList extends Collection implements RouteDefinition {
+final class RouteDefinitions extends Collection implements RouteDefinition {
 
     private $transformFunction = null;
 
@@ -11,19 +11,19 @@ final class RouteList extends Collection implements RouteDefinition {
         $this->items = $items;
     }
 
-    public static function withTransformFunction(callable $transformFunction, ...$items): RouteList {
+    public static function withTransformFunction(callable $transformFunction, ...$items): RouteDefinitions {
 
         $routes = new static($items);
         $routes->transformFunction = $transformFunction;
         return $routes;
     }
 
-    public function flatten(callable $parentTransformFunction = null): RouteList {
+    public function flatten(callable $parentTransformFunction = null): RouteDefinitions {
 
         // flatten all route definitions
         $flatten = function ($route) {
 
-            if ($route instanceof RouteList) {
+            if ($route instanceof RouteDefinitions) {
                 return $route->flatten();
             }
 
@@ -31,9 +31,9 @@ final class RouteList extends Collection implements RouteDefinition {
         };
 
         // reduce all route definitions to a single list
-        $reduceToSingleList = function (RouteList $accumulation, $definition) {
+        $reduceToSingleList = function (RouteDefinitions $accumulation, $definition) {
 
-            if ($definition instanceof RouteList) {
+            if ($definition instanceof RouteDefinitions) {
                 return $accumulation->merge($definition);
             }
 
@@ -41,7 +41,7 @@ final class RouteList extends Collection implements RouteDefinition {
         };
 
         // map / reduce children into a single flat list of routes
-        $flattenedRoutes = $this->map($flatten)->reduce($reduceToSingleList, new RouteList);
+        $flattenedRoutes = $this->map($flatten)->reduce($reduceToSingleList, new RouteDefinitions);
 
         // apply transformations
         return array_reduce(
