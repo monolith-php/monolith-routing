@@ -45,7 +45,7 @@ class RouteDefinitionsSpec extends ObjectBehavior {
 //            )
 //        );
 
-        $transformFunction = function ($r) {
+        $addPrefix = function ($r) {
 
             if ($r instanceof Route) {
                 return new Route(
@@ -76,7 +76,7 @@ class RouteDefinitionsSpec extends ObjectBehavior {
             RouteDefinitions::withTransformFunction([$this, 'middlewareOne'],
                 GetMethod::defineRoute('/3', GetControllerStub::class),
                 GetMethod::defineRoute('/4', GetControllerStub::class),
-                RouteDefinitions::withTransformFunction($transformFunction,
+                RouteDefinitions::withTransformFunction($addPrefix,
                     GetMethod::defineRoute('/5', GetControllerStub::class),
                     GetMethod::defineRoute('/6', GetControllerStub::class),
                     GetMethod::defineRoute('/7', GetControllerStub::class),
@@ -87,6 +87,9 @@ class RouteDefinitionsSpec extends ObjectBehavior {
                         RouteDefinitions::list(
                             GetMethod::defineRoute('/11', GetControllerStub::class),
                             GetMethod::defineRoute('/12', GetControllerStub::class)
+                        ),
+                        RouteDefinitions::withTransformFunction($addPrefix,
+                            GetMethod::defineRoute('/13', GetControllerStub::class)
                         )
                     )
                 )
@@ -99,7 +102,7 @@ class RouteDefinitionsSpec extends ObjectBehavior {
 
         $this->shouldHaveType(RouteDefinitions::class);
 
-        $this->flatten()->count()->shouldBe(12);
+        $this->flatten()->count()->shouldBe(13);
 
         $this->flatten()->each(function ($route) {
 
@@ -121,6 +124,7 @@ class RouteDefinitionsSpec extends ObjectBehavior {
 
         $this->compareRange(range(5, 8), $routes, '/prefix', Middlewares::list(MiddlewareStub::class));
         $this->compareRange(range(9, 12), $routes, '/prefix', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
+        $this->compareRange(range(13, 13), $routes, '/prefix/prefix', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
     }
 
     private function compareRange(array $range, RouteDefinitions $routes, $prefix = '', Middlewares $middlewares): void {
