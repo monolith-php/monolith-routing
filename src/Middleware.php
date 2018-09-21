@@ -1,7 +1,8 @@
-<?php namespace Monolith\WebRouting\Middleware;
+<?php namespace Monolith\WebRouting;
 
 use Monolith\Http\{Request, Response};
 
 interface Middleware {
+
     public function process(Request $request, $next): Response;
 }

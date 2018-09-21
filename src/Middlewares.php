@@ -2,4 +2,4 @@
 
 use Monolith\Collections\Collection;
 
-final class Routes extends Collection {}
+final class Middlewares extends Collection {}

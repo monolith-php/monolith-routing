@@ -2,7 +2,7 @@
 
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteCompiler;
-use Monolith\WebRouting\Routes;
+use Monolith\WebRouting\RouteDefinitions;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\Methods\StubMethod;
 
@@ -22,7 +22,7 @@ class RouteCompilerSpec extends ObjectBehavior {
 
         $this->registerMethodCompiler(new StubMethod);
 
-        $compiledRoutes = $this->compile(Routes::list(
+        $compiledRoutes = $this->compile(RouteDefinitions::list(
             $route
         ));
 

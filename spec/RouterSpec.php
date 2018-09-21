@@ -8,7 +8,7 @@ use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteDispatcher;
 use Monolith\WebRouting\RouteMatcher;
 use Monolith\WebRouting\Router;
-use Monolith\WebRouting\Routes;
+use Monolith\WebRouting\RouteDefinitions;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
 use spec\Monolith\DependencyInjection\Methods\StubMethod;
@@ -49,12 +49,13 @@ class RouterSpec extends ObjectBehavior {
         $this->compiler->registerMethodCompiler(new StubMethod);
 
         // compile routes
-        $this->registerRoutes(Routes::list(
+        $this->registerRoutes(RouteDefinitions::list(
             new Route('stub', '/article/{id}', ControllerStub::class)
         ));
 
         $response = $this->dispatch($request);
 
+        // check response
         $response->code()->shouldBe('200');
         $response->body()->shouldBe('controller stub response');
     }
