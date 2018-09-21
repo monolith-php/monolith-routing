@@ -1,6 +1,7 @@
 <?php namespace spec\Monolith\WebRouting;
 
 use Monolith\WebRouting\CompiledRoute;
+use Monolith\WebRouting\Middlewares;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
 
@@ -11,8 +12,9 @@ class CompiledRouteSpec extends ObjectBehavior {
         $uri = 'uri';
         $controllerClass = ControllerStub::class;
         $controllerMethod = 'index';
+        $middlewares = new Middlewares;
 
-        $this->beConstructedWith($httpMethod, $uri, $controllerClass, $controllerMethod);
+        $this->beConstructedWith($httpMethod, $uri, $controllerClass, $controllerMethod, $middlewares);
     }
 
     function it_is_initializable() {
@@ -20,10 +22,11 @@ class CompiledRouteSpec extends ObjectBehavior {
         $this->httpMethod()->shouldBe('get');
         $this->controllerClass()->shouldBe(ControllerStub::class);
         $this->controllerMethod()->shouldBe('index');
+        $this->middlewares()->equals(new Middlewares)->shouldBe(true);
     }
 
     function it_can_match_numeric_parameters() {
-        $this->beConstructedWith('get', '/article/{numbers}', ControllerStub::class, 'index');
+        $this->beConstructedWith('get', '/article/{numbers}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
         preg_match($this->regex()->getWrappedObject(), '/article/231', $parameters);
@@ -32,7 +35,7 @@ class CompiledRouteSpec extends ObjectBehavior {
     }
 
     function it_can_match_alphanumeric_parameters() {
-        $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index');
+        $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
         preg_match($this->regex()->getWrappedObject(), '/article/a23b1', $parameters);
@@ -41,7 +44,7 @@ class CompiledRouteSpec extends ObjectBehavior {
     }
 
     function it_can_match_hyphenated_parameters() {
-        $this->beConstructedWith('get', '/article/{id}', ControllerStub::class, 'index');
+        $this->beConstructedWith('get', '/article/{id}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
         preg_match($this->regex()->getWrappedObject(), '/article/123-abc-def', $parameters);
@@ -50,7 +53,7 @@ class CompiledRouteSpec extends ObjectBehavior {
     }
 
     function it_can_match_despite_a_trailing_slash() {
-        $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index');
+        $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
         preg_match($this->regex()->getWrappedObject(), '/article/a23b1/', $parameters);
@@ -59,7 +62,7 @@ class CompiledRouteSpec extends ObjectBehavior {
     }
 
     function it_can_match_multiple_parameters() {
-        $this->beConstructedWith('get', '/article/{alpha}/{hyphenated}/{numeric}', ControllerStub::class, 'index');
+        $this->beConstructedWith('get', '/article/{alpha}/{hyphenated}/{numeric}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
         preg_match($this->regex()->getWrappedObject(), '/article/a23b1/555-aaa-ccc-666/123', $parameters);

@@ -18,7 +18,7 @@ final class GetMethod implements MethodCompiler {
 
     public function compile(Route $route): CompiledRoutes {
         return new CompiledRoutes([
-            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'get')
+            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'get', $route->middlewares())
         ]);
     }
 }

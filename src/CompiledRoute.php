@@ -10,14 +10,17 @@ final class CompiledRoute {
     private $controllerClass;
     /** @var string */
     private $controllerMethod;
+    /** @var Middlewares */
+    private $middlewares;
 
-    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod) {
+    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod, Middlewares $middlewares) {
 
         $this->httpMethod = strtolower($httpMethod);
         $this->uri = $uri;
         $this->regex = $this->routeRegexFromUriString($uri);
         $this->controllerClass = $controllerClass;
         $this->controllerMethod = $controllerMethod;
+        $this->middlewares = $middlewares;
     }
 
     public function httpMethod(): string {
@@ -43,6 +46,11 @@ final class CompiledRoute {
     public function controllerMethod(): string {
 
         return $this->controllerMethod;
+    }
+
+    public function middlewares(): Middlewares {
+
+        return $this->middlewares;
     }
 
     // this has to go to the matcher

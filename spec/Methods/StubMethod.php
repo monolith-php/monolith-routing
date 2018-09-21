@@ -3,6 +3,7 @@
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\MethodCompiler;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 
 final class StubMethod implements MethodCompiler {
@@ -13,7 +14,7 @@ final class StubMethod implements MethodCompiler {
 
     public function compile(Route $route): CompiledRoutes {
         return CompiledRoutes::list(
-            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'index')
+            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'index', new Middlewares)
         );
     }
 }

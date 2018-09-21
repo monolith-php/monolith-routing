@@ -4,6 +4,7 @@ use Monolith\Collections\Map;
 use Monolith\Http\Request;
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\RouteMatcher;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
@@ -24,7 +25,7 @@ class RouteMatcherSpec extends ObjectBehavior {
 
         $request = new Request(new Map, new Map, $serverVariables, new Map, new Map, new Map);
 
-        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index');
+        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new Middlewares);
 
         $compiledRoutes = CompiledRoutes::list($route);
 

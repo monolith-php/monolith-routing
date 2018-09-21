@@ -24,4 +24,8 @@ final class MatchedRoute {
     public function controllerMethod(): string {
         return $this->route->controllerMethod();
     }
+
+    public function middlewares(): Middlewares {
+        return $this->route->middlewares();
+    }
 }

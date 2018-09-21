@@ -5,6 +5,7 @@ use Monolith\DependencyInjection\Container;
 use Monolith\Http\Request;
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\MatchedRoute;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\RouteDispatcher;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
@@ -26,7 +27,7 @@ class RouteDispatcherSpec extends ObjectBehavior {
 
     function it_can_dispatch_a_route_to_the_right_controller() {
 
-        $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index'));
+        $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index', new Middlewares));
         $request = new Request(new Map, new Map, new Map, new Map, new Map, new Map);
 
         $response = $this->dispatch($matchedRoute, $request);

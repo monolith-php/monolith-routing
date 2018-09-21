@@ -2,6 +2,7 @@
 
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
+use function spec\Monolith\WebRouting\d;
 
 final class RouteDispatcher {
 
