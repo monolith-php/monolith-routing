@@ -1,4 +1,4 @@
-<?php namespace spec\Monolith\DependencyInjection;
+<?php namespace spec\Monolith\WebRouting;
 
 use Monolith\Http\Request;
 use Monolith\Http\Response;
@@ -8,7 +8,8 @@ final class MiddlewareStub implements Middleware {
 
     public function process(Request $request, callable $next): Response {
 
-        /** @var Response $response */
-        return $next($request);
+        $response = $next($request);
+
+        return Response::code200($response->body() . ' 1');
     }
 }

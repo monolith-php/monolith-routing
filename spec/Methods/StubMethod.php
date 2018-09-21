@@ -1,4 +1,4 @@
-<?php namespace spec\Monolith\DependencyInjection\Methods;
+<?php namespace spec\Monolith\WebRouting\Methods;
 
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;

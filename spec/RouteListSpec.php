@@ -5,8 +5,6 @@ use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteList;
 use PhpSpec\ObjectBehavior;
-use spec\Monolith\DependencyInjection\MiddlewareStub;
-use spec\Monolith\DependencyInjection\OtherMiddlewareStub;
 
 class RouteListSpec extends ObjectBehavior {
 

@@ -5,7 +5,7 @@ use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteList;
 use PhpSpec\ObjectBehavior;
-use spec\Monolith\DependencyInjection\Methods\StubMethod;
+use spec\Monolith\WebRouting\Methods\StubMethod;
 
 class RouteCompilerSpec extends ObjectBehavior {
 

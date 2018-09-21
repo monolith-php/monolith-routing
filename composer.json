@@ -32,7 +32,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "spec\\Monolith\\DependencyInjection\\": "spec/"
+      "spec\\Monolith\\WebRouting\\": "spec/"
     },
     "files": [
       "spec/functions.php"

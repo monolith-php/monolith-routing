@@ -8,9 +8,6 @@ use Monolith\WebRouting\MatchedRoute;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\RouteDispatcher;
 use PhpSpec\ObjectBehavior;
-use spec\Monolith\DependencyInjection\ControllerStub;
-use spec\Monolith\DependencyInjection\MiddlewareStub;
-use spec\Monolith\DependencyInjection\OtherMiddlewareStub;
 
 class RouteDispatcherSpec extends ObjectBehavior {
 
@@ -38,12 +35,16 @@ class RouteDispatcherSpec extends ObjectBehavior {
     }
 
     function it_can_dispatch_through_middleware() {
-        $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class)));
+        $matchedRoute = new MatchedRoute(
+            new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index',
+                Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class)
+            )
+        );
 
         $request = new Request(new Map, new Map, new Map, new Map, new Map, new Map);
 
         $response = $this->dispatch($matchedRoute, $request);
 
-        $response->body()->shouldBe('controller stub response');
+        $response->body()->shouldBe('controller stub response 2 1');
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace spec\Monolith\DependencyInjection;
+<?php namespace spec\Monolith\WebRouting;
 
 use Monolith\Http\Response;
 

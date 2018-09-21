@@ -11,8 +11,7 @@ use Monolith\WebRouting\RouteMatcher;
 use Monolith\WebRouting\Router;
 use Monolith\WebRouting\RouteList;
 use PhpSpec\ObjectBehavior;
-use spec\Monolith\DependencyInjection\ControllerStub;
-use spec\Monolith\DependencyInjection\Methods\StubMethod;
+use spec\Monolith\WebRouting\Methods\StubMethod;
 
 class RouterSpec extends ObjectBehavior {
 
