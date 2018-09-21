@@ -29,7 +29,7 @@ final class RouteDefinitions extends Collection {
 
     public function flatten(Middlewares $parentMiddlewares): RouteDefinitions {
 
-        $middlewares = $parentMiddlewares->merge($this->middlewares);
+        $middlewares = $parentMiddlewares ? $parentMiddlewares->merge($this->middlewares) : $this->middlewares;
 
         $propagateMiddleware = function ($route) use ($middlewares) {
 
