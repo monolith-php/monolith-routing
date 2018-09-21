@@ -9,7 +9,7 @@ use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteDispatcher;
 use Monolith\WebRouting\RouteMatcher;
 use Monolith\WebRouting\Router;
-use Monolith\WebRouting\RouteDefinitions;
+use Monolith\WebRouting\RouteList;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
 use spec\Monolith\DependencyInjection\Methods\StubMethod;
@@ -50,7 +50,7 @@ class RouterSpec extends ObjectBehavior {
         $this->compiler->registerMethodCompiler(new StubMethod);
 
         // compile routes
-        $this->registerRoutes(RouteDefinitions::list(
+        $this->registerRoutes(RouteList::list(
             new Route('stub', '/article/{id}', ControllerStub::class, new Middlewares)
         ));
 

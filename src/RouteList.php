@@ -2,7 +2,7 @@
 
 use Monolith\Collections\Collection;
 
-final class RouteDefinitions extends Collection {
+final class RouteList extends Collection implements RouteDefinition {
 
     private $transformFunction = null;
 
@@ -11,19 +11,19 @@ final class RouteDefinitions extends Collection {
         $this->items = $items;
     }
 
-    public static function withTransformFunction(callable $transformFunction, ...$items): RouteDefinitions {
+    public static function withTransformFunction(callable $transformFunction, ...$items): RouteList {
 
         $routes = new static($items);
         $routes->transformFunction = $transformFunction;
         return $routes;
     }
 
-    public function flatten(callable $parentTransformFunction = null): RouteDefinitions {
+    public function flatten(callable $parentTransformFunction = null): RouteList {
 
         // flatten all route definitions
         $flatten = function ($route) {
 
-            if ($route instanceof RouteDefinitions) {
+            if ($route instanceof RouteList) {
                 return $route->flatten();
             }
 
@@ -31,9 +31,9 @@ final class RouteDefinitions extends Collection {
         };
 
         // reduce all route definitions to a single list
-        $reduceToSingleList = function (RouteDefinitions $accumulation, $definition) {
+        $reduceToSingleList = function (RouteList $accumulation, $definition) {
 
-            if ($definition instanceof RouteDefinitions) {
+            if ($definition instanceof RouteList) {
                 return $accumulation->merge($definition);
             }
 
@@ -41,7 +41,7 @@ final class RouteDefinitions extends Collection {
         };
 
         // map / reduce children into a single flat list of routes
-        $flattenedRoutes = $this->map($flatten)->reduce($reduceToSingleList, new RouteDefinitions);
+        $flattenedRoutes = $this->map($flatten)->reduce($reduceToSingleList, new RouteList);
 
         // apply transformations
         return array_reduce(

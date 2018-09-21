@@ -10,6 +10,7 @@ use Monolith\WebRouting\RouteDispatcher;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
 use spec\Monolith\DependencyInjection\MiddlewareStub;
+use spec\Monolith\DependencyInjection\OtherMiddlewareStub;
 
 class RouteDispatcherSpec extends ObjectBehavior {
 
@@ -37,7 +38,7 @@ class RouteDispatcherSpec extends ObjectBehavior {
     }
 
     function it_can_dispatch_through_middleware() {
-        $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index', Middlewares::list(MiddlewareStub::class)));
+        $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class)));
 
         $request = new Request(new Map, new Map, new Map, new Map, new Map, new Map);
 

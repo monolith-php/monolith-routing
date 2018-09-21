@@ -6,7 +6,8 @@ use Monolith\WebRouting\Middleware;
 
 final class OtherMiddlewareStub implements Middleware {
 
-    public function process(Request $request, $next): Response {
-
+    public function process(Request $request, callable $next): Response {
+        
+        return $next($request);
     }
 }

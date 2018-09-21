@@ -1,6 +1,6 @@
 <?php namespace Monolith\WebRouting;
 
-final class Route {
+final class Route implements RouteDefinition {
 
     /** @var string */
     private $method;
