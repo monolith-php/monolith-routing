@@ -17,12 +17,13 @@ final class RouteCompiler {
         $this->methodCompilers = $this->methodCompilers->add($methodCompiler);
     }
 
-    public function compile(Routes $routes): CompiledRoutes {
+    // give me a flat list of routes baby
+    public function compile(RouteDefinitions $routes): CompiledRoutes {
 
         $compiledRoutes = $routes->map(function (Route $route) {
 
-            return $this->compileRoutes($route);
-        }, $routes);
+            return $this->compileRoute($route);
+        });
 
         return $compiledRoutes->reduce(function (CompiledRoutes $routes, CompiledRoutes $allRoutes) {
 
@@ -30,7 +31,7 @@ final class RouteCompiler {
         }, new CompiledRoutes);
     }
 
-    private function compileRoutes(Route $route): CompiledRoutes {
+    private function compileRoute(Route $route): CompiledRoutes {
 
         /** @var MethodCompiler $handler */
         foreach ($this->methodCompilers as $handler) {
