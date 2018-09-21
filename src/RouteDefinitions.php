@@ -27,7 +27,7 @@ final class RouteDefinitions extends Collection {
         return $routes;
     }
 
-    public function flatten(Middlewares $parentMiddlewares): RouteDefinitions {
+    public function flatten(Middlewares $parentMiddlewares = null): RouteDefinitions {
 
         $middlewares = $parentMiddlewares ? $parentMiddlewares->merge($this->middlewares) : $this->middlewares;
 
