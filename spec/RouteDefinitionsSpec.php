@@ -10,6 +10,18 @@ use spec\Monolith\DependencyInjection\OtherMiddlewareStub;
 
 class RouteDefinitionsSpec extends ObjectBehavior {
 
+    public function middlewareOne($r) {
+        if ($r instanceof Route) {
+            return new Route(
+                $r->method(),
+                $r->uri(),
+                $r->controllerClass(),
+                Middlewares::list(MiddlewareStub::class)->merge($r->middlewares())
+            );
+        }
+        return $r;
+    }
+
     function let() {
 
         //
@@ -46,10 +58,22 @@ class RouteDefinitionsSpec extends ObjectBehavior {
             return $r;
         };
 
+        $middlewareTwo = function($r) {
+            if ($r instanceof Route) {
+                return new Route(
+                    $r->method(),
+                    $r->uri(),
+                    $r->controllerClass(),
+                    Middlewares::list(OtherMiddlewareStub::class)->merge($r->middlewares())
+                );
+            }
+            return $r;
+        };
+
         $this->beConstructedThrough('list', [
             GetMethod::defineRoute('/1', GetControllerStub::class),
             GetMethod::defineRoute('/2', GetControllerStub::class),
-            RouteDefinitions::withMiddleware(Middlewares::list(MiddlewareStub::class),
+            RouteDefinitions::withTransformFunction([$this, 'middlewareOne'],
                 GetMethod::defineRoute('/3', GetControllerStub::class),
                 GetMethod::defineRoute('/4', GetControllerStub::class),
                 RouteDefinitions::withTransformFunction($transformFunction,
@@ -57,7 +81,7 @@ class RouteDefinitionsSpec extends ObjectBehavior {
                     GetMethod::defineRoute('/6', GetControllerStub::class),
                     GetMethod::defineRoute('/7', GetControllerStub::class),
                     GetMethod::defineRoute('/8', GetControllerStub::class),
-                    RouteDefinitions::withMiddleware(Middlewares::list(OtherMiddlewareStub::class),
+                    RouteDefinitions::withTransformFunction($middlewareTwo,
                         GetMethod::defineRoute('/9', GetControllerStub::class),
                         GetMethod::defineRoute('/10', GetControllerStub::class),
                         RouteDefinitions::list(
@@ -75,9 +99,9 @@ class RouteDefinitionsSpec extends ObjectBehavior {
 
         $this->shouldHaveType(RouteDefinitions::class);
 
-        $this->flatten(new Middlewares)->count()->shouldBe(12);
+        $this->flatten()->count()->shouldBe(12);
 
-        $this->flatten(new Middlewares)->each(function ($route) {
+        $this->flatten()->each(function ($route) {
 
             expect($route)->shouldHaveType(Route::class);
         });
@@ -85,7 +109,7 @@ class RouteDefinitionsSpec extends ObjectBehavior {
 
     function it_can_propagate_middlewares_through_nested_route_definitions() {
 
-        $routes = $this->flatten(new Middlewares)->toArray();
+        $routes = $this->flatten()->toArray();
 
         $this->compareRange(range(1, 2), $routes, '', new Middlewares);
         $this->compareRange(range(3, 4), $routes, '', Middlewares::list(MiddlewareStub::class));
@@ -93,7 +117,8 @@ class RouteDefinitionsSpec extends ObjectBehavior {
 
     function it_can_apply_a_transformation_function_to_the_flattened_routes() {
 
-        $routes = $this->flatten(new Middlewares)->toArray();
+        $routes = $this->flatten()->toArray();
+
         $this->compareRange(range(5, 8), $routes, '/prefix', Middlewares::list(MiddlewareStub::class));
         $this->compareRange(range(9, 12), $routes, '/prefix', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
     }

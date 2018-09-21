@@ -4,12 +4,10 @@ use Monolith\Collections\Collection;
 
 final class RouteDefinitions extends Collection {
 
-    private $middlewares;
     private $transformFunction = null;
 
     public function __construct(array $items = []) {
 
-        $this->middlewares = new Middlewares;
         $this->items = $items;
     }
 
@@ -20,27 +18,20 @@ final class RouteDefinitions extends Collection {
         return $routes;
     }
 
-    public static function withMiddleware(Middlewares $middlewares, ...$items): RouteDefinitions {
+    public function flatten(callable $parentTransformFunction = null): RouteDefinitions {
 
-        $routes = new static($items);
-        $routes->middlewares = $routes->middlewares->merge($middlewares);
-        return $routes;
-    }
-
-    public function flatten(Middlewares $parentMiddlewares = null): RouteDefinitions {
-
-        $middlewares = $parentMiddlewares ? $parentMiddlewares->merge($this->middlewares) : $this->middlewares;
-
-        $propagateMiddleware = function ($route) use ($middlewares) {
+        // flatten all route definitions
+        $flatten = function ($route) {
 
             if ($route instanceof RouteDefinitions) {
-                return $route->flatten($middlewares);
+                return $route->flatten();
             }
 
-            return $route->addMiddlewares($middlewares);
+            return $route;
         };
 
-        $mergeDefinitions = function (RouteDefinitions $accumulation, $definition) {
+        // reduce all route definitions to a single list
+        $reduceToSingleList = function (RouteDefinitions $accumulation, $definition) {
 
             if ($definition instanceof RouteDefinitions) {
                 return $accumulation->merge($definition);
@@ -49,12 +40,14 @@ final class RouteDefinitions extends Collection {
             return $accumulation->add($definition);
         };
 
-        $flattenedRoutes = $this->map($propagateMiddleware)->reduce($mergeDefinitions, new RouteDefinitions);
+        // map / reduce children into a single flat list of routes
+        $flattenedRoutes = $this->map($flatten)->reduce($reduceToSingleList, new RouteDefinitions);
 
-        if ($this->transformFunction == null) {
-            return $flattenedRoutes;
-        }
-
-        return $flattenedRoutes->map($this->transformFunction);
+        // apply transformations
+        return array_reduce(
+            array_filter([$parentTransformFunction, $this->transformFunction]),
+                function($routes, $transform) {
+                    return $routes->map($transform);
+                }, $flattenedRoutes);
     }
 }
