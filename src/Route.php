@@ -11,11 +11,7 @@ final class Route {
     /** @var Middlewares */
     private $middlewares;
 
-    public function __construct(string $method, string $uri, string $controllerClass, Middlewares $middlewares = null) {
-
-        if ($middlewares == null) {
-            $middlewares = new Middlewares;
-        }
+    public function __construct(string $method, string $uri, string $controllerClass, Middlewares $middlewares) {
 
         $this->method = $method;
         $this->uri = $uri;

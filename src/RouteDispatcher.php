@@ -2,7 +2,6 @@
 
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
-use function spec\Monolith\WebRouting\d;
 
 final class RouteDispatcher {
 
@@ -16,8 +15,17 @@ final class RouteDispatcher {
 
     public function dispatch(MatchedRoute $route, Request $request): Response {
 
+        // dispatch through middlewares
+        $output = $route->middlewares()->map(function($middleware) {
+            var_dump($middleware);
+        });
+
+        var_dump($output);
+
+        // dispatch to controller
         $controller = $this->makeController($route->controllerClass());
 
+        // return response
         return $controller->{$route->controllerMethod()}($request);
     }
 

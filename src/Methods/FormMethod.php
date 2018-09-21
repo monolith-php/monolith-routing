@@ -2,6 +2,7 @@
 
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\MethodCompiler;
 use function strtolower;
@@ -9,7 +10,7 @@ use function strtolower;
 final class FormMethod implements MethodCompiler {
 
     public static function defineRoute(string $uri, string $controllerClass): Route {
-        return new Route('form', $uri, $controllerClass);
+        return new Route('form', $uri, $controllerClass, new Middlewares);
     }
 
     public function handles(string $method): bool {

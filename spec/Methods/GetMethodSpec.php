@@ -22,7 +22,7 @@ class GetMethodSpec extends ObjectBehavior {
     }
 
     function it_can_compile_a_get_route() {
-        $route = new Route('get', 'uri', 'controller');
+        $route = new Route('get', 'uri', 'controller', new Middlewares);
 
         $compiled = $this->compile($route);
         $compiled->shouldHaveType(CompiledRoutes::class);

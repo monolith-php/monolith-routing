@@ -3,6 +3,7 @@
 use Monolith\Collections\Map;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\Request;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteDispatcher;
@@ -50,7 +51,7 @@ class RouterSpec extends ObjectBehavior {
 
         // compile routes
         $this->registerRoutes(RouteDefinitions::list(
-            new Route('stub', '/article/{id}', ControllerStub::class)
+            new Route('stub', '/article/{id}', ControllerStub::class, new Middlewares)
         ));
 
         $response = $this->dispatch($request);

@@ -3,6 +3,7 @@
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Methods\FormMethod;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use PhpSpec\ObjectBehavior;
 
@@ -20,7 +21,7 @@ class FormMethodSpec extends ObjectBehavior {
     }
 
     function it_can_compile_a_form_route() {
-        $route = new Route('form', 'uri', 'controller');
+        $route = new Route('form', 'uri', 'controller', new Middlewares);
 
         $compiled = $this->compile($route);
         $compiled->shouldHaveType(CompiledRoutes::class);

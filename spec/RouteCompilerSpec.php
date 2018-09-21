@@ -1,5 +1,6 @@
 <?php namespace spec\Monolith\WebRouting;
 
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteDefinitions;
@@ -18,7 +19,7 @@ class RouteCompilerSpec extends ObjectBehavior {
     }
 
     function it_can_compile_a_route_using_the_registered_compilers() {
-        $route = new Route('stub', 'uri', 'controllerclass');
+        $route = new Route('stub', 'uri', 'controllerclass', new Middlewares);
 
         $this->registerMethodCompiler(new StubMethod);
 

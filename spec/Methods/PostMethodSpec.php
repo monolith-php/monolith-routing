@@ -3,6 +3,7 @@
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Methods\PostMethod;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use PhpSpec\ObjectBehavior;
 
@@ -20,7 +21,7 @@ class PostMethodSpec extends ObjectBehavior {
     }
 
     function it_can_compile_a_post_route() {
-        $route = new Route('post', 'uri', 'controller');
+        $route = new Route('post', 'uri', 'controller', new Middlewares);
 
         $compiled = $this->compile($route);
         $compiled->shouldHaveType(CompiledRoutes::class);
