@@ -10,6 +10,6 @@ final class OtherMiddlewareStub implements Middleware {
 
         $response = $next($request);
 
-        return Response::code200($response->body() . ' 2');
+        return Response::ok($response->body() . ' 2');
     }
 }

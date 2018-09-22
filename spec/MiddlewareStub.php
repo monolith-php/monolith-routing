@@ -10,6 +10,6 @@ final class MiddlewareStub implements Middleware {
 
         $response = $next($request);
 
-        return Response::code200($response->body() . ' 1');
+        return Response::ok($response->body() . ' 1');
     }
 }

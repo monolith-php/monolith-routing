@@ -22,27 +22,6 @@ class RouteDefinitionsSpec extends ObjectBehavior {
 
     function let() {
 
-        //
-//        Routes::list(
-//            get('/', GetControllerStub::class),
-//            get('/thank-you', GetControllerStub::class),
-//
-//            form('/register', Registration\RegistrationForm::class),
-//
-//            middleware([Middlewares\IsAdmin::class],
-//
-//                prefix('/admin',
-//                    get('/dashboard', GetControllerStub::class),
-//                    get('/profile-page', GetControllerStub::class),
-//
-//                    prefix('/users',
-//                        get('/list', GetControllerStub::class),
-//                        get('/delete/{id}', GetControllerStub::class)
-//                    )
-//                )
-//            )
-//        );
-
         $addPrefix = function ($r) {
 
             if ($r instanceof Route) {

@@ -5,6 +5,7 @@ use Monolith\Http\Response;
 class ControllerStub {
 
     public function index(): Response {
-        return Response::code200('controller stub response');
+
+        return Response::ok('controller stub response');
     }
 }
