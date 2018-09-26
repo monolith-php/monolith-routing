@@ -24,7 +24,7 @@ final class RouteDispatcher {
     private function makeController(string $controller) {
 
         try {
-            return $this->container->make($controller);
+            return $this->container->get($controller);
         } catch (\Exception $e) {
             throw new CanNotResolveControllerForRouting($controller);
         }
@@ -68,7 +68,7 @@ final class RouteDispatcher {
 
             return function (callable $next) use ($middlewareClass) {
 
-                $middleware = $this->container->make($middlewareClass);
+                $middleware = $this->container->get($middlewareClass);
 
                 return function (Request $request) use ($middleware, $next) {
 
