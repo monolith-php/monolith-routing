@@ -1,6 +1,6 @@
 <?php namespace Monolith\WebRouting;
 
-use Monolith\ComponentLoading\ComponentBootstrap;
+use Monolith\ComponentBootstrapping\ComponentBootstrap;
 use Monolith\DependencyInjection\Container;
 use Monolith\WebRouting\Methods;
 
