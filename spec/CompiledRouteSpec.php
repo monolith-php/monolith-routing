@@ -5,9 +5,10 @@ use Monolith\WebRouting\Middlewares;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
 
-class CompiledRouteSpec extends ObjectBehavior {
-
-    function let() {
+class CompiledRouteSpec extends ObjectBehavior
+{
+    function let()
+    {
         $httpMethod = 'get';
         $uri = 'uri';
         $controllerClass = ControllerStub::class;
@@ -17,7 +18,8 @@ class CompiledRouteSpec extends ObjectBehavior {
         $this->beConstructedWith($httpMethod, $uri, $controllerClass, $controllerMethod, $middlewares);
     }
 
-    function it_is_initializable() {
+    function it_is_initializable()
+    {
         $this->shouldHaveType(CompiledRoute::class);
         $this->httpMethod()->shouldBe('get');
         $this->controllerClass()->shouldBe(ControllerStub::class);
@@ -25,7 +27,8 @@ class CompiledRouteSpec extends ObjectBehavior {
         $this->middlewares()->equals(new Middlewares)->shouldBe(true);
     }
 
-    function it_can_match_numeric_parameters() {
+    function it_can_match_numeric_parameters()
+    {
         $this->beConstructedWith('get', '/article/{numbers}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
@@ -34,7 +37,8 @@ class CompiledRouteSpec extends ObjectBehavior {
         expect($parameters['numbers'])->shouldBe('231');
     }
 
-    function it_can_match_alphanumeric_parameters() {
+    function it_can_match_alphanumeric_parameters()
+    {
         $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
@@ -43,7 +47,8 @@ class CompiledRouteSpec extends ObjectBehavior {
         expect($parameters['alpha'])->shouldBe('a23b1');
     }
 
-    function it_can_match_hyphenated_parameters() {
+    function it_can_match_hyphenated_parameters()
+    {
         $this->beConstructedWith('get', '/article/{id}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
@@ -52,7 +57,8 @@ class CompiledRouteSpec extends ObjectBehavior {
         expect($parameters['id'])->shouldBe('123-abc-def');
     }
 
-    function it_can_match_despite_a_trailing_slash() {
+    function it_can_match_despite_a_trailing_slash()
+    {
         $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];
@@ -61,7 +67,8 @@ class CompiledRouteSpec extends ObjectBehavior {
         expect($parameters['alpha'])->shouldBe('a23b1');
     }
 
-    function it_can_match_multiple_parameters() {
+    function it_can_match_multiple_parameters()
+    {
         $this->beConstructedWith('get', '/article/{alpha}/{hyphenated}/{numeric}', ControllerStub::class, 'index', new Middlewares);
 
         $parameters = [];

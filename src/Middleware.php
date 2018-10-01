@@ -2,7 +2,7 @@
 
 use Monolith\Http\{Request, Response};
 
-interface Middleware {
-
+interface Middleware
+{
     public function process(Request $request, callable $next): Response;
 }

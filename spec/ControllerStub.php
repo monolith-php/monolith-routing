@@ -2,10 +2,10 @@
 
 use Monolith\Http\Response;
 
-class ControllerStub {
-
-    public function index(): Response {
-
+class ControllerStub
+{
+    public function index(): Response
+    {
         return Response::ok('controller stub response');
     }
 }

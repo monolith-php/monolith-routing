@@ -1,7 +1,7 @@
 <?php namespace Monolith\WebRouting;
 
-final class CompiledRoute {
-
+final class CompiledRoute
+{
     /** @var string */
     private $httpMethod;
     /** @var string */
@@ -13,8 +13,8 @@ final class CompiledRoute {
     /** @var Middlewares */
     private $middlewares;
 
-    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod, Middlewares $middlewares) {
-
+    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod, Middlewares $middlewares)
+    {
         $this->httpMethod = strtolower($httpMethod);
         $this->uri = $uri;
         $this->regex = $this->routeRegexFromUriString($uri);
@@ -23,39 +23,39 @@ final class CompiledRoute {
         $this->middlewares = $middlewares;
     }
 
-    public function httpMethod(): string {
-
+    public function httpMethod(): string
+    {
         return $this->httpMethod;
     }
 
-    public function uri(): string {
-
+    public function uri(): string
+    {
         return $this->uri;
     }
 
-    public function regex(): string {
-
+    public function regex(): string
+    {
         return $this->regex;
     }
 
-    public function controllerClass(): string {
-
+    public function controllerClass(): string
+    {
         return $this->controllerClass;
     }
 
-    public function controllerMethod(): string {
-
+    public function controllerMethod(): string
+    {
         return $this->controllerMethod;
     }
 
-    public function middlewares(): Middlewares {
-
+    public function middlewares(): Middlewares
+    {
         return $this->middlewares;
     }
 
     // this has to go to the matcher
-    private function routeRegexFromUriString(string $uri): string {
-
+    private function routeRegexFromUriString(string $uri): string
+    {
         $regex = str_replace('/', '\/', $uri);
 
         $matches = [];

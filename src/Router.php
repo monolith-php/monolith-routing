@@ -3,8 +3,8 @@
 use Monolith\Collections\Collection;
 use Monolith\Http\{Request, Response};
 
-final class Router {
-
+final class Router
+{
     /** @var Collection */
     private $routes;
     /** @var RouteCompiler */
@@ -15,21 +15,21 @@ final class Router {
     private $dispatcher;
 
 
-    public function __construct(RouteCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher) {
-
+    public function __construct(RouteCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher)
+    {
         $this->routes = new RouteDefinitions();
         $this->compiler = $compiler;
         $this->matcher = $matcher;
         $this->dispatcher = $dispatcher;
     }
 
-    public function registerRoutes(RouteDefinitions $routes): void {
-
+    public function registerRoutes(RouteDefinitions $routes): void
+    {
         $this->routes = $this->routes->merge($routes);
     }
 
-    public function dispatch(Request $request): Response {
-
+    public function dispatch(Request $request): Response
+    {
         // compile routes
         $compiled = $this->compiler->compile($this->routes);
 

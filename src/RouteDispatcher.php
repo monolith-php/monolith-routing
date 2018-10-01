@@ -3,26 +3,27 @@
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
 
-final class RouteDispatcher {
-
+final class RouteDispatcher
+{
     /** @var Container */
     private $container;
 
-    public function __construct(Container $container) {
-
+    public function __construct(Container $container)
+    {
         $this->container = $container;
     }
 
     // here be dragons
-    public function dispatch(MatchedRoute $route, Request $request): Response {
+    public function dispatch(MatchedRoute $route, Request $request): Response
+    {
 
         $stack = $this->buildExecutionStack($route, $request);
 
         return $stack($request);
     }
 
-    private function makeController(string $controller) {
-
+    private function makeController(string $controller)
+    {
         try {
             return $this->container->get($controller);
         } catch (\Exception $e) {
@@ -33,9 +34,10 @@ final class RouteDispatcher {
     /**
      * @param MatchedRoute $route
      * @param Request $request
+     * @return mixed
      */
-    private function buildExecutionStack(MatchedRoute $route, Request $request) {
-
+    private function buildExecutionStack(MatchedRoute $route, Request $request)
+    {
         $delegates = $this->addMiddlewareDelegates($route);
         $delegates = $this->addControllerDelegate($route, $delegates);
 
@@ -47,8 +49,8 @@ final class RouteDispatcher {
      * @param $delegates
      * @return array
      */
-    private function addControllerDelegate(MatchedRoute $route, $delegates): array {
-
+    private function addControllerDelegate(MatchedRoute $route, $delegates): array
+    {
         $delegates[] = function (Request $request) use ($route) {
 
             $controller = $this->makeController($route->controllerClass());
@@ -62,8 +64,8 @@ final class RouteDispatcher {
      * @param MatchedRoute $route
      * @return array
      */
-    private function addMiddlewareDelegates(MatchedRoute $route): array {
-
+    private function addMiddlewareDelegates(MatchedRoute $route): array
+    {
         return $route->middlewares()->map(function ($middlewareClass) {
 
             return function (callable $next) use ($middlewareClass) {
@@ -81,8 +83,10 @@ final class RouteDispatcher {
     /**
      * @param Request $request
      * @param $delegates
+     * @return mixed
      */
-    private function stackDelegates(Request $request, $delegates) {
+    private function stackDelegates(Request $request, $delegates)
+    {
 
         $delegates = array_reverse($delegates);
 

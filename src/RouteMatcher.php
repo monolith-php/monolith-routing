@@ -2,10 +2,10 @@
 
 use Monolith\Http\Request;
 
-final class RouteMatcher {
-
-    public function match(Request $request, CompiledRoutes $routes): MatchedRoute {
-
+final class RouteMatcher
+{
+    public function match(Request $request, CompiledRoutes $routes): MatchedRoute
+    {
         /** @var CompiledRoute $route */
         foreach ($routes as $route) {
 
@@ -22,8 +22,8 @@ final class RouteMatcher {
      * @param $route
      * @return false|int
      */
-    private function routeMatches(Request $request, CompiledRoute $route): bool {
-
+    private function routeMatches(Request $request, CompiledRoute $route): bool
+    {
         if ( ! $this->requestAndRouteMethodsMatch($request, $route)) {
             return false;
         }
@@ -36,8 +36,8 @@ final class RouteMatcher {
      * @param $route
      * @return bool
      */
-    private function requestAndRouteMethodsMatch(Request $request, $route): bool {
-
+    private function requestAndRouteMethodsMatch(Request $request, $route): bool
+    {
         return $request->method() === $route->httpMethod();
     }
 }

@@ -2,24 +2,24 @@
 
 use Monolith\Collections\Collection;
 
-final class RouteCompiler {
-
+final class RouteCompiler
+{
     /** @var Collection */
     private $methodCompilers;
 
-    public function __construct() {
-
+    public function __construct()
+    {
         $this->methodCompilers = new Collection;
     }
 
-    public function registerMethodCompiler(MethodCompiler $methodCompiler): void {
-
+    public function registerMethodCompiler(MethodCompiler $methodCompiler): void
+    {
         $this->methodCompilers = $this->methodCompilers->add($methodCompiler);
     }
 
     // give me a flat list of routes baby
-    public function compile(RouteDefinitions $routes): CompiledRoutes {
-
+    public function compile(RouteDefinitions $routes): CompiledRoutes
+    {
         $compiledRoutes = $routes->flatten()->map(function (Route $route) {
 
             return $this->compileRoute($route);
@@ -31,8 +31,8 @@ final class RouteCompiler {
         }, new CompiledRoutes);
     }
 
-    private function compileRoute(Route $route): CompiledRoutes {
-
+    private function compileRoute(Route $route): CompiledRoutes
+    {
         /** @var MethodCompiler $handler */
         foreach ($this->methodCompilers as $handler) {
             if ($handler->handles($route->method())) {

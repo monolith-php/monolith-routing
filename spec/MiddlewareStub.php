@@ -4,10 +4,10 @@ use Monolith\Http\Request;
 use Monolith\Http\Response;
 use Monolith\WebRouting\Middleware;
 
-final class MiddlewareStub implements Middleware {
-
-    public function process(Request $request, callable $next): Response {
-
+final class MiddlewareStub implements Middleware
+{
+    public function process(Request $request, callable $next): Response
+    {
         $response = $next($request);
 
         return Response::ok($response->body() . ' 1');

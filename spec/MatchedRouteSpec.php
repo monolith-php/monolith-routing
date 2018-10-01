@@ -5,15 +5,17 @@ use Monolith\WebRouting\MatchedRoute;
 use Monolith\WebRouting\Middlewares;
 use PhpSpec\ObjectBehavior;
 
-class MatchedRouteSpec extends ObjectBehavior {
-
-    function let() {
+class MatchedRouteSpec extends ObjectBehavior
+{
+    function let()
+    {
         $compiledRoute = new CompiledRoute('httpmethod', 'uri', 'controllerclass', 'controllermethod', new Middlewares);
 
         $this->beConstructedWith($compiledRoute);
     }
 
-    function it_is_initializable() {
+    function it_is_initializable()
+    {
 
         $this->shouldHaveType(MatchedRoute::class);
 

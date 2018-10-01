@@ -9,17 +9,18 @@ use Monolith\WebRouting\RouteMatcher;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
 
-class RouteMatcherSpec extends ObjectBehavior {
-
-    function it_is_initializable() {
-
+class RouteMatcherSpec extends ObjectBehavior
+{
+    function it_is_initializable()
+    {
         $this->shouldHaveType(RouteMatcher::class);
     }
 
-    function it_can_match_routes() {
+    function it_can_match_routes()
+    {
 
         $serverVariables = new Map([
-            'REQUEST_URI' => '/article/1',
+            'REQUEST_URI'    => '/article/1',
             'REQUEST_METHOD' => 'stub',
         ]);
 

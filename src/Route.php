@@ -1,7 +1,7 @@
 <?php namespace Monolith\WebRouting;
 
-final class Route implements RouteDefinition {
-
+final class Route implements RouteDefinition
+{
     /** @var string */
     private $method;
     /** @var string */
@@ -11,34 +11,36 @@ final class Route implements RouteDefinition {
     /** @var Middlewares */
     private $middlewares;
 
-    public function __construct(string $method, string $uri, string $controllerClass, Middlewares $middlewares) {
-
+    public function __construct(string $method, string $uri, string $controllerClass, Middlewares $middlewares)
+    {
         $this->method = $method;
         $this->uri = $uri;
         $this->controllerClass = $controllerClass;
         $this->middlewares = $middlewares;
     }
 
-    public function method(): string {
-
+    public function method(): string
+    {
         return $this->method;
     }
 
-    public function uri(): string {
-
+    public function uri(): string
+    {
         return $this->uri;
     }
 
-    public function controllerClass(): string {
-
+    public function controllerClass(): string
+    {
         return $this->controllerClass;
     }
 
-    public function middlewares(): Middlewares {
+    public function middlewares(): Middlewares
+    {
         return $this->middlewares;
     }
 
-    public function addMiddlewares(Middlewares $newMiddlewares): Route {
+    public function addMiddlewares(Middlewares $newMiddlewares): Route
+    {
         return new static(
             $this->method,
             $this->uri,

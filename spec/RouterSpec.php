@@ -6,20 +6,20 @@ use Monolith\Http\Request;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteCompiler;
+use Monolith\WebRouting\RouteDefinitions;
 use Monolith\WebRouting\RouteDispatcher;
 use Monolith\WebRouting\RouteMatcher;
 use Monolith\WebRouting\Router;
-use Monolith\WebRouting\RouteDefinitions;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\WebRouting\Methods\StubMethod;
 
-class RouterSpec extends ObjectBehavior {
-
+class RouterSpec extends ObjectBehavior
+{
     /** @var RouteCompiler */
     private $compiler;
 
-    function let() {
-
+    function let()
+    {
         $container = new Container;
 
         $this->compiler = new RouteCompiler;
@@ -30,13 +30,13 @@ class RouterSpec extends ObjectBehavior {
         $this->beConstructedWith($this->compiler, $matcher, $dispatcher);
     }
 
-    function it_is_initializable() {
-
+    function it_is_initializable()
+    {
         $this->shouldHaveType(Router::class);
     }
 
-    function it_can_dispatch_a_request() {
-
+    function it_can_dispatch_a_request()
+    {
         // configure request
         $serverVariables = new Map([
             'REQUEST_URI'    => '/article/1',

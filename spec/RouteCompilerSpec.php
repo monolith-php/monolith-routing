@@ -7,18 +7,21 @@ use Monolith\WebRouting\RouteDefinitions;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\WebRouting\Methods\StubMethod;
 
-class RouteCompilerSpec extends ObjectBehavior {
-
-    function it_is_initializable() {
+class RouteCompilerSpec extends ObjectBehavior
+{
+    function it_is_initializable()
+    {
 
         $this->shouldHaveType(RouteCompiler::class);
     }
 
-    function it_can_register_method_compiler_strategies() {
+    function it_can_register_method_compiler_strategies()
+    {
         $this->registerMethodCompiler(new StubMethod);
     }
 
-    function it_can_compile_a_route_using_the_registered_compilers() {
+    function it_can_compile_a_route_using_the_registered_compilers()
+    {
         $route = new Route('stub', 'uri', 'controllerclass', new Middlewares);
 
         $this->registerMethodCompiler(new StubMethod);

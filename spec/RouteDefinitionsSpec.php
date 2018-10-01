@@ -6,9 +6,10 @@ use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteDefinitions;
 use PhpSpec\ObjectBehavior;
 
-class RouteDefinitionsSpec extends ObjectBehavior {
-
-    public function middlewareOne($r) {
+class RouteDefinitionsSpec extends ObjectBehavior
+{
+    public function middlewareOne($r)
+    {
         if ($r instanceof Route) {
             return new Route(
                 $r->method(),
@@ -20,8 +21,8 @@ class RouteDefinitionsSpec extends ObjectBehavior {
         return $r;
     }
 
-    function let() {
-
+    function let()
+    {
         $addPrefix = function ($r) {
 
             if ($r instanceof Route) {
@@ -35,7 +36,7 @@ class RouteDefinitionsSpec extends ObjectBehavior {
             return $r;
         };
 
-        $middlewareTwo = function($r) {
+        $middlewareTwo = function ($r) {
             if ($r instanceof Route) {
                 return new Route(
                     $r->method(),
@@ -74,9 +75,8 @@ class RouteDefinitionsSpec extends ObjectBehavior {
         ]);
     }
 
-
-    function it_can_flatten_nested_route_groups() {
-
+    function it_can_flatten_nested_route_groups()
+    {
         $this->shouldHaveType(RouteDefinitions::class);
 
         $this->flatten()->count()->shouldBe(13);
@@ -87,16 +87,16 @@ class RouteDefinitionsSpec extends ObjectBehavior {
         });
     }
 
-    function it_can_propagate_middlewares_through_nested_route_definitions() {
-
+    function it_can_propagate_middlewares_through_nested_route_definitions()
+    {
         $routes = $this->flatten()->toArray();
 
         $this->compareRange(range(1, 2), $routes, '', new Middlewares);
         $this->compareRange(range(3, 4), $routes, '', Middlewares::list(MiddlewareStub::class));
     }
 
-    function it_can_apply_a_transformation_function_to_the_flattened_routes() {
-
+    function it_can_apply_a_transformation_function_to_the_flattened_routes()
+    {
         $routes = $this->flatten()->toArray();
 
         $this->compareRange(range(5, 8), $routes, '/prefix', Middlewares::list(MiddlewareStub::class));
@@ -104,8 +104,8 @@ class RouteDefinitionsSpec extends ObjectBehavior {
         $this->compareRange(range(13, 13), $routes, '/prefix/prefix', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
     }
 
-    private function compareRange(array $range, RouteDefinitions $routes, $prefix = '', Middlewares $middlewares): void {
-
+    private function compareRange(array $range, RouteDefinitions $routes, $prefix = '', Middlewares $middlewares): void
+    {
         foreach ($range as $i) {
             $routes[$i - 1]->uri()->shouldBe("{$prefix}/{$i}");
             $routes[$i - 1]->middlewares()->equals($middlewares)->shouldBe(true);

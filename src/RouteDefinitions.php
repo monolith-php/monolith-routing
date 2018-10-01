@@ -2,24 +2,24 @@
 
 use Monolith\Collections\Collection;
 
-final class RouteDefinitions extends Collection implements RouteDefinition {
-
+final class RouteDefinitions extends Collection implements RouteDefinition
+{
     private $transformFunction = null;
 
-    public function __construct(array $items = []) {
-
+    public function __construct(array $items = [])
+    {
         $this->items = $items;
     }
 
-    public static function withTransformFunction(callable $transformFunction, ...$items): RouteDefinitions {
-
+    public static function withTransformFunction(callable $transformFunction, ...$items): RouteDefinitions
+    {
         $routes = new static($items);
         $routes->transformFunction = $transformFunction;
         return $routes;
     }
 
-    public function flatten(callable $parentTransformFunction = null): RouteDefinitions {
-
+    public function flatten(callable $parentTransformFunction = null): RouteDefinitions
+    {
         // flatten all route definitions
         $flatten = function ($route) {
 
@@ -46,8 +46,8 @@ final class RouteDefinitions extends Collection implements RouteDefinition {
         // apply transformations
         return array_reduce(
             array_filter([$parentTransformFunction, $this->transformFunction]),
-                function($routes, $transform) {
-                    return $routes->map($transform);
-                }, $flattenedRoutes);
+            function ($routes, $transform) {
+                return $routes->map($transform);
+            }, $flattenedRoutes);
     }
 }
