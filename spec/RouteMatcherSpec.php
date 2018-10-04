@@ -18,7 +18,6 @@ class RouteMatcherSpec extends ObjectBehavior
 
     function it_can_match_routes()
     {
-
         $serverVariables = new Map([
             'REQUEST_URI'    => '/article/1',
             'REQUEST_METHOD' => 'stub',
