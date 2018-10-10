@@ -16,7 +16,6 @@ final class RouteDispatcher
     // here be dragons
     public function dispatch(MatchedRoute $route, Request $request): Response
     {
-
         $stack = $this->buildExecutionStack($route, $request);
 
         return $stack($request);
@@ -27,7 +26,7 @@ final class RouteDispatcher
         try {
             return $this->container->get($controller);
         } catch (\Exception $e) {
-            throw new CanNotResolveControllerForRouting($controller);
+            throw new CanNotResolveControllerForRouting($e->getMessage());
         }
     }
 
@@ -52,7 +51,6 @@ final class RouteDispatcher
     private function addControllerDelegate(MatchedRoute $route, $delegates): array
     {
         $delegates[] = function (Request $request) use ($route) {
-
             $controller = $this->makeController($route->controllerClass());
             return $controller->{$route->controllerMethod()}($request);
         };
@@ -67,13 +65,10 @@ final class RouteDispatcher
     private function addMiddlewareDelegates(MatchedRoute $route): array
     {
         return $route->middlewares()->map(function ($middlewareClass) {
-
             return function (callable $next) use ($middlewareClass) {
-
                 $middleware = $this->container->get($middlewareClass);
 
                 return function (Request $request) use ($middleware, $next) {
-
                     return $middleware->process($request, $next);
                 };
             };
@@ -87,11 +82,9 @@ final class RouteDispatcher
      */
     private function stackDelegates(Request $request, $delegates)
     {
-
         $delegates = array_reverse($delegates);
 
         return array_reduce($delegates, function ($next, $delegate) use ($request) {
-
             if ($next == null) {
                 return $delegate;
             }
