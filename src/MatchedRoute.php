@@ -20,6 +20,11 @@ final class MatchedRoute
         return $this->route->uri();
     }
 
+    public function regex(): string
+    {
+        return $this->route->regex();
+    }
+
     public function controllerClass(): string
     {
         return $this->route->controllerClass();

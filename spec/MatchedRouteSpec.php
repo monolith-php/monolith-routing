@@ -16,7 +16,6 @@ class MatchedRouteSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-
         $this->shouldHaveType(MatchedRoute::class);
 
         $this->httpMethod()->shouldBe('httpmethod');

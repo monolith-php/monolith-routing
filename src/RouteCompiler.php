@@ -21,12 +21,10 @@ final class RouteCompiler
     public function compile(RouteDefinitions $routes): CompiledRoutes
     {
         $compiledRoutes = $routes->flatten()->map(function (Route $route) {
-
             return $this->compileRoute($route);
         });
 
         return $compiledRoutes->reduce(function (CompiledRoutes $routes, CompiledRoutes $allRoutes) {
-
             return $allRoutes->merge($routes);
         }, new CompiledRoutes);
     }

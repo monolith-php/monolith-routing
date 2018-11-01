@@ -48,4 +48,14 @@ class RouteDispatcherSpec extends ObjectBehavior
 
         $response->body()->shouldBe('controller stub response 2 1');
     }
+
+    function it_can_enrich_the_request_with_parameters()
+    {
+        $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', '/action/{id}', ControllerStub::class, 'parameterExample', new Middlewares));
+        $request = new Request(new Map, new Map, new Map(['REQUEST_URI' => '/action/123-abc']), new Map, new Map, new Map);
+
+        $response = $this->dispatch($matchedRoute, $request);
+
+        $response->body()->shouldBe('123-abc');
+    }
 }

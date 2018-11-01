@@ -1,7 +1,9 @@
 <?php namespace Monolith\WebRouting;
 
+use Monolith\Collections\Map;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
+use function spec\Monolith\WebRouting\dd;
 
 final class RouteDispatcher
 {
@@ -16,8 +18,16 @@ final class RouteDispatcher
     // here be dragons
     public function dispatch(MatchedRoute $route, Request $request): Response
     {
+        // build the execution stack.. the controller wrapped by middlewares
+        // this can all be abstracted into a single plug-like system. but this
+        // is where we are right now
         $stack = $this->buildExecutionStack($route, $request);
 
+        // enrich the request with the parameters
+        $parameters = UriParameterParser::parseUriParameters($request->uri(), $route->regex());
+        $request = $request->addParameters(new Map($parameters));
+
+        // dispatch request to stack
         return $stack($request);
     }
 
