@@ -23,7 +23,7 @@ final class Route implements RouteDefinition
 
     private static function prefixedUri(string $uri)
     {
-        if ($uri[0] != '/') {
+        if ( ! isset($uri[0]) || $uri[0] != '/') {
             return '/' . $uri;
         }
         return $uri;
