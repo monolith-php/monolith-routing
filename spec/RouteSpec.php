@@ -15,7 +15,7 @@ class RouteSpec extends ObjectBehavior
     {
         $this->shouldHaveType(Route::class);
         $this->method()->shouldBe('method');
-        $this->uri()->shouldBe('uri');
+        $this->uri()->shouldBe('/uri');
         $this->controllerClass()->shouldBe('controllerclass');
         $this->middlewares()->equals(new Middlewares)->shouldBe(true);
     }

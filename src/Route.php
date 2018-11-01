@@ -14,9 +14,19 @@ final class Route implements RouteDefinition
     public function __construct(string $method, string $uri, string $controllerClass, Middlewares $middlewares)
     {
         $this->method = $method;
-        $this->uri = $uri;
+
+        $this->uri = static::prefixedUri($uri);
+
         $this->controllerClass = $controllerClass;
         $this->middlewares = $middlewares;
+    }
+
+    private static function prefixedUri(string $uri)
+    {
+        if ($uri[0] != '/') {
+            return '/' . $uri;
+        }
+        return $uri;
     }
 
     public function method(): string

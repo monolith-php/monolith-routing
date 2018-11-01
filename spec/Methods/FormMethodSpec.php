@@ -18,7 +18,7 @@ class FormMethodSpec extends ObjectBehavior
     {
         $route = $this::defineRoute('uri', 'controllerclass');
         $route->method()->shouldBe('form');
-        $route->uri()->shouldBe('uri');
+        $route->uri()->shouldBe('/uri');
         $route->controllerClass()->shouldBe('controllerclass');
     }
 

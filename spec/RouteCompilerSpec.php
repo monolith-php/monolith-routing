@@ -31,7 +31,7 @@ class RouteCompilerSpec extends ObjectBehavior
         ));
 
         $compiledRoutes->head()->httpMethod()->shouldBe('get');
-        $compiledRoutes->head()->uri()->shouldBe('uri');
+        $compiledRoutes->head()->uri()->shouldBe('/uri');
         $compiledRoutes->head()->controllerClass()->shouldBe('controllerclass');
         $compiledRoutes->head()->controllerMethod()->shouldBe('index');
     }

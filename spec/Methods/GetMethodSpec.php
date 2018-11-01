@@ -18,7 +18,7 @@ class GetMethodSpec extends ObjectBehavior
     {
         $route = $this::defineRoute('uri', 'controllerclass');
         $route->method()->shouldBe('get');
-        $route->uri()->shouldBe('uri');
+        $route->uri()->shouldBe('/uri');
         $route->controllerClass()->shouldBe('controllerclass');
         $route->middlewares()->equals(new Middlewares)->shouldBe(true);
     }
