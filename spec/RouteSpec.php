@@ -19,4 +19,9 @@ class RouteSpec extends ObjectBehavior
         $this->controllerClass()->shouldBe('controllerclass');
         $this->middlewares()->equals(new Middlewares)->shouldBe(true);
     }
+
+    function it_can_accept_uris_prefixed_with_frontslashes() {
+        $this->beConstructedWith('method', '/uri', 'controllerclass', new Middlewares);
+        $this->uri()->shouldBe('/uri');
+    }
 }
