@@ -27,6 +27,12 @@ final class ReverseRouting
             return $uri;
         }
 
+        if (count($matches) != count($arguments)) {
+            $matchString = implode(', ', $matches);
+            $argumentsString = implode(', ', $arguments);
+            throw new ReverseRoutingArgumentCountDoesntMatch("Failed to match ({$matchString}) to ({$argumentsString}).");
+        }
+
         foreach (range(0, count($matches)-1) as $i) {
             $uri = str_replace($matches[$i], $arguments[$i], $uri);
         }

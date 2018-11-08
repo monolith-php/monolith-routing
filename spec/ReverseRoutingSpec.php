@@ -4,9 +4,8 @@ use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\ReverseRouting;
-use Monolith\WebRouting\RouteDefinitions;
+use Monolith\WebRouting\ReverseRoutingArgumentCountDoesntMatch;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ReverseRoutingSpec extends ObjectBehavior
 {
@@ -46,5 +45,14 @@ class ReverseRoutingSpec extends ObjectBehavior
         $url = $this->route($routes, ControllerStub::class, [123, 234, 345]);
 
         $url->shouldBe('/article/123/234/345');
+    }
+
+    function it_throws_an_exception_when_argument_count_doesnt_match()
+    {
+        $routes = CompiledRoutes::list(
+            new CompiledRoute('get', '/article/{id}/{bid}/{cid}', ControllerStub::class, 'index', new Middlewares)
+        );
+
+        $this->shouldThrow(ReverseRoutingArgumentCountDoesntMatch::class)->during('route', [$routes, ControllerStub::class, [123, 234]]);
     }
 }
