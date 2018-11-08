@@ -18,7 +18,8 @@ final class WebRoutingBootstrap implements ComponentBootstrap
             return new Router(
                 $r(RouteCompiler::class),
                 $r(RouteMatcher::class),
-                $r(RouteDispatcher::class)
+                $r(RouteDispatcher::class),
+                new ReverseRouting
             );
         });
     }

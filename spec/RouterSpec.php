@@ -4,6 +4,7 @@ use Monolith\Collections\Map;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\Request;
 use Monolith\WebRouting\Middlewares;
+use Monolith\WebRouting\ReverseRouting;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteDefinitions;
@@ -27,7 +28,7 @@ class RouterSpec extends ObjectBehavior
         $matcher = new RouteMatcher;
         $dispatcher = new RouteDispatcher($container);
 
-        $this->beConstructedWith($this->compiler, $matcher, $dispatcher);
+        $this->beConstructedWith($this->compiler, $matcher, $dispatcher, new ReverseRouting);
     }
 
     function it_is_initializable()
@@ -58,5 +59,17 @@ class RouterSpec extends ObjectBehavior
         // check response
         $response->code()->shouldBe('200');
         $response->body()->shouldBe('controller stub response');
+    }
+
+    function it_can_reverse_route()
+    {
+        // register method compiler
+        $this->compiler->registerMethodCompiler(new StubMethod);
+        
+        $this->registerRoutes(RouteDefinitions::list(
+            new Route('stub', '/article/{id}/{hats}', ControllerStub::class, new Middlewares)
+        ));
+
+        $this->url(ControllerStub::class, ['bob', 'cob'])->shouldBe('/article/bob/cob');
     }
 }

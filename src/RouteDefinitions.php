@@ -22,7 +22,6 @@ final class RouteDefinitions extends Collection implements RouteDefinition
     {
         // flatten all route definitions
         $flatten = function ($route) {
-
             if ($route instanceof RouteDefinitions) {
                 return $route->flatten();
             }
@@ -32,7 +31,6 @@ final class RouteDefinitions extends Collection implements RouteDefinition
 
         // reduce all route definitions to a single list
         $reduceToSingleList = function (RouteDefinitions $accumulation, $definition) {
-
             if ($definition instanceof RouteDefinitions) {
                 return $accumulation->merge($definition);
             }

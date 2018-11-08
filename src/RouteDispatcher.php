@@ -3,7 +3,6 @@
 use Monolith\Collections\Map;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
-use function spec\Monolith\WebRouting\dd;
 
 final class RouteDispatcher
 {
@@ -23,9 +22,9 @@ final class RouteDispatcher
         // is where we are right now
         $stack = $this->buildExecutionStack($route, $request);
 
-        // enrich the request with the parameters
-        $parameters = UriParameterParser::parseUriParameters($request->uri(), $route->regex());
-        $request = $request->addParameters(new Map($parameters));
+        // match route parameters like {id} and enrich the request with the
+        // parsed values
+        $request = $this->enrichRequestWithRouteParameters($route, $request);
 
         // dispatch request to stack
         return $stack($request);
@@ -101,5 +100,17 @@ final class RouteDispatcher
 
             return $delegate($next ?: $request);
         });
+    }
+
+    /**
+     * @param MatchedRoute $route
+     * @param Request $request
+     * @return Request
+     */
+    private function enrichRequestWithRouteParameters(MatchedRoute $route, Request $request): Request
+    {
+        $parameters = UriParameterParser::parseUriParameters($request->uri(), $route->regex());
+        $request = $request->addParameters(new Map($parameters));
+        return $request;
     }
 }

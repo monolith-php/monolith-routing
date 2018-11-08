@@ -1,4 +1,4 @@
-<?php namespace spec\Monolith\WebRouting;
+<?php
 
 use PhpSpec\CodeAnalysis\MagicAwareAccessInspector;
 use PhpSpec\CodeAnalysis\VisibilityAccessInspector;
