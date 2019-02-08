@@ -39,12 +39,10 @@ class RouterSpec extends ObjectBehavior
     function it_can_dispatch_a_request()
     {
         // configure request
-        $serverVariables = new Map([
-            'REQUEST_URI'    => '/article/1',
-            'REQUEST_METHOD' => 'get',
-        ]);
+        $_SERVER['REQUEST_URI'] = '/article/1';
+        $_SERVER['REQUEST_METHOD'] = 'get';
 
-        $request = new Request(new Map, new Map, $serverVariables, new Map, new Map, new Map);
+        $request = Request::fromGlobals();
 
         // register method compiler
         $this->compiler->registerMethodCompiler(new StubMethod);

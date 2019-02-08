@@ -27,7 +27,7 @@ class RouteDispatcherSpec extends ObjectBehavior
     function it_can_dispatch_a_route_to_the_right_controller()
     {
         $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index', new Middlewares));
-        $request = new Request(new Map, new Map, new Map, new Map, new Map, new Map);
+        $request = Request::fromGlobals();
 
         $response = $this->dispatch($matchedRoute, $request);
 
@@ -42,7 +42,7 @@ class RouteDispatcherSpec extends ObjectBehavior
             )
         );
 
-        $request = new Request(new Map, new Map, new Map, new Map, new Map, new Map);
+        $request = Request::fromGlobals();
 
         $response = $this->dispatch($matchedRoute, $request);
 
@@ -52,7 +52,9 @@ class RouteDispatcherSpec extends ObjectBehavior
     function it_can_enrich_the_request_with_parameters()
     {
         $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', '/action/{id}', ControllerStub::class, 'parameterExample', new Middlewares));
-        $request = new Request(new Map, new Map, new Map(['REQUEST_URI' => '/action/123-abc']), new Map, new Map, new Map);
+
+        $_SERVER['REQUEST_URI'] = '/action/123-abc';
+        $request = Request::fromGlobals();
 
         $response = $this->dispatch($matchedRoute, $request);
 

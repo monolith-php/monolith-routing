@@ -18,12 +18,10 @@ class RouteMatcherSpec extends ObjectBehavior
 
     function it_can_match_routes()
     {
-        $serverVariables = new Map([
-            'REQUEST_URI'    => '/article/1',
-            'REQUEST_METHOD' => 'stub',
-        ]);
+        $_SERVER['REQUEST_URI'] = '/article/1';
+        $_SERVER['REQUEST_METHOD'] = 'stub';
 
-        $request = new Request(new Map, new Map, $serverVariables, new Map, new Map, new Map);
+        $request = Request::fromGlobals();
 
         $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new Middlewares);
 
