@@ -14,7 +14,7 @@ final class RouteMatcher
             }
         }
 
-        throw new CanNotMatchARouteForThisRequest($request);
+        throw new CanNotMatchARouteForThisRequest($request->method() . ' :: ' . $request->uri());
     }
 
     /**
