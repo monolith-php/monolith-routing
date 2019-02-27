@@ -1,6 +1,5 @@
 <?php namespace spec\Monolith\WebRouting;
 
-use Monolith\Collections\Map;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\Request;
 use Monolith\WebRouting\Middlewares;
@@ -10,6 +9,7 @@ use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteDefinitions;
 use Monolith\WebRouting\RouteDispatcher;
 use Monolith\WebRouting\RouteMatcher;
+use Monolith\WebRouting\RouteParameters;
 use Monolith\WebRouting\Router;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\WebRouting\Methods\StubMethod;
@@ -49,7 +49,7 @@ class RouterSpec extends ObjectBehavior
 
         // compile routes
         $this->registerRoutes(RouteDefinitions::list(
-            new Route('stub', '/article/{id}', ControllerStub::class, new Middlewares)
+            new Route('stub', '/article/{id}', new RouteParameters(['controllerClass' => ControllerStub::class]), new Middlewares)
         ));
 
         $response = $this->dispatch($request);
@@ -65,7 +65,7 @@ class RouterSpec extends ObjectBehavior
         $this->compiler->registerMethodCompiler(new StubMethod);
         
         $this->registerRoutes(RouteDefinitions::list(
-            new Route('stub', '/article/{id}/{hats}', ControllerStub::class, new Middlewares)
+            new Route('stub', '/article/{id}/{hats}', new RouteParameters(['controllerClass' => ControllerStub::class]), new Middlewares)
         ));
 
         $this->url(ControllerStub::class, ['bob', 'cob'])->shouldBe('/article/bob/cob');

@@ -16,7 +16,7 @@ final class StubMethod implements MethodCompiler
     public function compile(Route $route): CompiledRoutes
     {
         return CompiledRoutes::list(
-            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'index', new Middlewares)
+            new CompiledRoute('get', $route->uri(), $route->parameters()->get('controllerClass'), 'index', new Middlewares)
         );
     }
 }

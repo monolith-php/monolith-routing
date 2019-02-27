@@ -5,13 +5,14 @@ use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\MethodCompiler;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
+use Monolith\WebRouting\RouteParameters;
 use function strtolower;
 
 final class PostMethod implements MethodCompiler
 {
     public static function defineRoute(string $uri, string $controllerClass): Route
     {
-        return new Route('post', $uri, $controllerClass, new Middlewares);
+        return new Route('post', $uri, new RouteParameters(['controllerClass' => $controllerClass]), new Middlewares);
     }
 
     public function handles(string $method): bool
@@ -22,7 +23,7 @@ final class PostMethod implements MethodCompiler
     public function compile(Route $route): CompiledRoutes
     {
         return new CompiledRoutes([
-            new CompiledRoute('post', $route->uri(), $route->controllerClass(), 'post', $route->middlewares()),
+            new CompiledRoute('post', $route->uri(), $route->parameters()->require('controllerClass'), 'post', $route->middlewares()),
         ]);
     }
 }

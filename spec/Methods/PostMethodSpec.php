@@ -5,6 +5,7 @@ use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Methods\PostMethod;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
+use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 
 class PostMethodSpec extends ObjectBehavior
@@ -19,12 +20,12 @@ class PostMethodSpec extends ObjectBehavior
         $route = $this::defineRoute('uri', 'controllerclass');
         $route->method()->shouldBe('post');
         $route->uri()->shouldBe('/uri');
-        $route->controllerClass()->shouldBe('controllerclass');
+        $route->parameters()->toArray()->shouldBe(['controllerClass' => 'controllerclass']);
     }
 
     function it_can_compile_a_post_route()
     {
-        $route = new Route('post', 'uri', 'controller', new Middlewares);
+        $route = new Route('post', 'uri', new RouteParameters(['controllerClass' => 'controller']), new Middlewares);
 
         $compiled = $this->compile($route);
         $compiled->shouldHaveType(CompiledRoutes::class);
