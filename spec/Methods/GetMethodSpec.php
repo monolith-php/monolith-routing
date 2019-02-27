@@ -5,7 +5,6 @@ use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Methods\GetMethod;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
-use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 
 class GetMethodSpec extends ObjectBehavior
@@ -19,15 +18,14 @@ class GetMethodSpec extends ObjectBehavior
     {
         $route = $this::defineRoute('uri', 'controllerclass');
         $route->method()->shouldBe('get');
-        $route->parameters()->toArray()->shouldBe([
-            'controllerClass' => 'controllerclass'
-        ]);
+        $route->uri()->shouldBe('/uri');
+        $route->controllerClass()->shouldBe('controllerclass');
         $route->middlewares()->equals(new Middlewares)->shouldBe(true);
     }
 
     function it_can_compile_a_get_route()
     {
-        $route = new Route('get', 'uri', new RouteParameters(['controllerClass' => 'controller']), new Middlewares);
+        $route = new Route('get', 'uri', 'controller', new Middlewares);
 
         $compiled = $this->compile($route);
         $compiled->shouldHaveType(CompiledRoutes::class);

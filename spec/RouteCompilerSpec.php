@@ -4,7 +4,6 @@ use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteCompiler;
 use Monolith\WebRouting\RouteDefinitions;
-use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\WebRouting\Methods\StubMethod;
 
@@ -23,7 +22,7 @@ class RouteCompilerSpec extends ObjectBehavior
 
     function it_can_compile_a_route_using_the_registered_compilers()
     {
-        $route = new Route('stub', 'uri', new RouteParameters(['controllerClass' => 'controllerclass']), new Middlewares);
+        $route = new Route('stub', 'uri', 'controllerclass', new Middlewares);
 
         $this->registerMethodCompiler(new StubMethod);
 

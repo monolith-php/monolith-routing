@@ -6,19 +6,19 @@ final class Route implements RouteDefinition
     private $method;
     /** @var string */
     private $uri;
+    /** @var mixed */
+    private $controllerClass;
     /** @var Middlewares */
     private $middlewares;
-    /** @var RouteParameters */
-    private $parameters;
 
-    public function __construct(string $method, string $uri, RouteParameters $parameters, Middlewares $middlewares)
+    public function __construct(string $method, string $uri, string $controllerClass, Middlewares $middlewares)
     {
         $this->method = $method;
 
         $this->uri = static::prefixedUri($uri);
 
+        $this->controllerClass = $controllerClass;
         $this->middlewares = $middlewares;
-        $this->parameters = $parameters;
     }
 
     private static function prefixedUri(string $uri)
@@ -40,9 +40,9 @@ final class Route implements RouteDefinition
         return $this->uri;
     }
 
-    public function parameters(): RouteParameters
+    public function controllerClass(): string
     {
-        return $this->parameters;
+        return $this->controllerClass;
     }
 
     public function middlewares(): Middlewares
@@ -55,7 +55,7 @@ final class Route implements RouteDefinition
         return new static(
             $this->method,
             $this->uri,
-            $this->parameters,
+            $this->controllerClass,
             $this->middlewares->merge($newMiddlewares)
         );
     }
