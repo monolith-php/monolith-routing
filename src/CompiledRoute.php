@@ -59,10 +59,19 @@ final class CompiledRoute
         $regex = str_replace('/', '\/', $uri);
 
         $matches = [];
-        preg_match_all('#(\{(\w+)\})#', $regex, $matches, PREG_SET_ORDER);
+        preg_match_all('#(\{([\w\?]+)\})#', $regex, $matches, PREG_SET_ORDER);
 
         foreach ($matches as list($_, $var, $name)) {
-            $regex = str_replace($var, "(?P<{$name}>[\w-]+)", $regex);
+            if (stristr($name, '?', -1)) {
+                $name = substr($name, 0, strlen($name)-1);
+
+                var_dump($regex);
+                $regex = str_replace('/'.$var, "/?(?P<{$name}>[\w-]+)?", $regex);
+                var_dump($regex);
+                echo "---\n";
+            } else {
+                $regex = str_replace($var, "(?P<{$name}>[\w-]+)", $regex);
+            }
         }
 
         return "/^{$regex}\/?$/";
