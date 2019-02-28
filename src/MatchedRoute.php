@@ -3,40 +3,45 @@
 final class MatchedRoute
 {
     /** @var CompiledRoute */
-    private $route;
+    private $compiledRoute;
 
-    public function __construct(CompiledRoute $route)
+    public function __construct(CompiledRoute $compiledRoute)
     {
-        $this->route = $route;
+        $this->compiledRoute = $compiledRoute;
     }
 
     public function httpMethod(): string
     {
-        return $this->route->httpMethod();
+        return $this->compiledRoute->httpMethod();
     }
 
     public function uri(): string
     {
-        return $this->route->uri();
+        return $this->compiledRoute->uri();
     }
 
     public function regex(): string
     {
-        return $this->route->regex();
+        return $this->compiledRoute->regex();
     }
 
     public function controllerClass(): string
     {
-        return $this->route->controllerClass();
+        return $this->compiledRoute->controllerClass();
     }
 
     public function controllerMethod(): string
     {
-        return $this->route->controllerMethod();
+        return $this->compiledRoute->controllerMethod();
+    }
+
+    public function parameters(): RouteParameters
+    {
+        return $this->compiledRoute->parameters();
     }
 
     public function middlewares(): Middlewares
     {
-        return $this->route->middlewares();
+        return $this->compiledRoute->middlewares();
     }
 }

@@ -5,6 +5,7 @@ use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\ReverseRouting;
 use Monolith\WebRouting\ReverseRoutingArgumentCountDoesntMatch;
+use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 
 class ReverseRoutingSpec extends ObjectBehavior
@@ -17,7 +18,7 @@ class ReverseRoutingSpec extends ObjectBehavior
     function it_can_reverse_route_based_on_controller()
     {
         $routes = CompiledRoutes::list(
-            new CompiledRoute('get', '/article', ControllerStub::class, 'index', new Middlewares)
+            new CompiledRoute('get', '/article', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
         );
 
         $url = $this->route($routes, ControllerStub::class, [123]);
@@ -28,7 +29,7 @@ class ReverseRoutingSpec extends ObjectBehavior
     function it_can_produce_routes_with_an_argument()
     {
         $routes = CompiledRoutes::list(
-            new CompiledRoute('get', '/article/{id}', ControllerStub::class, 'index', new Middlewares)
+            new CompiledRoute('get', '/article/{id}', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
         );
 
         $url = $this->route($routes, ControllerStub::class, [123]);
@@ -39,7 +40,7 @@ class ReverseRoutingSpec extends ObjectBehavior
     function it_can_produce_routes_with_many_arguments()
     {
         $routes = CompiledRoutes::list(
-            new CompiledRoute('get', '/article/{id}/{bid}/{cid}', ControllerStub::class, 'index', new Middlewares)
+            new CompiledRoute('get', '/article/{id}/{bid}/{cid}', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
         );
 
         $url = $this->route($routes, ControllerStub::class, [123, 234, 345]);
@@ -50,7 +51,7 @@ class ReverseRoutingSpec extends ObjectBehavior
     function it_throws_an_exception_when_argument_count_doesnt_match()
     {
         $routes = CompiledRoutes::list(
-            new CompiledRoute('get', '/article/{id}/{bid}/{cid}', ControllerStub::class, 'index', new Middlewares)
+            new CompiledRoute('get', '/article/{id}/{bid}/{cid}', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
         );
 
         $this->shouldThrow(ReverseRoutingArgumentCountDoesntMatch::class)->during('route', [$routes, ControllerStub::class, [123, 234]]);

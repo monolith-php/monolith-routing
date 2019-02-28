@@ -12,8 +12,10 @@ final class CompiledRoute
     private $controllerMethod;
     /** @var Middlewares */
     private $middlewares;
+    /** @var RouteParameters */
+    private $parameters;
 
-    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod, Middlewares $middlewares)
+    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod, RouteParameters $parameters, Middlewares $middlewares)
     {
         $this->httpMethod = strtolower($httpMethod);
         $this->uri = $uri;
@@ -21,6 +23,7 @@ final class CompiledRoute
         $this->controllerClass = $controllerClass;
         $this->controllerMethod = $controllerMethod;
         $this->middlewares = $middlewares;
+        $this->parameters = $parameters;
     }
 
     public function httpMethod(): string
@@ -46,6 +49,11 @@ final class CompiledRoute
     public function controllerMethod(): string
     {
         return $this->controllerMethod;
+    }
+
+    public function parameters(): RouteParameters
+    {
+        return $this->parameters;
     }
 
     public function middlewares(): Middlewares

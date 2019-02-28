@@ -3,13 +3,14 @@
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\MatchedRoute;
 use Monolith\WebRouting\Middlewares;
+use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 
 class MatchedRouteSpec extends ObjectBehavior
 {
     function let()
     {
-        $compiledRoute = new CompiledRoute('httpmethod', 'uri', 'controllerclass', 'controllermethod', new Middlewares);
+        $compiledRoute = new CompiledRoute('httpmethod', 'uri', 'controllerclass', 'controllermethod', new RouteParameters(['ab' => 'cd']), new Middlewares);
 
         $this->beConstructedWith($compiledRoute);
     }
@@ -22,6 +23,7 @@ class MatchedRouteSpec extends ObjectBehavior
         $this->uri()->shouldBe('uri');
         $this->controllerClass()->shouldBe('controllerclass');
         $this->controllerMethod()->shouldBe('controllermethod');
+        $this->parameters()->get('ab')->shouldBe('cd');
         $this->middlewares()->equals(new Middlewares)->shouldBe(true);
     }
 }

@@ -5,6 +5,7 @@ use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\RouteMatcher;
+use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 use spec\Monolith\DependencyInjection\ControllerStub;
 
@@ -22,7 +23,7 @@ class RouteMatcherSpec extends ObjectBehavior
 
         $request = Request::fromGlobals();
 
-        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new Middlewares);
+        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
 
         $compiledRoutes = CompiledRoutes::list($route);
 
@@ -41,7 +42,7 @@ class RouteMatcherSpec extends ObjectBehavior
 
         $request = Request::fromGlobals();
 
-        $route = new CompiledRoute('stub', '/article/{maybe?}', ControllerStub::class, 'index', new Middlewares);
+        $route = new CompiledRoute('stub', '/article/{maybe?}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
 
         $compiledRoutes = CompiledRoutes::list($route);
 
@@ -60,7 +61,7 @@ class RouteMatcherSpec extends ObjectBehavior
 
         $request = Request::fromGlobals();
 
-        $route = new CompiledRoute('stub', '/article/{maybe?}', ControllerStub::class, 'index', new Middlewares);
+        $route = new CompiledRoute('stub', '/article/{maybe?}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
 
         $compiledRoutes = CompiledRoutes::list($route);
 
@@ -79,13 +80,13 @@ class RouteMatcherSpec extends ObjectBehavior
 
         $request = Request::fromGlobals();
 
-        $route = new CompiledRoute('stub', '/article/{one?}/{two?}/{three?}', ControllerStub::class, 'index', new Middlewares);
+        $route = new CompiledRoute('stub', '/article/{one?}/{two?}/{three?}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
 
         # it should match our first route.. because it's first and it matches
         $compiledRoutes = CompiledRoutes::list(
             $route,
-            new CompiledRoute('stub', '/article/{one?}', ControllerStub::class, 'index', new Middlewares),
-            new CompiledRoute('stub', '/article/{one?}/{two?}', ControllerStub::class, 'index', new Middlewares)
+            new CompiledRoute('stub', '/article/{one?}', ControllerStub::class, 'index', new RouteParameters, new Middlewares),
+            new CompiledRoute('stub', '/article/{one?}/{two?}', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
         );
 
         $matchedRoute = $this->match($request, $compiledRoutes);
@@ -103,7 +104,7 @@ class RouteMatcherSpec extends ObjectBehavior
 
         $request = Request::fromGlobals();
 
-        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new Middlewares);
+        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
 
         $compiledRoutes = CompiledRoutes::list($route);
 

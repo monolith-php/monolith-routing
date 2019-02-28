@@ -23,7 +23,7 @@ final class PostMethod implements MethodCompiler
     public function compile(Route $route): CompiledRoutes
     {
         return new CompiledRoutes([
-            new CompiledRoute('post', $route->uri(), $route->controllerClass(), 'post', $route->middlewares()),
+            new CompiledRoute('post', $route->uri(), $route->controllerClass(), 'post', $route->parameters(), $route->middlewares()),
         ]);
     }
 }

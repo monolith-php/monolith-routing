@@ -110,7 +110,9 @@ final class RouteDispatcher
     private function enrichRequestWithRouteParameters(MatchedRoute $route, Request $request): Request
     {
         $parameters = UriParameterParser::parseUriParameters($request->uri(), $route->regex());
-        $request = $request->addParameters(new Map($parameters));
+        $request = $request
+            ->addParameters(new Map($route->parameters()->toArray()))
+            ->addParameters(new Map($parameters));
         return $request;
     }
 }

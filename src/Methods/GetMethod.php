@@ -23,7 +23,7 @@ final class GetMethod implements MethodCompiler
     public function compile(Route $route): CompiledRoutes
     {
         return new CompiledRoutes([
-            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'get', $route->middlewares()),
+            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'get', $route->parameters(), $route->middlewares()),
         ]);
     }
 }
