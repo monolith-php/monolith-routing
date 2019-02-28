@@ -64,7 +64,7 @@ final class CompiledRoute
         foreach ($matches as list($_, $var, $name)) {
             if (stristr($name, '?', -1)) {
                 $name = substr($name, 0, strlen($name)-1);
-                
+
                 $regex = str_replace('/'.$var, "/?(?P<{$name}>[\w-]+)?", $regex);
             } else {
                 $regex = str_replace($var, "(?P<{$name}>[\w-]+)", $regex);

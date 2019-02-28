@@ -4,6 +4,7 @@ use Monolith\WebRouting\Methods\GetMethod;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteDefinitions;
+use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 
 class RouteDefinitionsSpec extends ObjectBehavior
@@ -15,6 +16,7 @@ class RouteDefinitionsSpec extends ObjectBehavior
                 $r->method(),
                 $r->uri(),
                 $r->controllerClass(),
+                new RouteParameters,
                 Middlewares::list(MiddlewareStub::class)->merge($r->middlewares())
             );
         }
@@ -30,6 +32,7 @@ class RouteDefinitionsSpec extends ObjectBehavior
                     $r->method(),
                     '/prefix' . $r->uri(),
                     $r->controllerClass(),
+                    new RouteParameters,
                     $r->middlewares()
                 );
             }
@@ -42,6 +45,7 @@ class RouteDefinitionsSpec extends ObjectBehavior
                     $r->method(),
                     $r->uri(),
                     $r->controllerClass(),
+                    new RouteParameters,
                     Middlewares::list(OtherMiddlewareStub::class)->merge($r->middlewares())
                 );
             }
