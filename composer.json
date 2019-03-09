@@ -15,7 +15,7 @@
   "require": {
     "php": "^7.1",
     "monolith/http": "^8",
-    "monolith/collections": "^3",
+    "monolith/collections": "^4",
     "monolith/dependency-injection": "^5"
   },
   "require-dev": {
