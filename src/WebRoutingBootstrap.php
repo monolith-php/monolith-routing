@@ -32,5 +32,6 @@ final class WebRoutingBootstrap implements ComponentBootstrap
         $compiler->registerMethodCompiler(new Methods\GetMethod);
         $compiler->registerMethodCompiler(new Methods\PostMethod);
         $compiler->registerMethodCompiler(new Methods\FormMethod);
+        $compiler->registerMethodCompiler(new Methods\PathMapMethod);
     }
 }
