@@ -1,5 +1,7 @@
 <?php namespace Monolith\WebRouting;
 
+use Monolith\Collections\Collection;
+
 final class ReverseRouting
 {
     public function route(CompiledRoutes $routes, $controllerClass, array $arguments = [])
@@ -18,24 +20,76 @@ final class ReverseRouting
 
     private function parseArguments(string $uri, array $arguments)
     {
-        $matches = [];
-        preg_match_all('/\{.*?\}/', $uri, $matches);
+        # 1. match required fields
+        # 2. match optional fields
+        # 3. return valid url
 
-        $matches = $matches[0];
+        # arguments are the parameters that are used as the variables
+        # in a uri. if the route looks like /article/{id}/{another} and in use
+        # it would look like /article/123/234 then the first argument is
+        # 123 and the second is 234
+        $arguments = new Collection($arguments);
 
-        if (empty($matches)) {
+        # field matchers look like {this} and are required unless
+        # they look like {this?}
+        $allFieldMatchers = [];
+        preg_match_all('/\{.*?\}/', $uri, $allFieldMatchers);
+        $allFieldMatchers = new Collection($allFieldMatchers[0]);
+
+        # if no fields must be matched simply return the uri
+        if (empty($allFieldMatchers)) {
             return $uri;
         }
 
-        if (count($matches) != count($arguments)) {
-            $matchString = implode(', ', $matches);
-            $argumentsString = implode(', ', $arguments);
-            throw new ReverseRoutingArgumentCountDoesntMatch("Failed to match ({$matchString}) to ({$argumentsString}).");
+        $requiredMatchers = $allFieldMatchers->filter(function ($matcher) {
+            $matches = [];
+            preg_match("/[^?]\}$/", $matcher, $matches);
+            return ! empty($matches);
+        });
+
+        $optionalMatchers = $allFieldMatchers->filter(function ($matcher) {
+            return stristr($matcher, '?}');
+        });
+
+        # apply required matchers
+        $uri = $this->applyRequiredMatchers($uri, $requiredMatchers, $arguments);
+
+        # apply optional matchers
+        $uri = $this->applyOptionalMatchers($uri, $optionalMatchers, $arguments);
+
+        return $uri;
+    }
+
+    private function applyRequiredMatchers(string $uri, Collection $requiredMatchers, Collection $arguments)
+    {
+        if ($requiredMatchers->count() > $arguments->count()) {
+            $matchString = $requiredMatchers->implode(', ');
+            $argumentsString = $arguments->implode(', ');
+
+            throw new ReverseRoutingArgumentCountDoesntMatch("Can not match required matchers ({$matchString}) to ({$argumentsString}).");
         }
 
-        foreach (range(0, count($matches)-1) as $i) {
-            $uri = str_replace($matches[$i], $arguments[$i], $uri);
-        }
+        return $requiredMatchers
+            ->zip($arguments)
+            ->reduce(function ($uri, $args) {
+                list($matcher, $argument) = $args;
+                return str_replace($matcher, $argument, $uri);
+            }, $uri);
+    }
+
+    private function applyOptionalMatchers($uri, Collection $optionalMatchers, Collection $arguments)
+    {
+        $uri = $optionalMatchers
+            ->zip($arguments)
+            ->reduce(function ($uri, $args) {
+                list($matcher, $argument) = $args;
+                if (is_null($matcher)) {
+                    return $uri;
+                }
+                return str_replace($matcher, $argument, $uri);
+            }, $uri);
+
+        $uri = rtrim($uri, '/');
 
         return $uri;
     }

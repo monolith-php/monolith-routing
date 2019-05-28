@@ -56,4 +56,15 @@ class ReverseRoutingSpec extends ObjectBehavior
 
         $this->shouldThrow(ReverseRoutingArgumentCountDoesntMatch::class)->during('route', [$routes, ControllerStub::class, [123, 234]]);
     }
+
+    function it_can_produce_routes_with_undefined_values_for_optional_segments()
+    {
+        $routes = CompiledRoutes::list(
+            new CompiledRoute('get', '/article/{id?}/{bob?}', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
+        );
+
+        $url = $this->route($routes, ControllerStub::class, []);
+
+        $url->shouldBe('/article');
+    }
 }
