@@ -73,9 +73,9 @@ final class CompiledRoute
             if (stristr($name, '?', -1)) {
                 $name = substr($name, 0, strlen($name)-1);
 
-                $regex = str_replace('/'.$var, "/?(?P<{$name}>[\w-]+)?", $regex);
+                $regex = str_replace('/'.$var, "/?(?P<{$name}>[\w@.-]+)?", $regex);
             } else {
-                $regex = str_replace($var, "(?P<{$name}>[\w-]+)", $regex);
+                $regex = str_replace($var, "(?P<{$name}>[\w@.-]+)", $regex);
             }
         }
 

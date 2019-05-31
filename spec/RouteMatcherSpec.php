@@ -35,6 +35,25 @@ class RouteMatcherSpec extends ObjectBehavior
         $matchedRoute->controllerMethod()->shouldBe('index');
     }
 
+    function it_can_match_routes_with_special_characters()
+    {
+        $_SERVER['REQUEST_URI'] = '/article/1@bob.eu';
+        $_SERVER['REQUEST_METHOD'] = 'stub';
+
+        $request = Request::fromGlobals();
+
+        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
+
+        $compiledRoutes = CompiledRoutes::list($route);
+
+        $matchedRoute = $this->match($request, $compiledRoutes);
+
+        $matchedRoute->httpMethod()->shouldBe('stub');
+        $matchedRoute->uri()->shouldBe($route->uri());
+        $matchedRoute->controllerClass()->shouldBe(ControllerStub::class);
+        $matchedRoute->controllerMethod()->shouldBe('index');
+    }
+
     function it_can_match_optional_segments_with_provided_uri_arguments()
     {
         $_SERVER['REQUEST_URI'] = '/article/1';
