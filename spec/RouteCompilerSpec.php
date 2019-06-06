@@ -38,14 +38,16 @@ class RouteCompilerSpec extends ObjectBehavior
 
     function it_can_compile_routes_in_order_of_definitions()
     {
-        $this->registerMethodCompiler(new StubMethod);
+        # still deciding on this one
 
-        $compiledRoutes = $this->compile(RouteDefinitions::list(
-            new Route('stub', 'uri1', 'controllerclass', new RouteParameters, new Middlewares),
-            new Route('stub', 'uri2', 'controllerclass', new RouteParameters, new Middlewares),
-            new Route('stub', 'uri3', 'controllerclass', new RouteParameters, new Middlewares)
-        ));
+//        $this->registerMethodCompiler(new StubMethod);
+//
+//        $compiledRoutes = $this->compile(RouteDefinitions::list(
+//            new Route('stub', 'uri1', 'controllerclass', new RouteParameters, new Middlewares),
+//            new Route('stub', 'uri2', 'controllerclass', new RouteParameters, new Middlewares),
+//            new Route('stub', 'uri3', 'controllerclass', new RouteParameters, new Middlewares)
+//        ));
 
-        dd($compiledRoutes->getWrappedObject());
+
     }
 }

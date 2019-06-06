@@ -27,8 +27,7 @@ final class RouteCompiler
         return $compiledRoutes
             ->reduce(function (CompiledRoutes $routes, CompiledRoutes $allRoutes) {
             return $allRoutes->merge($routes);
-        }, new CompiledRoutes)
-            ->reverse();
+        }, new CompiledRoutes);
     }
 
     private function compileRoute(Route $route): CompiledRoutes

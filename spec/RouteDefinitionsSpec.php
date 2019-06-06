@@ -26,7 +26,6 @@ class RouteDefinitionsSpec extends ObjectBehavior
     function let()
     {
         $addPrefix = function ($r) {
-
             if ($r instanceof Route) {
                 return new Route(
                     $r->method(),
@@ -86,7 +85,6 @@ class RouteDefinitionsSpec extends ObjectBehavior
         $this->flatten()->count()->shouldBe(13);
 
         $this->flatten()->each(function ($route) {
-
             expect($route)->shouldHaveType(Route::class);
         });
     }
