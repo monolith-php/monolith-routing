@@ -6,16 +6,15 @@ final class RouteDefinitions extends Collection implements RouteDefinition
 {
     private $transformFunction = null;
 
-    public function __construct(array $items = [])
+    public function __construct(array $items = [], callable $transformFunction = null)
     {
         $this->items = $items;
+        $this->transformFunction = $transformFunction;
     }
 
     public static function withTransformFunction(callable $transformFunction, ...$items): RouteDefinitions
     {
-        $routes = new static($items);
-        $routes->transformFunction = $transformFunction;
-        return $routes;
+        return new static($items, $transformFunction);
     }
 
     public function flatten(callable $parentTransformFunction = null): RouteDefinitions
@@ -39,7 +38,10 @@ final class RouteDefinitions extends Collection implements RouteDefinition
         };
 
         // map / reduce children into a single flat list of routes
-        $flattenedRoutes = $this->map($flatten)->reduce($reduceToSingleList, new RouteDefinitions);
+        $flattenedRoutes = $this
+            ->reverse()
+            ->map($flatten)
+            ->reduce($reduceToSingleList, new RouteDefinitions);
 
         // apply transformations
         return array_reduce(

@@ -93,17 +93,33 @@ class RouteDefinitionsSpec extends ObjectBehavior
     {
         $routes = $this->flatten()->toArray();
 
-        $this->compareRange(range(1, 2), $routes, '', new Middlewares);
-        $this->compareRange(range(3, 4), $routes, '', Middlewares::list(MiddlewareStub::class));
+        $this->assertRouteDetails($routes, 13, '/1', new Middlewares);
+        $this->assertRouteDetails($routes, 12, '/2', new Middlewares);
+        $this->assertRouteDetails($routes, 11, '/3', Middlewares::list(MiddlewareStub::class));
+        $this->assertRouteDetails($routes, 10, '/4', Middlewares::list(MiddlewareStub::class));
     }
 
     function it_can_apply_a_transformation_function_to_the_flattened_routes()
     {
         $routes = $this->flatten()->toArray();
 
-        $this->compareRange(range(5, 8), $routes, '/prefix', Middlewares::list(MiddlewareStub::class));
-        $this->compareRange(range(9, 12), $routes, '/prefix', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
-        $this->compareRange(range(13, 13), $routes, '/prefix/prefix', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
+        $this->assertRouteDetails($routes, 9, '/prefix/5', Middlewares::list(MiddlewareStub::class));
+        $this->assertRouteDetails($routes, 8, '/prefix/6', Middlewares::list(MiddlewareStub::class));
+        $this->assertRouteDetails($routes, 7, '/prefix/7', Middlewares::list(MiddlewareStub::class));
+        $this->assertRouteDetails($routes, 6, '/prefix/8', Middlewares::list(MiddlewareStub::class));
+
+        $this->assertRouteDetails($routes, 5, '/prefix/9', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
+        $this->assertRouteDetails($routes, 4, '/prefix/10', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
+        $this->assertRouteDetails($routes, 3, '/prefix/11', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
+        $this->assertRouteDetails($routes, 2, '/prefix/12', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
+
+        $this->assertRouteDetails($routes, 1, '/prefix/prefix/13', Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class));
+    }
+
+    private function assertRouteDetails(RouteDefinitions $routes, int $routeNumber, $uri, Middlewares $middlewares)
+    {
+        $routes[$routeNumber - 1]->uri()->shouldBe($uri);
+        $routes[$routeNumber - 1]->middlewares()->equals($middlewares)->shouldBe(true);
     }
 
     private function compareRange(array $range, RouteDefinitions $routes, $prefix = '', Middlewares $middlewares): void
@@ -112,5 +128,15 @@ class RouteDefinitionsSpec extends ObjectBehavior
             $routes[$i - 1]->uri()->shouldBe("{$prefix}/{$i}");
             $routes[$i - 1]->middlewares()->equals($middlewares)->shouldBe(true);
         }
+    }
+
+    private function debug(RouteDefinitions $routes)
+    {
+        foreach ($routes as $route) {
+            /** @var Route $route */
+            echo $route->uri() . "\n";
+        }
+
+        die('');
     }
 }
