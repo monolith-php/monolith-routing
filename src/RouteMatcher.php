@@ -28,10 +28,7 @@ final class RouteMatcher
             return false;
         }
 
-        # remove query string from uri matching
-        $matchablePartOfUri = stristr($request->rawDecodedUri(), '?') ? strstr($request->rawDecodedUri(), '?', true) : $request->rawDecodedUri();
-
-        return (bool) preg_match($route->regex(), $matchablePartOfUri);
+        return (bool) preg_match($route->regex(), $request->uri());
     }
 
     /**
