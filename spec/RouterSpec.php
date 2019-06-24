@@ -1,6 +1,6 @@
 <?php namespace spec\Monolith\WebRouting;
 
-use Monolith\Collections\Map;
+use Monolith\Collections\Dict;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\Request;
 use Monolith\WebRouting\Middlewares;

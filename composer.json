@@ -14,9 +14,9 @@
   ],
   "require": {
     "php": "^7.2",
-    "monolith/http": "^9",
-    "monolith/collections": "^5",
-    "monolith/dependency-injection": "^6"
+    "monolith/http": "^10",
+    "monolith/collections": "^6",
+    "monolith/dependency-injection": "^7"
   },
   "require-dev": {
     "phpspec/phpspec": "^5.0"
