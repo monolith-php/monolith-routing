@@ -26,6 +26,8 @@ final class RouteDispatcher
         // parsed values
         $request = $this->enrichRequestWithRouteParameters($route, $request);
 
+        $this->container->singleton(Request::class, $request);
+
         // dispatch request to stack
         return $stack($request);
     }
