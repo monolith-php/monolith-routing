@@ -67,4 +67,15 @@ class ReverseRoutingSpec extends ObjectBehavior
 
         $url->shouldBe('/article');
     }
+
+    function it_can_ensure_that_a_valid_returned_route_is_never_an_empty_string()
+    {
+        $routes = CompiledRoutes::list(
+            new CompiledRoute('get', '/', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
+        );
+
+        $url = $this->route($routes, ControllerStub::class, []);
+
+        $url->shouldBe('/');
+    }
 }

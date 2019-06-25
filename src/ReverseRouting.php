@@ -57,6 +57,9 @@ final class ReverseRouting
         # apply optional matchers
         $uri = $this->applyOptionalMatchers($uri, $optionalMatchers, $arguments);
 
+        # if empty, need to have a /
+        $uri = $uri ?: '/';
+
         return $uri;
     }
 
