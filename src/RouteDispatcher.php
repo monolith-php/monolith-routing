@@ -1,6 +1,6 @@
 <?php namespace Monolith\WebRouting;
 
-use Monolith\Collections\Dict;
+use Monolith\Collections\Dictionary;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
 
@@ -113,8 +113,8 @@ final class RouteDispatcher
     {
         $parameters = UriParameterParser::parseUriParameters($request->uri(), $route->regex());
         $request = $request
-            ->addParameters(new Dict($route->parameters()->toArray()))
-            ->addParameters(new Dict($parameters));
+            ->addParameters(new Dictionary($route->parameters()->toArray()))
+            ->addParameters(new Dictionary($parameters));
         return $request;
     }
 }

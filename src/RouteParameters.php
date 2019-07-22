@@ -1,8 +1,8 @@
 <?php namespace Monolith\WebRouting;
 
-use Monolith\Collections\Dict;
+use Monolith\Collections\Dictionary;
 
-final class RouteParameters extends Dict
+final class RouteParameters extends Dictionary
 {
 
 }

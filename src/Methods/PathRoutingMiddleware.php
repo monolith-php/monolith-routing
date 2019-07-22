@@ -1,7 +1,7 @@
 <?php namespace Monolith\WebRouting\Methods;
 
 use Monolith\Collections\Collection;
-use Monolith\Collections\Dict;
+use Monolith\Collections\Dictionary;
 use Monolith\Http\Request;
 use Monolith\Http\Response;
 use Monolith\WebRouting\Middleware;
@@ -33,8 +33,8 @@ final class PathRoutingMiddleware implements Middleware
             $path = '/index';
         }
 
-        return $next($request->addParameters(new Dict([
-            'path' => $path
+        return $next($request->addParameters(new Dictionary([
+            'path' => $path,
         ])));
     }
 }
