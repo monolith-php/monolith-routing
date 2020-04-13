@@ -4,6 +4,7 @@ use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
+use PhpSpec\Exception\Example\FailureException;
 use spec\Monolith\DependencyInjection\ControllerStub;
 
 class CompiledRouteSpec extends ObjectBehavior
@@ -68,6 +69,33 @@ class CompiledRouteSpec extends ObjectBehavior
         preg_match($this->regex()->getWrappedObject(), '/article/a23b1/', $parameters);
 
         expect($parameters['alpha'])->shouldBe('a23b1');
+    }
+    
+    function it_can_match_despite_a_space()
+    {
+        $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
+
+        $parameters = [];
+        preg_match($this->regex()->getWrappedObject(), '/article/a2 3b1/', $parameters);
+
+        expect($parameters['alpha'])->shouldBe('a2 3b1');
+    }
+
+    function it_can_match_a_variety_of_important_punctuation()
+    {
+        $punctuation = ['*', '%', '@', '!', '#', '$', '^'];
+        
+        $this->beConstructedWith('get', '/article/{alpha}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
+
+        foreach ($punctuation as $symbol) {
+            $parameters = [];
+            preg_match($this->regex()->getWrappedObject(), "/article/a2{$symbol}3b1/", $parameters);
+            
+            if ( ! isset($parameters['alpha'])) {
+                throw new FailureException("Failed to match symbol '{$symbol}' when matching /article/a2{$symbol}3b1/");
+            }
+            expect($parameters['alpha'])->shouldBe('a2'.$symbol.'3b1');
+        }
     }
 
     function it_can_match_multiple_parameters()
