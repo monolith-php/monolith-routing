@@ -62,7 +62,7 @@ class ReverseRoutingSpec extends ObjectBehavior
         $routes = CompiledRoutes::list(
             new CompiledRoute('get', '/article/{id?}/{bob?}', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
         );
-
+        
         $url = $this->route($routes, ControllerStub::class, []);
 
         $url->shouldBe('/article');

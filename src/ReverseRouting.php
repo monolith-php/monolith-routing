@@ -71,10 +71,10 @@ final class ReverseRouting
 
             throw new ReverseRoutingArgumentCountDoesntMatch("Can not match required matchers ({$matchString}) to ({$argumentsString}).");
         }
-
+        
         return $requiredMatchers
             ->zip($arguments)
-            ->reduce(function ($uri, $args) {
+            ->reduce(function ($key, $args, $uri) {
                 list($matcher, $argument) = $args;
                 return str_replace($matcher, $argument, $uri);
             }, $uri);
@@ -84,14 +84,14 @@ final class ReverseRouting
     {
         $uri = $optionalMatchers
             ->zip($arguments)
-            ->reduce(function ($uri, $args) {
+            ->reduce(function ($key, $args, $uri) {
                 list($matcher, $argument) = $args;
                 if (is_null($matcher)) {
                     return $uri;
                 }
                 return str_replace($matcher, $argument, $uri);
             }, $uri);
-
+        
         $uri = rtrim($uri, '/');
 
         return $uri;
