@@ -6,14 +6,8 @@
     "web routing",
     "routing"
   ],
-  "authors": [
-    {
-      "name": "Shawn McCool",
-      "email": "shawn@heybigname.com"
-    }
-  ],
   "require": {
-    "php": "^7.4",
+    "php": ">=7.4",
     "monolith/http": "^11",
     "monolith/collections": "^8",
     "monolith/dependency-injection": "^8"
