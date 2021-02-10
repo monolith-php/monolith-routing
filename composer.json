@@ -7,14 +7,24 @@
     "routing"
   ],
   "require": {
-    "php": ">=7.4",
-    "monolith/http": "^11",
-    "monolith/collections": "^8",
-    "monolith/dependency-injection": "^8"
+    "php": ">=8",
+    "monolith/http": "^12",
+    "monolith/collections": "^9",
+    "monolith/dependency-injection": "^9"
   },
   "require-dev": {
-    "phpspec/phpspec": "dev-master"
+    "phpspec/phpspec": "^7"
   },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.humanmusic.eu",
+      "canonical": false,
+      "only": [
+        "monolith/*"
+      ]
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Monolith\\WebRouting\\": "src/"
