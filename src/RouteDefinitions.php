@@ -17,7 +17,7 @@ final class RouteDefinitions extends Collection implements RouteDefinition
         return new static($items, $transformFunction);
     }
 
-    public function flatten(callable $parentTransformFunction = null): RouteDefinitions
+    public function flatten(callable $parentTransformFunction = null): static
     {
         // flatten all route definitions
         $flatten = function ($route) {
