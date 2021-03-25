@@ -16,7 +16,7 @@ final class PathRoutingMiddleware implements Middleware
 
         $path = $segmentNames
             ->map(function (string $name) use ($request) {
-                return $request->parameters()->get($name);
+                return $request->appParameters()->get($name);
             })
             ->filter(function ($folder) {
                 return ! is_null($folder);
@@ -33,7 +33,7 @@ final class PathRoutingMiddleware implements Middleware
             $path = '/index';
         }
 
-        return $next($request->addParameters(new Dictionary([
+        return $next($request->addAppParameters(new Dictionary([
             'path' => $path,
         ])));
     }

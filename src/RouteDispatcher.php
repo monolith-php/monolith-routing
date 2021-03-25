@@ -113,8 +113,8 @@ final class RouteDispatcher
     {
         $parameters = UriParameterParser::parseUriParameters($request->uri(), $route->regex());
         $request = $request
-            ->addParameters(new Dictionary($route->parameters()->toArray()))
-            ->addParameters(new Dictionary($parameters));
+            ->addAppParameters(new Dictionary($route->parameters()->toArray()))
+            ->addAppParameters(new Dictionary($parameters));
         return $request;
     }
 }

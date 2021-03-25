@@ -12,6 +12,6 @@ class ControllerRouteParameterStub
 
     public function parameterExample(Request $request): Response
     {
-        return Response::ok($request->parameters()->get('ab'));
+        return Response::ok($request->appParameters()->get('ab'));
     }
 }

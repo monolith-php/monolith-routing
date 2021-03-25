@@ -16,7 +16,7 @@ class PathRoutingMiddlewareSpec extends ObjectBehavior
     function it_can_build_a_path_out_of_a_route()
     {
         $request = Request::fromGlobals();
-        $request = $request->addParameters(new Dictionary([
+        $request = $request->addAppParameters(new Dictionary([
             'one'   => '3',
             'two'   => '4',
             'three' => '5',
@@ -27,7 +27,7 @@ class PathRoutingMiddlewareSpec extends ObjectBehavior
         ]));
 
         $this->process($request, function (Request $request) {
-            expect($request->parameters()->get('path'))->shouldBe('/3/4/5/6/7/8/9');
+            expect($request->appParameters()->get('path'))->shouldBe('/3/4/5/6/7/8/9');
             return Response::ok('');
         });
     }

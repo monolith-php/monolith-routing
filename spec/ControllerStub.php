@@ -12,6 +12,6 @@ class ControllerStub
 
     public function parameterExample(Request $request): Response
     {
-        return Response::ok($request->parameters()->get('id'));
+        return Response::ok($request->appParameters()->get('id'));
     }
 }
