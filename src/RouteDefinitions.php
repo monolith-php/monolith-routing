@@ -1,11 +1,10 @@
 <?php namespace Monolith\WebRouting;
 
-use Closure;
 use Monolith\Collections\Collection;
 
 final class RouteDefinitions extends Collection implements RouteDefinition
 {
-    private $transformFunction = null;
+    private $transformFunction;
 
     public function __construct(
         array $items = [],
