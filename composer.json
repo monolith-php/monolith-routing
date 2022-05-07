@@ -39,8 +39,7 @@
     ]
   },
   "config": {
-    "sort-packages": true,
-    "bin-dir": "bin"
+    "sort-packages": true
   },
   "minimum-stability": "dev"
 }
