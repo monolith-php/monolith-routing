@@ -4,22 +4,28 @@ use Monolith\Collections\Collection;
 
 final class ReverseRouting
 {
-    public function route(CompiledRoutes $routes, $controllerClass, array $arguments = [])
-    {
+    public function route(
+        CompiledRoutes $routes,
+        $controllerClass,
+        array $arguments = []
+    ): string {
         /** @var CompiledRoute $matched */
-        $matched = $routes->first(function (CompiledRoute $route) use ($controllerClass) {
-            return $route->httpMethod() == 'get' && $route->controllerClass() == $controllerClass;
-        });
+        $matched = $routes->first(
+            fn(CompiledRoute $route) => $route->httpMethod() == 'get'
+                && $route->controllerClass() == $controllerClass
+        );
 
         if ( ! $matched) {
-            throw new CouldNotReverseRouteToGetMethodFromController($controllerClass);
+            throw CanNotReverseRoute::fromController($controllerClass);
         }
 
         return $this->parseArguments($matched->uri, $arguments);
     }
 
-    private function parseArguments(string $uri, array $arguments)
-    {
+    private function parseArguments(
+        string $uri,
+        array $arguments
+    ): string {
         # 1. match required fields
         # 2. match optional fields
         # 3. return valid url
@@ -58,42 +64,44 @@ final class ReverseRouting
         $uri = $this->applyOptionalMatchers($uri, $optionalMatchers, $arguments);
 
         # if empty, need to have a /
-        $uri = $uri ?: '/';
-
-        return $uri;
+        return $uri ?: '/';
     }
 
-    private function applyRequiredMatchers(string $uri, Collection $requiredMatchers, Collection $arguments)
-    {
+    private function applyRequiredMatchers(
+        string $uri,
+        Collection $requiredMatchers,
+        Collection $arguments
+    ) {
         if ($requiredMatchers->count() > $arguments->count()) {
             $matchString = $requiredMatchers->implode(', ');
             $argumentsString = $arguments->implode(', ');
 
-            throw new ReverseRoutingArgumentCountDoesntMatch("Can not match required matchers ({$matchString}) to ({$argumentsString}).");
+            throw CanNotMatchReverseRoutingRequiredMatchers::argumentCountDoesntMatch($matchString, $argumentsString);
         }
-        
+
         return $requiredMatchers
             ->zip($arguments)
             ->reduce(function ($key, $args, $uri) {
-                list($matcher, $argument) = $args;
+                [$matcher, $argument] = $args;
                 return str_replace($matcher, $argument, $uri);
             }, $uri);
     }
 
-    private function applyOptionalMatchers($uri, Collection $optionalMatchers, Collection $arguments)
-    {
+    private function applyOptionalMatchers(
+        $uri,
+        Collection $optionalMatchers,
+        Collection $arguments
+    ): string {
         $uri = $optionalMatchers
             ->zip($arguments)
             ->reduce(function ($key, $args, $uri) {
-                list($matcher, $argument) = $args;
+                [$matcher, $argument] = $args;
                 if (is_null($matcher)) {
                     return $uri;
                 }
                 return str_replace($matcher, $argument, $uri);
             }, $uri);
-        
-        $uri = rtrim($uri, '/');
 
-        return $uri;
+        return rtrim($uri, '/');
     }
 }

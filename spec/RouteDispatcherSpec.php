@@ -37,7 +37,8 @@ class RouteDispatcherSpec extends ObjectBehavior
     function it_can_dispatch_through_middleware()
     {
         $matchedRoute = new MatchedRoute(
-            new CompiledRoute('httpMethod', 'uri', ControllerStub::class, 'index', new RouteParameters,
+            new CompiledRoute(
+                'httpMethod', 'uri', ControllerStub::class, 'index', new RouteParameters,
                 Middlewares::list(MiddlewareStub::class, OtherMiddlewareStub::class)
             )
         );
@@ -63,8 +64,12 @@ class RouteDispatcherSpec extends ObjectBehavior
 
     function it_can_enrich_the_request_with_route_parameters()
     {
-        $matchedRoute = new MatchedRoute(new CompiledRoute('httpMethod', '/action/{id}', ControllerRouteParameterStub::class, 'parameterExample', new RouteParameters(['ab' => 'cd']),
-            new Middlewares));
+        $matchedRoute = new MatchedRoute(
+            new CompiledRoute(
+                'httpMethod', '/action/{id}', ControllerRouteParameterStub::class, 'parameterExample', new RouteParameters(['ab' => 'cd']),
+                new Middlewares
+            )
+        );
 
         $_SERVER['REQUEST_URI'] = '/action/123';
         $request = Request::fromGlobals();

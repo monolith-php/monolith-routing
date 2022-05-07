@@ -4,7 +4,7 @@ use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\ReverseRouting;
-use Monolith\WebRouting\ReverseRoutingArgumentCountDoesntMatch;
+use Monolith\WebRouting\CanNotMatchReverseRoutingRequiredMatchers;
 use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 
@@ -54,7 +54,7 @@ class ReverseRoutingSpec extends ObjectBehavior
             new CompiledRoute('get', '/article/{id}/{bid}/{cid}', ControllerStub::class, 'index', new RouteParameters, new Middlewares)
         );
 
-        $this->shouldThrow(ReverseRoutingArgumentCountDoesntMatch::class)->during('route', [$routes, ControllerStub::class, [123, 234]]);
+        $this->shouldThrow(CanNotMatchReverseRoutingRequiredMatchers::class)->during('route', [$routes, ControllerStub::class, [123, 234]]);
     }
 
     function it_can_produce_routes_with_undefined_values_for_optional_segments()

@@ -39,6 +39,6 @@ final class RouteCompiler
             }
         }
 
-        throw new CanNotCompileARouteWithMethod($route->method());
+        throw CanNotCompileRoute::noCompilerForMethod($route->method());
     }
 }

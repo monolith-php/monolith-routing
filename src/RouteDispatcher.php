@@ -1,5 +1,6 @@
 <?php namespace Monolith\WebRouting;
 
+use Throwable;
 use Monolith\Collections\Dictionary;
 use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
@@ -32,12 +33,14 @@ final class RouteDispatcher
         return $stack($request);
     }
 
-    private function makeController(string $controller)
+    private function makeController(string $controllerClass)
     {
         try {
-            return $this->container->get($controller);
-        } catch (\Exception $e) {
-            throw new CanNotResolveControllerForRouting($e->getMessage());
+            return $this->container->get($controllerClass);
+        } catch (Throwable $e) {
+            throw CanNotDispatchRoute::unableToResolveControllerClass(
+                $controllerClass
+            );
         }
     }
 
