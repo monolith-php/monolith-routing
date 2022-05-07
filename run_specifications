@@ -1,3 +1,0 @@
-#!/bin/bash
-
-bin/phpspec run $1
