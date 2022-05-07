@@ -1,24 +1,33 @@
 <?php namespace Monolith\WebRouting;
 
+use Closure;
 use Monolith\Collections\Collection;
 
 final class RouteDefinitions extends Collection implements RouteDefinition
 {
     private $transformFunction = null;
 
-    public function __construct(array $items = [], callable $transformFunction = null)
-    {
+    public function __construct(
+        array $items = [],
+        callable $transformFunction = null
+    ) {
         $this->items = $items;
         $this->transformFunction = $transformFunction;
     }
 
-    public static function withTransformFunction(callable $transformFunction, ...$items): RouteDefinitions
-    {
-        return new static($items, $transformFunction);
+    public static function withTransformFunction(
+        callable $transformFunction,
+        ...$items
+    ): RouteDefinitions {
+        return new self(
+            $items,
+            $transformFunction
+        );
     }
 
-    public function flatten(callable $parentTransformFunction = null): static
-    {
+    public function flatten(
+        callable $parentTransformFunction = null
+    ): static {
         // flatten all route definitions
         $flatten = function ($route) {
             if ($route instanceof RouteDefinitions) {
@@ -46,8 +55,8 @@ final class RouteDefinitions extends Collection implements RouteDefinition
         // apply transformations
         return array_reduce(
             array_filter([$parentTransformFunction, $this->transformFunction]),
-            function ($routes, $transform) {
-                return $routes->map($transform);
-            }, $flattenedRoutes);
+            fn($routes, $transform) => $routes->map($transform),
+            $flattenedRoutes
+        );
     }
 }

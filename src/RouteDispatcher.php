@@ -7,8 +7,7 @@ use Monolith\Http\{Request, Response};
 
 final class RouteDispatcher
 {
-    /** @var Container */
-    private $container;
+    private Container $container;
 
     public function __construct(Container $container)
     {
@@ -16,8 +15,10 @@ final class RouteDispatcher
     }
 
     // here be dragons
-    public function dispatch(MatchedRoute $route, Request $request): Response
-    {
+    public function dispatch(
+        MatchedRoute $route,
+        Request $request
+    ): Response {
         // build the execution stack.. the controller wrapped by middlewares
         // this can all be abstracted into a single plug-like system. but this
         // is where we are right now
@@ -33,7 +34,7 @@ final class RouteDispatcher
         return $stack($request);
     }
 
-    private function makeController(string $controllerClass)
+    private function makeController(string $controllerClass): object
     {
         try {
             return $this->container->get($controllerClass);
@@ -44,26 +45,20 @@ final class RouteDispatcher
         }
     }
 
-    /**
-     * @param MatchedRoute $route
-     * @param Request $request
-     * @return mixed
-     */
-    private function buildExecutionStack(MatchedRoute $route, Request $request)
-    {
+    private function buildExecutionStack(
+        MatchedRoute $route,
+        Request $request
+    ): mixed {
         $delegates = $this->addMiddlewareDelegates($route);
         $delegates = $this->addControllerDelegate($route, $delegates);
 
         return $this->stackDelegates($request, $delegates);
     }
 
-    /**
-     * @param MatchedRoute $route
-     * @param $delegates
-     * @return array
-     */
-    private function addControllerDelegate(MatchedRoute $route, $delegates): array
-    {
+    private function addControllerDelegate(
+        MatchedRoute $route,
+        $delegates
+    ): array {
         $delegates[] = function (Request $request) use ($route) {
             $controller = $this->makeController($route->controllerClass());
             return $controller->{$route->controllerMethod()}($request);
@@ -72,52 +67,48 @@ final class RouteDispatcher
         return $delegates;
     }
 
-    /**
-     * @param MatchedRoute $route
-     * @return array
-     */
-    private function addMiddlewareDelegates(MatchedRoute $route): array
-    {
-        return $route->middlewares()->map(function ($middlewareClass) {
-            return function (callable $next) use ($middlewareClass) {
-                $middleware = $this->container->get($middlewareClass);
+    private function addMiddlewareDelegates(
+        MatchedRoute $route
+    ): array {
+        return $route
+            ->middlewares()
+            ->map(
+                fn($middlewareClass) => function (callable $next) use ($middlewareClass) {
+                    $middleware = $this->container->get($middlewareClass);
 
-                return function (Request $request) use ($middleware, $next) {
-                    return $middleware->process($request, $next);
-                };
-            };
-        })->toArray();
+                    return function (Request $request) use ($middleware, $next) {
+                        return $middleware->process($request, $next);
+                    };
+                }
+            )->toArray();
     }
 
-    /**
-     * @param Request $request
-     * @param $delegates
-     * @return mixed
-     */
-    private function stackDelegates(Request $request, $delegates)
-    {
+    private function stackDelegates(
+        Request $request,
+        $delegates
+    ): mixed {
         $delegates = array_reverse($delegates);
 
-        return array_reduce($delegates, function ($next, $delegate) use ($request) {
-            if ($next == null) {
-                return $delegate;
-            }
-
-            return $delegate($next ?: $request);
-        });
+        return array_reduce(
+            $delegates,
+            fn($next, $delegate) => is_null($next)
+                ? $delegate
+                : $delegate(
+                    $next ?: $request
+                )
+        );
     }
 
-    /**
-     * @param MatchedRoute $route
-     * @param Request $request
-     * @return Request
-     */
-    private function enrichRequestWithRouteParameters(MatchedRoute $route, Request $request): Request
-    {
-        $parameters = UriParameterParser::parseUriParameters($request->uri(), $route->regex());
-        $request = $request
+    private function enrichRequestWithRouteParameters(
+        MatchedRoute $route,
+        Request $request
+    ): Request {
+        return $request
             ->addAppParameters(new Dictionary($route->parameters()->toArray()))
-            ->addAppParameters(new Dictionary($parameters));
-        return $request;
+            ->addAppParameters(
+                new Dictionary(
+                    UriParameterParser::parseUriParameters($request->uri(), $route->regex())
+                )
+            );
     }
 }

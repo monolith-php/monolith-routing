@@ -4,7 +4,9 @@
 
 ##
 
-
+1. make collections final
+2. fix these collections
+3. move tests to phpunit
 
 ## Todo
 

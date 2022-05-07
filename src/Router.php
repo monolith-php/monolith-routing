@@ -5,21 +5,19 @@ use Monolith\Http\{Request, Response};
 
 final class Router
 {
-    /** @var Collection */
-    private $routes;
-    /** @var RouteCompiler */
-    private $compiler;
-    /** @var RouteMatcher */
-    private $matcher;
-    /** @var RouteDispatcher */
-    private $dispatcher;
-    /** @var ReverseRouting */
-    private $reverseRouting;
-    /** @var CompiledRoutes */
-    private $compiled;
+    private RouteDefinitions|Collection $routes;
+    private RouteCompiler $compiler;
+    private RouteMatcher $matcher;
+    private RouteDispatcher $dispatcher;
+    private ReverseRouting $reverseRouting;
+    private CompiledRoutes $compiled;
 
-    public function __construct(RouteCompiler $compiler, RouteMatcher $matcher, RouteDispatcher $dispatcher, ReverseRouting $reverseRouting)
-    {
+    public function __construct(
+        RouteCompiler $compiler,
+        RouteMatcher $matcher,
+        RouteDispatcher $dispatcher,
+        ReverseRouting $reverseRouting
+    ) {
         $this->routes = new RouteDefinitions();
         $this->compiler = $compiler;
         $this->matcher = $matcher;
@@ -27,13 +25,15 @@ final class Router
         $this->reverseRouting = $reverseRouting;
     }
 
-    public function registerRoutes(RouteDefinitions $routes): void
-    {
+    public function registerRoutes(
+        RouteDefinitions $routes
+    ): void {
         $this->routes = $this->routes->merge($routes);
     }
 
-    public function dispatch(Request $request): Response
-    {
+    public function dispatch(
+        Request $request
+    ): Response {
         // compile routes
         $this->compiled = $this->compiler->compile($this->routes);
 
@@ -44,9 +44,14 @@ final class Router
         return $this->dispatcher->dispatch($matchedRoute, $request);
     }
 
-    public function url(string $controllerClass, array $arguments = []): string
-    {
-        $compiled = $this->compiled ?? $this->compiler->compile($this->routes);
-        return $this->reverseRouting->route($compiled, $controllerClass, $arguments);
+    public function url(
+        string $controllerClass,
+        array $arguments = []
+    ): string {
+        return $this->reverseRouting->route(
+            $this->compiled ?? $this->compiler->compile($this->routes),
+            $controllerClass,
+            $arguments
+        );
     }
 }

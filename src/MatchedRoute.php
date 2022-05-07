@@ -2,11 +2,11 @@
 
 final class MatchedRoute
 {
-    /** @var CompiledRoute */
-    private $compiledRoute;
+    private CompiledRoute $compiledRoute;
 
-    public function __construct(CompiledRoute $compiledRoute)
-    {
+    public function __construct(
+        CompiledRoute $compiledRoute
+    ) {
         $this->compiledRoute = $compiledRoute;
     }
 

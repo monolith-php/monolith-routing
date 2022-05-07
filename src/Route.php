@@ -2,31 +2,32 @@
 
 final class Route implements RouteDefinition
 {
-    /** @var string */
-    private $method;
-    /** @var string */
-    private $uri;
-    /** @var mixed */
-    private $controllerClass;
-    /** @var RouteParameters */
-    private $parameters;
-    /** @var Middlewares */
-    private $middlewares;
+    private string $method;
+    private string $uri;
+    private mixed $controllerClass;
+    private RouteParameters $parameters;
+    private Middlewares $middlewares;
 
-    public function __construct(string $method, string $uri, string $controllerClass, RouteParameters $parameters, Middlewares $middlewares)
-    {
+    public function __construct(
+        string $method,
+        string $uri,
+        string $controllerClass,
+        RouteParameters $parameters,
+        Middlewares $middlewares
+    ) {
         $this->method = $method;
 
-        $this->uri = static::prefixedUri($uri);
+        $this->uri = self::prefixedUri($uri);
 
         $this->controllerClass = $controllerClass;
         $this->parameters = $parameters;
         $this->middlewares = $middlewares;
     }
 
-    private static function prefixedUri(string $uri)
-    {
-        // make preceding frontslashs optional in routing declarations
+    private static function prefixedUri(
+        string $uri
+    ): string {
+        // make preceding front-slashes optional in routing declarations
         if (strlen($uri) > 0 && $uri[0] != '/') {
             return '/' . $uri;
         }
@@ -60,7 +61,7 @@ final class Route implements RouteDefinition
 
     public function addMiddlewares(Middlewares $newMiddlewares): Route
     {
-        return new static(
+        return new self(
             $this->method,
             $this->uri,
             $this->controllerClass,

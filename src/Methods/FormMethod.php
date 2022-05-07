@@ -22,9 +22,11 @@ final class FormMethod implements MethodCompiler
 
     public function compile(Route $route): CompiledRoutes
     {
-        return new CompiledRoutes([
-            new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'form', $route->parameters(), $route->middlewares()),
-            new CompiledRoute('post', $route->uri(), $route->controllerClass(), 'submit', $route->parameters(), $route->middlewares()),
-        ]);
+        return new CompiledRoutes(
+            [
+                new CompiledRoute('get', $route->uri(), $route->controllerClass(), 'form', $route->parameters(), $route->middlewares()),
+                new CompiledRoute('post', $route->uri(), $route->controllerClass(), 'submit', $route->parameters(), $route->middlewares()),
+            ]
+        );
     }
 }

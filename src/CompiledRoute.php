@@ -2,21 +2,21 @@
 
 final class CompiledRoute
 {
-    /** @var string */
-    private $httpMethod;
-    /** @var string */
-    private $regex;
-    /** @var string */
-    private $controllerClass;
-    /** @var string */
-    private $controllerMethod;
-    /** @var Middlewares */
-    private $middlewares;
-    /** @var RouteParameters */
-    private $parameters;
+    private string $httpMethod;
+    private string $regex;
+    private string $controllerClass;
+    private string $controllerMethod;
+    private Middlewares $middlewares;
+    private RouteParameters $parameters;
 
-    public function __construct(string $httpMethod, string $uri, string $controllerClass, string $controllerMethod, RouteParameters $parameters, Middlewares $middlewares)
-    {
+    public function __construct(
+        string $httpMethod,
+        string $uri,
+        string $controllerClass,
+        string $controllerMethod,
+        RouteParameters $parameters,
+        Middlewares $middlewares
+    ) {
         $this->httpMethod = strtolower($httpMethod);
         $this->uri = $uri;
         $this->regex = $this->routeRegexFromUriString($uri);
@@ -62,18 +62,19 @@ final class CompiledRoute
     }
 
     // this has to go to the matcher
-    private function routeRegexFromUriString(string $uri): string
-    {
+    private function routeRegexFromUriString(
+        string $uri
+    ): string {
         $regex = str_replace('/', '\/', $uri);
 
         $matches = [];
         preg_match_all('#(\{([\w\?]+)\})#', $regex, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as list($_, $var, $name)) {
+        foreach ($matches as [$_, $var, $name]) {
             if (stristr($name, '?', -1)) {
-                $name = substr($name, 0, strlen($name)-1);
+                $name = substr($name, 0, strlen($name) - 1);
 
-                $regex = str_replace('/'.$var, "/?(?P<{$name}>[\^\$#\!\*%\s\w@.-]+)?", $regex);
+                $regex = str_replace('/' . $var, "/?(?P<{$name}>[\^\$#\!\*%\s\w@.-]+)?", $regex);
             } else {
                 $regex = str_replace($var, "(?P<{$name}>[\^\$#\!\*%\s\w@.-]+)", $regex);
             }

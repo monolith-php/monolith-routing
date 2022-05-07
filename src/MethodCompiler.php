@@ -2,7 +2,11 @@
 
 interface MethodCompiler
 {
-    public function handles(string $method): bool;
-
-    public function compile(Route $route): CompiledRoutes;
+    public function handles(
+        string $method
+    ): bool;
+    
+    public function compile(
+        Route $route
+    ): CompiledRoutes;
 }
