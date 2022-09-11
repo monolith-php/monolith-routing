@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class RouteDefinitionsSpec extends ObjectBehavior
 {
-    public function middlewareOne($r)
+    public function middlewareOne($r): Route
     {
         if ($r instanceof Route) {
             return new Route(
@@ -122,7 +122,7 @@ class RouteDefinitionsSpec extends ObjectBehavior
         $routes[$routeNumber - 1]->middlewares()->equals($middlewares)->shouldBe(true);
     }
 
-    private function compareRange(array $range, RouteDefinitions $routes, $prefix = '', Middlewares $middlewares): void
+    private function compareRange(array $range, RouteDefinitions $routes, string $prefix, Middlewares $middlewares): void
     {
         foreach ($range as $i) {
             $routes[$i - 1]->uri()->shouldBe("{$prefix}/{$i}");

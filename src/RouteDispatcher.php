@@ -2,15 +2,16 @@
 
 use Throwable;
 use Monolith\Collections\Dictionary;
-use Monolith\DependencyInjection\Container;
 use Monolith\Http\{Request, Response};
+use Monolith\DependencyInjection\Container;
 
 final class RouteDispatcher
 {
     private Container $container;
 
-    public function __construct(Container $container)
-    {
+    public function __construct(
+        Container $container
+    ) {
         $this->container = $container;
     }
 
@@ -104,9 +105,11 @@ final class RouteDispatcher
         Request $request
     ): Request {
         return $request
-            ->addAppParameters(new Dictionary($route->parameters()->toArray()))
             ->addAppParameters(
-                new Dictionary(
+                Dictionary::of($route->parameters()->toArray())
+            )
+            ->addAppParameters(
+                Dictionary::of(
                     UriParameterParser::parseUriParameters($request->uri(), $route->regex())
                 )
             );

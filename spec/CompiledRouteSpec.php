@@ -5,7 +5,6 @@ use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\RouteParameters;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Exception\Example\FailureException;
-use spec\Monolith\DependencyInjection\ControllerStub;
 
 class CompiledRouteSpec extends ObjectBehavior
 {

@@ -16,7 +16,7 @@ class PathRoutingMiddlewareSpec extends ObjectBehavior
     function it_can_build_a_path_out_of_a_route()
     {
         $request = Request::fromGlobals();
-        $request = $request->addAppParameters(new Dictionary([
+        $request = $request->addAppParameters(Dictionary::of([
             'one'   => '3',
             'two'   => '4',
             'three' => '5',

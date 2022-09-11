@@ -16,10 +16,9 @@ class PathMapMethodSpec extends ObjectBehavior
         $this->shouldHaveType(PathMapMethod::class);
     }
 
-    function it_can_define_a_get_route()
+    function it_can_define_a_path_route()
     {
         $route = $this::defineRoute('uri', 'root-path', 'controllerclass');
-
         $route->method()->shouldBe('path');
         $route->uri()->shouldBe('/uri/{one?}/{two?}/{three?}/{four?}/{five?}/{six?}/{seven?}');
         $route->controllerClass()->shouldBe('controllerclass');

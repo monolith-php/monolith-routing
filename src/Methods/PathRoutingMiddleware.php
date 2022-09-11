@@ -37,7 +37,7 @@ final class PathRoutingMiddleware implements Middleware
 
         return $next(
             $request->addAppParameters(
-                new Dictionary(
+                Dictionary::of(
                     [
                         'path' => $path,
                     ]

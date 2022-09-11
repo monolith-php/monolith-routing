@@ -25,12 +25,11 @@ final class RouteCompiler
             ->flatten()
             ->map(
                 fn(Route $route) => $this->compileRoute($route)
-            );
-
-        return $compiledRoutes
-            ->reduce(
+            )->reduce(
                 fn(CompiledRoutes $routes, CompiledRoutes $allRoutes) => $allRoutes->merge($routes), new CompiledRoutes
             );
+        
+        return CompiledRoutes::fromArray($compiledRoutes->toArray());
     }
 
     private function compileRoute(

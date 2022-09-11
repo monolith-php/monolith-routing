@@ -1,10 +1,10 @@
 <?php namespace Monolith\WebRouting\Methods;
 
+use Monolith\WebRouting\Route;
+use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\CompiledRoute;
 use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\MethodCompiler;
-use Monolith\WebRouting\Middlewares;
-use Monolith\WebRouting\Route;
 use Monolith\WebRouting\RouteParameters;
 use function strtolower;
 

@@ -83,6 +83,9 @@ final class ReverseRouting
             ->zip($arguments)
             ->reduce(function ($key, $args, $uri) {
                 [$matcher, $argument] = $args;
+                if (is_null($matcher)) {
+                    return $uri;
+                }
                 return str_replace($matcher, $argument, $uri);
             }, $uri);
     }
@@ -96,10 +99,7 @@ final class ReverseRouting
             ->zip($arguments)
             ->reduce(function ($key, $args, $uri) {
                 [$matcher, $argument] = $args;
-                if (is_null($matcher)) {
-                    return $uri;
-                }
-                return str_replace($matcher, $argument, $uri);
+                return str_replace($matcher ?? '', $argument ?? '', $uri);
             }, $uri);
 
         return rtrim($uri, '/');

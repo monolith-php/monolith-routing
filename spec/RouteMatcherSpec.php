@@ -1,13 +1,12 @@
 <?php namespace spec\Monolith\WebRouting;
 
 use Monolith\Http\Request;
-use Monolith\WebRouting\CompiledRoute;
-use Monolith\WebRouting\CompiledRoutes;
+use PhpSpec\ObjectBehavior;
 use Monolith\WebRouting\Middlewares;
 use Monolith\WebRouting\RouteMatcher;
+use Monolith\WebRouting\CompiledRoute;
+use Monolith\WebRouting\CompiledRoutes;
 use Monolith\WebRouting\RouteParameters;
-use PhpSpec\ObjectBehavior;
-use spec\Monolith\DependencyInjection\ControllerStub;
 
 class RouteMatcherSpec extends ObjectBehavior
 {
@@ -23,7 +22,14 @@ class RouteMatcherSpec extends ObjectBehavior
 
         $request = Request::fromGlobals();
 
-        $route = new CompiledRoute('stub', '/article/{id}', ControllerStub::class, 'index', new RouteParameters, new Middlewares);
+        $route = new CompiledRoute(
+            'stub',
+            '/article/{id}',
+            ControllerStub::class,
+            'index',
+            new RouteParameters,
+            new Middlewares
+        );
 
         $compiledRoutes = CompiledRoutes::list($route);
 
